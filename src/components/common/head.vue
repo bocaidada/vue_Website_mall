@@ -1,0 +1,266 @@
+<template>
+  <div>
+    <header id="headers">
+      <div class="main">
+        <div class="main_left">
+          <router-link  to="/">
+            <img src="../../../static/img/1.png" alt="">
+          </router-link>
+        </div>
+        <div class="main_center">
+          <ul>
+            <li>
+              <router-link to="/">首页</router-link>
+            </li>
+            <li>
+              <router-link to="/product_style">产品风格</router-link>
+            </li>
+            <li>
+              <router-link to="/online_store">在线商城</router-link>
+            </li>
+            <li>
+              <router-link to="#">品质保障</router-link>
+              <ul class="list">
+                <li>
+                  <router-link to="">原材料采购</router-link>
+                </li>
+                <li>
+                  <router-link to="">智能制造</router-link>
+                </li>
+                <li>
+                  <router-link to="">工程案例</router-link>
+                </li>
+                <li>
+                  <router-link to="">售后服务</router-link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <router-link to="#">线下门店</router-link>
+              <ul class="list">
+                <li>
+                  <router-link to="">门店管理</router-link>
+                </li>
+                <li>
+                  <router-link to="">门店分布</router-link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <router-link to="">招贤纳士</router-link>
+            </li>
+            <li>
+              <router-link to="/about_us">关于金凯</router-link>
+            </li>
+          </ul>
+        </div>
+        <div class="main_right">
+          <div class="main_left_font">
+            <span @click="click('jian')">简</span>
+            <!--<span @click="click('fan')">繁</span>-->
+            <span @click="click('en')">EN </span>
+          </div>
+          <div class="main_right_box">
+            <div class="main_right_box_car" @click="click('car')">
+              <img src="../../../static/img/2.jpg" alt="">
+            </div>
+            <div class="main_right_box_user">
+              <img src="../../../static/img/3.jpg" alt="">
+              <ul>
+                <li>
+                  <router-link to="">收货地址</router-link>
+                </li>
+                <li>
+                  <router-link to="">我的订单</router-link>
+                </li>
+                <li @click="out_login()">{{msg}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div style="height: 90px"></div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: "heads",
+    data() {
+      return  {
+        isLogin:false,
+        msg:'退出登陆'
+      }
+    },
+    methods: {
+      click(params) {
+        alert(params)
+      },
+      out_login() {
+        if(this.isLogin){
+          this.$router.push("/login");
+          this.msg = '退出登陆';
+        }else{
+          this.$router.push("/");
+          this.msg = '立即登陆';
+        }
+        this.isLogin = !this.isLogin;
+      }
+    }
+  }
+</script>
+
+<style scoped>
+  #headers{
+    width: 100%;
+    height: 90px;
+    background: #313949;
+    color: #fff;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+  }
+  .main{
+    width: 70%;
+    height: 100%;
+    margin: 0 auto;
+  }
+  .main_left{
+    width: 10%;
+    float: left;
+    margin-top: 12px;
+  }
+  .main_right{
+    width: 25%;
+    height: 100%;
+    float: right;
+  }
+  .main_right>div{
+    width: 50%;
+    height: 100%;
+    float: left;
+    font-size: 12px;
+  }
+  .main_left_font>span{
+    display: block;
+    float: left;
+    width: 30%;
+    height: 14px;
+    line-height: 14px;
+    border-right: 1px solid #fff;
+    margin-top: 40px;
+    cursor: pointer;
+  }
+  .main_left_font>span:last-child{
+    border: none;
+  }
+  .main_center{
+    width: 55%;
+    height: 100%;
+    float: left;
+    margin-left: 8%;
+    position: relative;
+  }
+  .main_center>ul{
+    width: 100%;
+    height: 100%;
+    line-height: 90px;
+    font-size: 14px;
+  }
+  a{
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+  }
+  .main_center>ul>li{
+    width: 14%;
+    height: 100%;
+    float: left;
+  }
+  li{
+    list-style-type: none;
+  }
+  .main_center>ul>li:hover a{
+    color: #ccc;
+  }
+  .main_center>ul>li>.list>li:hover a{
+    color: #ccc;
+  }
+  .main_center>ul>li>.list a{
+    color: #fff;
+  }
+  .main_center>ul>li>.list{
+    width: 100%;
+    background: #313949;
+    margin-top: 36px;
+    display: none;
+  }
+  .main_center>ul>li:hover .list{
+    display: block;
+  }
+  .main_center>ul>li>.list>li{
+    height: 35px;
+    line-height: 35px;
+    border-top: 1px solid #fff;
+  }
+  .main_center>ul>li>a{
+    display: block;
+    height: 16px;
+    line-height: 16px;
+    margin-top: 38px;
+    border-right: 1px solid #fff;
+  }
+  .main_center>ul>li:last-child>a{
+    border: none;
+  }
+  .main_right_box::after{
+    content: '';
+    display: block;
+    overflow: hidden;
+  }
+  .main_right_box>div{
+    float: left;
+    position: relative;
+    cursor: pointer;
+  }
+  .main_right_box>div>img{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .main_right_box_car{
+    width: 40%;
+    height: 100%;
+  }
+  .main_right_box_user{
+    width: 60%;
+    height: 100%;
+  }
+  .main_right_box_user>ul{
+    margin-top: 90px;
+    width: 100%;
+    background: #313949;
+    display: none;
+  }
+  .main_right_box_user:hover ul{
+    display: block;
+  }
+  .main_right_box_user>ul>li{
+    height: 35px;
+    line-height: 35px;
+    border-top: 1px solid #fff;
+    cursor: pointer;
+  }
+  .main_right_box_user>ul>li:hover a{
+    color: #ccc;
+  }
+</style>
