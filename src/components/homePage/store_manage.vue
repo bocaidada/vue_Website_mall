@@ -55,7 +55,7 @@
             </el-menu>
           </el-aside>
           <el-main>
-            <router-view name="info"></router-view>
+            <router-view :message="parentMsg"/>
           </el-main>
         </el-container>
       </main>
@@ -67,6 +67,7 @@
         name: "store_manage",
       data() {
         return {
+          parentMsg:'',
           activeIndex: '1',
           activeIndex2: '1'
         };
@@ -74,8 +75,9 @@
       methods: {
         handleSelect(key, keyPath) {
           console.log(key, keyPath);
+          this.parentMsg = key
           this.$router.push('/store_manage/info')
-          // this.$router.push({name:'/store_manage/info',params:{}})
+          // this.$router.push({name:'/store_manage/info/:id',params:{id:key}})
         }
       }
     }

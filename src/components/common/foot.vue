@@ -1,82 +1,70 @@
 <template>
   <footer>
-      <main>
-        <div class="main_left">
-          <dl>
-            <dt>关于我们</dt>
-            <dd>
-              <router-link to="">公司简介</router-link>
-            </dd>
-            <dd>
-              <router-link to="">发展历程</router-link>
-            </dd>
-            <dd>
-              <router-link to="">公司动态</router-link>
-            </dd>
-            <dd>
-              <router-link to="">奖项荣誉</router-link>
-            </dd>
-          </dl>
-          <dl>
-            <dt>加盟我们</dt>
-            <dd>
-              <router-link to="">加盟条件</router-link>
-            </dd>
-            <dd>
-              <router-link to="">加盟优势</router-link>
-            </dd>
-            <dd>
-              <router-link to="">加盟流程</router-link>
-            </dd>
-            <dd>
-              <router-link to="">加盟申请</router-link>
-            </dd>
-            <dd>
-              <router-link to="">门店地图</router-link>
-            </dd>
-          </dl>
-          <dl>
-            <dt>产品中心</dt>
-            <dd>
-              <router-link to="">实木门</router-link>
-            </dd>
-            <dd>
-              <router-link to="">烤漆木门</router-link>
-            </dd>
-            <dd>
-              <router-link to="">复合门</router-link>
-            </dd>
-            <dd>
-              <router-link to="">全屋定制</router-link>
-            </dd>
-          </dl>
-          <dl>
-            <dt>工程案例</dt>
-            <dd>
-              <router-link to="">工程案例</router-link>
-            </dd>
-          </dl>
-          <dl>
-            <dt>关注我们</dt>
-            <dd>
-              <router-link to="">微信</router-link>
-            </dd>
-          </dl>
+    <main>
+      <div class="main_left">
+        <dl v-for="item in footList">
+          <dt>{{item.name}}</dt>
+          <dd v-for="items in item.children">
+            <router-link :to="items.path">{{items.name}}</router-link>
+          </dd>
+        </dl>
+      </div>
+      <div class="main_right">
+        <div class="imgBox">
+          <img src="../../../static/img/1.png" alt="">
+          <span>金凯木业</span>
         </div>
-        <div class="main_right">
-            <div class="imgBox">
-              <img src="../../../static/img/1.png" alt="">
-              <span>金凯木业</span>
-            </div>
-        </div>
-      </main>
+      </div>
+    </main>
   </footer>
 </template>
 
 <script>
-    export default {
-        name: "foot"
+  export default {
+    name: "foot",
+    data() {
+      return {
+        footList:[
+          {
+            name: '关于我们',
+            children:[
+              {name: '公司简介', path: '/purchase'},
+              {name: '发展历程', path: '/make'},
+              {name: '公司动态', path: '/case'},
+              {name: '奖项荣誉', path: '/server'}
+            ]
+          },{
+            name: '加盟我们',
+            children:[
+              {name: '加盟条件', path: '/purchase'},
+              {name: '加盟优势', path: '/make'},
+              {name: '加盟流程', path: '/case'},
+              {name: '加盟申请', path: '/server'},
+              {name: '门店地图', path: '/server'}
+            ]
+          },{
+            name: '产品中心',
+            children:[
+              {name: '实木门', path: '/purchase'},
+              {name: '烤漆木门', path: '/make'},
+              {name: '复合门', path: '/case'},
+              {name: '全屋定制', path: '/server'}
+            ]
+          },{
+            name: '工程案例',
+            children:[
+              {name: '工程案例', path: '/purchase'}
+            ]
+          },{
+            name: '关注我们',
+            children:[
+              {name: '微信', path: '/purchase'}
+            ]
+          },
+        ]
+      }
     }
+  }
 </script>
 
 <style scoped>
@@ -129,6 +117,7 @@
   .imgBox{
     width: 100%;
     margin-top: 70px;
+    cursor: pointer;
   }
   .imgBox>span{
     font-size: 26px;

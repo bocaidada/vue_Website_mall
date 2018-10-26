@@ -9,11 +9,11 @@
         </div>
         <div class="main_center">
           <ul>
-            <li v-for="item in nav">
+            <li v-for="item in navList">
               <router-link :to="item.path">{{item.name}}</router-link>
               <ul v-if="item.children.length !== 0" class="list">
-                <li v-for="item1 in item.children">
-                  <router-link :to="item1.path">{{item1.name}}</router-link>
+                <li v-for="items in item.children">
+                  <router-link :to="items.path">{{items.name}}</router-link>
                 </li>
               </ul>
             </li>
@@ -55,7 +55,7 @@
     name: "heads",
     data() {
       return  {
-        nav:[
+        navList:[
           {
             name: '首页',
             path: '/',
@@ -68,22 +68,22 @@
           },
           {
             name: '在线商城',
-            path: '/product_style',
+            path: '/online_store',
             children:[]
           },
           {
             name: '品质保障',
-            path: '/product_style',
+            path: '#',
             children:[
-              {name: '原材料采购', path: '/product_style'},
-              {name: '智能制造', path: '/product_style'},
-              {name: '工程案例', path: '/product_style'},
-              {name: '售后服务', path: '/product_style'}
+              {name: '原材料采购', path: '/purchase'},
+              {name: '智能制造', path: '/make'},
+              {name: '工程案例', path: '/case'},
+              {name: '售后服务', path: '/server'}
             ]
           },
           {
             name: '线下门店',
-            path: '/product_style',
+            path: '#',
             children:[
               {name: '门店管理', path: '/store_manage'},
               {name: '门店分布', path: '/store_distribute'},
@@ -91,7 +91,7 @@
           },
           {
             name: '招贤纳士',
-            path: '/product_style',
+            path: '/join_us',
             children:[]
           },
           {

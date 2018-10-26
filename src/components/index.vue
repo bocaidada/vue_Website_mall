@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <headers/>
-    <router-view></router-view>
+    <router-view/>
     <footers/>
   </div>
 </template>
 
 <script>
-  import headers from './common/heads'
+  import headers from './common/head'
   import footers from './common/foot'
   export default {
         name: "index",

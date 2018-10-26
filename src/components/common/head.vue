@@ -9,48 +9,13 @@
         </div>
         <div class="main_center">
           <ul>
-            <li>
-              <router-link to="/">首页</router-link>
-            </li>
-            <li>
-              <router-link to="/product_style">产品风格</router-link>
-            </li>
-            <li>
-              <router-link to="/online_store">在线商城</router-link>
-            </li>
-            <li>
-              <router-link to="#">品质保障</router-link>
-              <ul class="list">
-                <li>
-                  <router-link to="">原材料采购</router-link>
-                </li>
-                <li>
-                  <router-link to="">智能制造</router-link>
-                </li>
-                <li>
-                  <router-link to="">工程案例</router-link>
-                </li>
-                <li>
-                  <router-link to="">售后服务</router-link>
+            <li v-for="item in navList">
+              <router-link :to="item.path">{{item.name}}</router-link>
+              <ul v-if="item.children.length !== 0" class="list">
+                <li v-for="items in item.children">
+                  <router-link :to="items.path">{{items.name}}</router-link>
                 </li>
               </ul>
-            </li>
-            <li>
-              <router-link to="#">线下门店</router-link>
-              <ul class="list">
-                <li>
-                  <router-link to="/store_manage">门店管理</router-link>
-                </li>
-                <li>
-                  <router-link to="">门店分布</router-link>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <router-link to="">招贤纳士</router-link>
-            </li>
-            <li>
-              <router-link to="/about_us">关于金凯</router-link>
             </li>
           </ul>
         </div>
@@ -90,6 +55,51 @@
     name: "heads",
     data() {
       return  {
+        navList:[
+          {
+            name: '首页',
+            path: '/',
+            children:[]
+          },
+          {
+            name: '产品风格',
+            path: '/product_style',
+            children:[]
+          },
+          {
+            name: '在线商城',
+            path: '/online_store',
+            children:[]
+          },
+          {
+            name: '品质保障',
+            path: '#',
+            children:[
+              {name: '原材料采购', path: '/purchase'},
+              {name: '智能制造', path: '/make'},
+              {name: '工程案例', path: '/case'},
+              {name: '售后服务', path: '/server'}
+            ]
+          },
+          {
+            name: '线下门店',
+            path: '#',
+            children:[
+              {name: '门店管理', path: '/store_manage'},
+              {name: '门店分布', path: '/store_distribute'},
+            ]
+          },
+          {
+            name: '招贤纳士',
+            path: '/join_us',
+            children:[]
+          },
+          {
+            name: '关于金凯',
+            path: '/about_us',
+            children:[]
+          },
+        ],
         isLogin:this.$store.state.isLogin
       }
     },
