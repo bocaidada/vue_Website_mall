@@ -5,6 +5,8 @@ import product_style from '@/components/homePage/product_style'
 import online_store from '@/components/homePage/online_store'
 import about_us from '@/components/homePage/about_us'
 import login from '@/components/homePage/login'
+import store_manage from '@/components/homePage/store_manage'
+import store_info from '@/components/subPage/store_info'
 
 Vue.use(Router)
 
@@ -39,9 +41,25 @@ export default new Router({
       component: about_us
     },
     {
+      path: '/store_manage',
+      name: 'store_manage',
+      component: store_manage,
+      children: [
+        {
+          path: 'info',
+          name: 'store_info',
+          component: store_info,
+        }
+      ]
+    },
+    {
       path: '/login',
       name: 'login',
       component: login
-    }
+    },
+    {
+      path:'*',
+      redirect: '/'
+    },
   ]
 })

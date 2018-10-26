@@ -39,7 +39,7 @@
               <router-link to="#">线下门店</router-link>
               <ul class="list">
                 <li>
-                  <router-link to="">门店管理</router-link>
+                  <router-link to="/store_manage">门店管理</router-link>
                 </li>
                 <li>
                   <router-link to="">门店分布</router-link>
@@ -73,7 +73,8 @@
                 <li>
                   <router-link to="">我的订单</router-link>
                 </li>
-                <li @click="out_login()">{{msg}}</li>
+                <li v-if="isLogin" @click="out_login()">退出登录</li>
+                <li v-else @click="out_login()">立即登陆</li>
               </ul>
             </div>
           </div>
@@ -89,8 +90,7 @@
     name: "heads",
     data() {
       return  {
-        isLogin:false,
-        msg:'退出登陆'
+        isLogin:this.$store.state.isLogin
       }
     },
     methods: {
@@ -99,14 +99,13 @@
       },
       out_login() {
         if(this.isLogin){
-          this.$router.push("/login");
-          this.msg = '退出登陆';
+          this.$router.push("/login")
         }else{
-          this.$router.push("/");
-          this.msg = '立即登陆';
+          this.$router.push("/")
         }
-        this.isLogin = !this.isLogin;
-      }
+        this.$store.commit('loginState')
+        this.isLogin = this.$store.state.isLogin
+      },
     }
   }
 </script>
@@ -122,11 +121,7 @@
     left: 0;
     top: 0;
   }
-  .main{
-    width: 70%;
-    height: 100%;
-    margin: 0 auto;
-  }
+
   .main_left{
     width: 10%;
     float: left;

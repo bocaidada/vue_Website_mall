@@ -1,80 +1,121 @@
 <template>
-  <header id="headers">
-    <div class="main">
-      <div class="main_left">
-        <router-link  to="/">
-          <img src="../../../static/img/1.png" alt="">
-        </router-link>
-      </div>
-      <div class="main_center">
-        <el-menu
-          :default-active="activeIndex2"
-          class="el-menu-demo"
-          mode="horizontal"
-          @select="handleSelect"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b">
-          <el-menu-item index="1">处理中心</el-menu-item>
-          <el-submenu index="2">
-            <template slot="title">我的工作台</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-          </el-submenu>
-          <el-menu-item index="3">订单管理</el-menu-item>
-          <el-menu-item index="4">订单管理</el-menu-item>
-          <el-menu-item index="5">订单管理</el-menu-item>
-          <el-menu-item index="6">订单管理</el-menu-item>
-          <el-menu-item index="7">订单管理</el-menu-item>
-        </el-menu>
-      </div>
-      <div class="main_right">
-        <div class="main_left_font">
-          <span @click="click('jian')">简</span>
-          <!--<span @click="click('fan')">繁</span>-->
-          <span @click="click('en')">EN </span>
+  <div>
+    <header id="headers">
+      <div class="main">
+        <div class="main_left">
+          <router-link  to="/">
+            <img src="../../../static/img/1.png" alt="">
+          </router-link>
         </div>
-        <div class="main_right_box">
-          <div class="main_right_box_car" @click="click('car')">
-            <img src="../../../static/img/2.jpg" alt="">
+        <div class="main_center">
+          <ul>
+            <li v-for="item in nav">
+              <router-link :to="item.path">{{item.name}}</router-link>
+              <ul v-if="item.children.length !== 0" class="list">
+                <li v-for="item1 in item.children">
+                  <router-link :to="item1.path">{{item1.name}}</router-link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="main_right">
+          <div class="main_left_font">
+            <span @click="click('jian')">简</span>
+            <!--<span @click="click('fan')">繁</span>-->
+            <span @click="click('en')">EN </span>
           </div>
-          <div class="main_right_box_user">
-            <img src="../../../static/img/3.jpg" alt="">
-            <ul>
-              <li>
-                <router-link to="">收货地址</router-link>
-              </li>
-              <li>
-                <router-link to="">我的订单</router-link>
-              </li>
-              <li>
-                <router-link to="/outLogin">退出登录</router-link>
-              </li>
-            </ul>
+          <div class="main_right_box">
+            <div class="main_right_box_car" @click="click('car')">
+              <img src="../../../static/img/2.jpg" alt="">
+            </div>
+            <div class="main_right_box_user">
+              <img src="../../../static/img/3.jpg" alt="">
+              <ul>
+                <li>
+                  <router-link to="">收货地址</router-link>
+                </li>
+                <li>
+                  <router-link to="">我的订单</router-link>
+                </li>
+                <li v-if="isLogin" @click="out_login()">退出登录</li>
+                <li v-else @click="out_login()">立即登陆</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
+    <div style="height: 90px"></div>
+  </div>
 </template>
 
 <script>
   export default {
     name: "heads",
     data() {
-      return {
-        activeIndex: '1',
-        activeIndex2: '1'
-      };
+      return  {
+        nav:[
+          {
+            name: '首页',
+            path: '/',
+            children:[]
+          },
+          {
+            name: '产品风格',
+            path: '/product_style',
+            children:[]
+          },
+          {
+            name: '在线商城',
+            path: '/product_style',
+            children:[]
+          },
+          {
+            name: '品质保障',
+            path: '/product_style',
+            children:[
+              {name: '原材料采购', path: '/product_style'},
+              {name: '智能制造', path: '/product_style'},
+              {name: '工程案例', path: '/product_style'},
+              {name: '售后服务', path: '/product_style'}
+            ]
+          },
+          {
+            name: '线下门店',
+            path: '/product_style',
+            children:[
+              {name: '门店管理', path: '/store_manage'},
+              {name: '门店分布', path: '/store_distribute'},
+            ]
+          },
+          {
+            name: '招贤纳士',
+            path: '/product_style',
+            children:[]
+          },
+          {
+            name: '关于金凯',
+            path: '/about_us',
+            children:[]
+          },
+        ],
+        isLogin:this.$store.state.isLogin
+      }
     },
     methods: {
       click(params) {
         alert(params)
       },
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }
+      out_login() {
+        if(this.isLogin){
+          this.$router.push("/login")
+        }else{
+          this.$router.push("/")
+        }
+        this.$store.commit('loginState')
+        this.isLogin = this.$store.state.isLogin
+      },
     }
   }
 </script>
@@ -85,12 +126,12 @@
     height: 90px;
     background: #313949;
     color: #fff;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
   }
-  .main{
-    width: 70%;
-    height: 100%;
-    margin: 0 auto;
-  }
+
   .main_left{
     width: 10%;
     float: left;
