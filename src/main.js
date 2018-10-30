@@ -7,8 +7,12 @@ import router from './router'
 import 'element-ui/lib/theme-chalk/index.css'
 import '../static/css/index.css';
 import index from './components/index'
+import api from './request/api' // 导入api接口
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+Vue.use(VueAwesomeSwiper)
+Vue.prototype.$api = api; // 将api挂载到vue的原型上
 Vue.use(ElementUI)
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

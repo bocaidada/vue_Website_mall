@@ -8,7 +8,20 @@
     export default {
       name: "store_info",
       props: {
-        message: String  //定义传值的类型<br>
+        message:String
+      },
+      data() {
+        return {
+
+        };
+      },
+      mounted() {
+        setTimeout(() => {
+          this.$emit('listenToChild', 'hello');
+        }, 1000);
+      },
+      methods: {
+
       }
     }
 </script>

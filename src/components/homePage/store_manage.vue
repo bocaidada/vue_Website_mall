@@ -55,7 +55,7 @@
             </el-menu>
           </el-aside>
           <el-main>
-            <router-view :message="parentMsg"/>
+            <router-view :message="parentMsg" @listenToChild="getChildMsg"/>
           </el-main>
         </el-container>
       </main>
@@ -63,13 +63,17 @@
 </template>
 
 <script>
+    import store from "../../vuex/store";
+
     export default {
         name: "store_manage",
       data() {
         return {
           parentMsg:'',
-          activeIndex: '1',
-          activeIndex2: '1'
+          userData: {
+            username:'12',
+            password:'123456'
+          },
         };
       },
       methods: {
@@ -77,7 +81,18 @@
           console.log(key, keyPath);
           this.parentMsg = key
           this.$router.push('/store_manage/info')
-          // this.$router.push({name:'/store_manage/info/:id',params:{id:key}})
+
+          //登陆测试
+          this.$store.commit('createSign',this.userData);
+          this.userData.sign = this.$store.state.sign;
+          this.$api.login(this.userData).then(res=>{
+              console.log(res)
+              this.$store.commit('userToken',res.data.data.token)
+          })
+
+        },
+        getChildMsg(val) {
+          // alert(val);  // 'hello'
         }
       }
     }

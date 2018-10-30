@@ -20,14 +20,19 @@
           </ul>
         </div>
         <div class="main_right">
-          <div class="main_left_font">
+          <div v-if="authFlag" class="login">
+            登录 / 注册
+          </div>
+          <div v-if="fontFlag" class="main_left_font">
             <span @click="click('jian')">简</span>
             <!--<span @click="click('fan')">繁</span>-->
             <span @click="click('en')">EN </span>
           </div>
-          <div class="main_right_box">
-            <div class="main_right_box_car" @click="click('car')">
-              <img src="../../../static/img/2.jpg" alt="">
+          <div class="main_right_box" v-if="!authFlag">
+            <div class="main_right_box_car">
+              <router-link to="/shop_car">
+                <img src="../../../static/img/2.jpg" alt="">
+              </router-link>
             </div>
             <div class="main_right_box_user">
               <img src="../../../static/img/3.jpg" alt="">
@@ -38,8 +43,7 @@
                 <li>
                   <router-link to="">我的订单</router-link>
                 </li>
-                <li v-if="isLogin" @click="out_login()">退出登录</li>
-                <li v-else @click="out_login()">立即登陆</li>
+                <li @click="out_login()">退出登录</li>
               </ul>
             </div>
           </div>
@@ -100,7 +104,9 @@
             children:[]
           },
         ],
-        isLogin:this.$store.state.isLogin
+        isLogin:this.$store.state.token,
+        fontFlag:false,
+        authFlag:false
       }
     },
     methods: {
@@ -111,10 +117,14 @@
         if(this.isLogin){
           this.$router.push("/login")
         }else{
+          this.$api.outLogin({}).then(res=>{
+            console.log(res)
+            this.$store.commit('userToken','')
+          })
           this.$router.push("/")
         }
         this.$store.commit('loginState')
-        this.isLogin = this.$store.state.isLogin
+        this.isLogin = this.$store.state.token
       },
     }
   }
@@ -230,7 +240,7 @@
     position: relative;
     cursor: pointer;
   }
-  .main_right_box>div>img{
+  .main_right_box>div img{
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -267,5 +277,12 @@
   }
   .main_right_box_user>ul>li:hover a{
     color: #ccc;
+  }
+  .login{
+    width: 10%;
+    text-align: center;
+    line-height: 94px;
+    font-size: 18px;
+    cursor: pointer;
   }
 </style>

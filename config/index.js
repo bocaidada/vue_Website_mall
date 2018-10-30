@@ -12,11 +12,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {   //代理服务
       // '/apis': {    //将www.exaple.com印射为/apis
-      //   target: 'https://www.exaple.com',  // 接口域名
+      //   target: 'http://api.jkmy.com',  // 接口域名
       //   secure: false,  // 如果是https接口，需要配置这个参数
       //   changeOrigin: true,  //是否跨域
       //   pathRewrite: {
-      //     '^/apis': ''   //需要rewrite的,
+      //     '^/apis': '/'   //需要rewrite的,
       //   }
       // }
     },
