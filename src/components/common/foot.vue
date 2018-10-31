@@ -2,9 +2,9 @@
   <footer>
     <main>
       <div class="main_left">
-        <dl v-for="item in footList">
+        <dl v-for="(item,index) in footList" :key="index">
           <dt>{{item.name}}</dt>
-          <dd v-for="items in item.children">
+          <dd v-for="(items,index1) in item.children" :key="index1">
             <router-link :to="items.path">{{items.name}}</router-link>
           </dd>
         </dl>

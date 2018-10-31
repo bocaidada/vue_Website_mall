@@ -9,7 +9,7 @@
         </div>
         <div class="main_center">
           <ul>
-            <li v-for="item in navList">
+            <li v-for="(item,index) in navList" :key="index">
               <router-link :to="item.path">{{item.name}}</router-link>
               <ul v-if="item.children.length !== 0" class="list">
                 <li v-for="items in item.children">
@@ -90,7 +90,7 @@
             path: '#',
             children:[
               {name: '门店管理', path: '/store_manage'},
-              {name: '门店分布', path: '/store_distribute'},
+              {name: '门店分布', path: '/product_detail'},
             ]
           },
           {
@@ -146,6 +146,7 @@
     width: 10%;
     float: left;
     margin-top: 12px;
+    text-align: left;
   }
   .main_right{
     width: 25%;
@@ -155,7 +156,7 @@
   .main_right>div{
     width: 50%;
     height: 100%;
-    float: left;
+    float: right;
     font-size: 12px;
   }
   .main_left_font>span{

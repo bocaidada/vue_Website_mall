@@ -25,22 +25,22 @@ body::-webkit-scrollbar{
   display: none;
 }
 .main{
-  width: 70%;
+  width: 1200px;
   height: 100%;
   margin: 0 auto;
 }
-@media screen and (max-width: 1560px) {
-  .main{
-    width: 78% !important;
-  }
-}
-@media screen and (max-width: 1300px) {
-  .main{
-    width: 87% !important;
-  }
-}
-@media screen and (max-width: 1100px) {
-  .main{
-    width: 95% !important;
-  }
-}
+/*@media screen and (max-width: 1560px) {*/
+  /*.main{*/
+    /*width: 78% !important;*/
+  /*}*/
+/*}*/
+/*@media screen and (max-width: 1300px) {*/
+  /*.main{*/
+    /*width: 87% !important;*/
+  /*}*/
+/*}*/
+/*@media screen and (max-width: 1100px) {*/
+  /*.main{*/
+    /*width: 95% !important;*/
+  /*}*/
+/*}*/

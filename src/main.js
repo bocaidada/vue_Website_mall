@@ -9,8 +9,11 @@ import '../static/css/index.css';
 import index from './components/index'
 import api from './request/api' // 导入api接口
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'vue-area-linkage/dist/index.css'; // v2 or higher
+import VueAreaLinkage from 'vue-area-linkage'  //地区联动选择器
 import 'swiper/dist/css/swiper.css'
 Vue.use(VueAwesomeSwiper)
+Vue.use(VueAreaLinkage)
 Vue.prototype.$api = api; // 将api挂载到vue的原型上
 Vue.use(ElementUI)
 Vue.config.productionTip = false

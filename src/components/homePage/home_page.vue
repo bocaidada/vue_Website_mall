@@ -2,10 +2,10 @@
     <section class="content">
       <div class="banner">
         <swiper :options="swiperOption" style="height: 100%">
-          <swiper-slide v-for="item in bannerImg" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
+          <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
           <!--<div class="swiper-pagination" slot="pagination"></div>-->
-          <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
-          <!--<div class="swiper-button-next" slot="button-next"></div>-->
+          <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+          <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
         </swiper>
       </div>
     </section>
@@ -57,5 +57,14 @@
     display: block;
     width: 100%;
     height: 100%;
+  }
+  /*.swiper-button-prev,.swiper-button-next{*/
+    /*opacity: .5;*/
+  /*}*/
+  .swiper-button-prev{
+    left: 30px;
+  }
+  .swiper-button-next{
+    right: 30px;
   }
 </style>

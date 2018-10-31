@@ -7,6 +7,7 @@ import about_us from '@/components/homePage/about_us'
 import login from '@/components/homePage/login'
 import store_manage from '@/components/homePage/store_manage'
 import store_info from '@/components/subPage/store_info'
+import product_detail from '@/components/subPage/product_detail'
 import shop_car from '@/components/homePage/shop_car'
 
 Vue.use(Router)
@@ -45,6 +46,11 @@ export default new Router({
       path: '/shop_car',
       name: 'shop_car',
       component: shop_car
+    },
+    {
+      path: '/product_detail',
+      name: 'product_detail',
+      component: product_detail
     },
     {
       path: '/store_manage',
