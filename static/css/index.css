@@ -29,6 +29,10 @@ body::-webkit-scrollbar{
   height: 100%;
   margin: 0 auto;
 }
+.content{
+  width: 100%;
+  background: #efefef;
+}
 /*@media screen and (max-width: 1560px) {*/
   /*.main{*/
     /*width: 78% !important;*/

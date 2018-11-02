@@ -68,7 +68,9 @@
           </div>
         </div>
         <div class="account_right">
-          去结算
+          <router-link to="/pay_detail">
+            去结算
+          </router-link>
         </div>
       </div>
     </main>
@@ -198,10 +200,15 @@
     height: 100%;
     text-align: center;
     background: #ff0000;
-    color: #fff;
     font-size: 20px;
     letter-spacing: 2px;
     cursor: pointer;
+  }
+  .account_right>a{
+    display: block;
+    color: #fff;
+    width: 100%;
+    height: 100%;
   }
   .account_right:hover{
     background: #ff1a3a;

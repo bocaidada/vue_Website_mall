@@ -8,6 +8,8 @@ import login from '@/components/homePage/login'
 import store_manage from '@/components/homePage/store_manage'
 import store_info from '@/components/subPage/store_info'
 import product_detail from '@/components/subPage/product_detail'
+import pay_detail from '@/components/subPage/pay_detail'
+import receiver_address from '@/components/subPage/receiver_address'
 import shop_car from '@/components/homePage/shop_car'
 
 Vue.use(Router)
@@ -51,6 +53,14 @@ export default new Router({
       path: '/product_detail',
       name: 'product_detail',
       component: product_detail
+    },{
+      path: '/pay_detail',
+      name: 'pay_detail',
+      component: pay_detail
+    },{
+      path: '/receiver_address',
+      name: 'receiver_address',
+      component: receiver_address
     },
     {
       path: '/store_manage',
