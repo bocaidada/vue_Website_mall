@@ -27,14 +27,14 @@
           message:Array
         },
         data() {
-            return {
-              zoom:16,
-              center:this.message,
-              label:{
-                content:'钦汇园',
-                offset:[10,12]
-              }
+          return {
+            zoom:16,
+            // center:this.message,
+            label:{
+              content:'钦汇园',
+              offset:[10,12]
             }
+          }
         },
       created() {
         // this.init()

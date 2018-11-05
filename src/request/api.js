@@ -15,6 +15,9 @@ const api = {
   // 用户登陆
   login (params) {
     return axios.post(`${base}/login`, qs.stringify(params));
+  },// 用户登陆
+  text (params) {
+    return axios.post(`http://192.168.1.121:8080/think`, qs.stringify(params));
   },
 }
 export default api;

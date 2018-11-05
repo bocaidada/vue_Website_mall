@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import headers from './common/head'
+  import headers from './common/heads'
   import footers from './common/foot'
   export default {
         name: "index",

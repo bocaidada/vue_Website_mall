@@ -112,9 +112,14 @@
     },
     methods: {
       click(params) {
+
         alert(params)
       },
       out_login() {
+        this.$api.text({}).then(res=>{
+          console.log(res)
+          // this.$store.commit('userToken','')
+        })
         if(this.isLogin){
           this.$router.push("/login")
         }else{

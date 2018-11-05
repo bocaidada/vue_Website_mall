@@ -81,12 +81,6 @@
                   ordinate:'88'
                 }
               ],
-              // zoom:16,
-              // center:[121.406051,31.179695],
-              // label:{
-              //     content:'钦汇园',
-              //     offset:[10,12]
-              // }
             }
         },
         created(){
