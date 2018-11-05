@@ -170,13 +170,13 @@
   .el-input{
     height: 30px;
   }
-  .el-input__inner,.el-input-number{
-    height: 30px;
-    line-height: 30px;
-    width: 120px;
-    vertical-align: middle;
-    outline: none;
-  }
+  /*.el-input-number{*/
+    /*height: 30px;*/
+    /*line-height: 30px;*/
+    /*width: 120px;*/
+    /*vertical-align: middle;*/
+    /*outline: none;*/
+  /*}*/
   .el-input-number__decrease, .el-input-number__increase{
     background: none;
   }

@@ -3,7 +3,7 @@
     <main class="main">
       <p class="main_title">收货地址</p>
       <h5>新增收货地址</h5>
-      <div class="area">
+      <div class="areas">
         <span class="tit">配送地区：</span>
         <area-select type='text' :level='2' v-model="selected" :data="pcaa"></area-select>
         <span class="hit" v-if="areaFlag" style="color: #ff0000;padding-left: 20px;">* 请选择配送区域 *</span>
@@ -66,15 +66,18 @@
           align="center"
           label="操作">
           <template  slot-scope="scope">
-            <el-button type="text" @click="handleUpdate(scope.row)" size="small">编辑</el-button>
-            <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
+            <el-button class="operate" type="text" @click="handleUpdate(scope.row)" size="small">编辑</el-button>
+            <el-button class="operate" @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
           label="设为默认">
           <template  slot-scope="scope">
-            <el-button type="text" @click="setDefaultAddress(scope.row)" size="small">设为默认地址</el-button>
+            <!--<el-radio v-if="scope.row.checked" @click="setDefaultAddress(scope.row)" style="color: #79C1FF" class="radio" v-model="radio" :label="scope.$index">默认地址</el-radio>-->
+            <!--<el-radio v-else class="radio" @click="setDefaultAddress(scope.row)" v-model="radio" :label="scope.$index">设为默认</el-radio>-->
+            <el-button v-if="scope.row.checked" type="text" @click="setDefaultAddress(scope.row)" size="small" style="color: #07B08F">默认地址</el-button>
+            <el-button v-else type="text" @click="setDefaultAddress(scope.row)" size="small">设为默认</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -101,6 +104,7 @@
             }
           }
             return {
+              radio:'',
               areaFlag:false,
               selected: [],
               pca: pca,
@@ -203,6 +207,7 @@
           //设置默认地址
           setDefaultAddress(row) {
             console.log(row);
+            row.checked = !row.checked
           },
           //设置表头颜色
           tableheaderClassName({ row, rowIndex }) {
@@ -238,9 +243,10 @@
   .el-form-item__content{
     text-align: left;
   }
-  .el-checkbox,.area-select,.el-input__inner::placeholder,.el-button--text{
+  .el-checkbox,.area-select,.el-input__inner::placeholder,.operate,.deAddress{
     color: #07B08F;
   }
+
   .el-button--primary{
     width: 90px;
     text-align: center;
@@ -255,6 +261,9 @@
   }
   .el-table__row{
    height: 80px;
+  }
+  .radio .el-radio__inner{
+    display: none;
   }
 </style>
 <style scoped>
@@ -285,25 +294,25 @@
     letter-spacing: 1px;
     line-height: 50px;
   }
-  .area{
+  .areas{
     width: 100%;
     height: 40px;
     box-sizing: border-box;
     margin-top: 15px;
     padding-left: 16px;
   }
-  .area>.tit{
+  .areas>.tit{
     float: left;
     line-height: 35px;
     font-size: 13px;
     margin-right: 5px;
   }
-  .area>.tit::before{
+  .areas>.tit::before{
     content: '*';
     color: #f56c6c;
     margin-right: 4px;
   }
-  .area>.hit{
+  .areas>.hit{
     float: left;
     line-height: 35px;
   }

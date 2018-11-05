@@ -67,7 +67,7 @@
           },
           {
             name: '产品风格',
-            path: '/product_style',
+            path: '/store_custom',
             children:[]
           },
           {
@@ -91,6 +91,7 @@
             children:[
               {name: '门店管理', path: '/store_manage'},
               {name: '门店分布', path: '/product_detail'},
+              {name: '地图展示', path: '/aMap'},
             ]
           },
           {
