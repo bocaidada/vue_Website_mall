@@ -9,7 +9,7 @@
                 <span>EN</span>
               </div>
               <div class="loginInfo">
-                <span>登陆</span>
+                <span @click="login()">登陆</span>
                 <span class="hit">|</span>
                 <span>注册</span>
               </div>
@@ -19,16 +19,17 @@
           <main class="main">
             <div class="logoImg">
               <router-link  to="/">
-                <img src="../../../static/img/1.png" alt="">
+                <img src="../../../static/img/logo.png" alt="">
               </router-link>
             </div>
             <div class="navList">
               <ul>
-                <li v-for="item in navList">
-                  <router-link :to="item.path">{{item.name}}</router-link>
+                <li v-for="(item,index) in navList"  @click="change(index)">
+                  <router-link class="listHref" :class="{ red:changeColor == index}" :to="item.path">{{item.name}}</router-link>
                   <ul v-if="item.children.length !== 0" class="list">
                     <li v-for="items in item.children">
                       <router-link :to="items.path">{{items.name}}</router-link>
+                      <!--<a :href="items.path">{{items.name}}</a>-->
                     </li>
                   </ul>
                 </li>
@@ -37,6 +38,7 @@
           </main>
         </div>
     </header>
+    <div style="height: 150px"></div>
   </div>
 </template>
 
@@ -45,6 +47,7 @@
     name: "heads",
     data() {
       return  {
+        changeColor: 0,
         navList:[
           {
             name: '首页',
@@ -63,7 +66,7 @@
           },
           {
             name: '品质保障',
-            path: '#',
+            path: '/quality',
             children:[
               {name: '原材料采购', path: '/purchase'},
               {name: '智能制造', path: '/make'},
@@ -76,7 +79,8 @@
             path: '#',
             children:[
               {name: '门店管理', path: '/store_manage'},
-              {name: '门店分布', path: '/store_distribute'},
+              {name: '门店分布', path: '/product_detail'},
+              {name: '地图展示', path: '/store_custom'},
             ]
           },
           {
@@ -90,11 +94,16 @@
             children:[]
           },
         ],
-        // isLogin:this.$store.state.isLogin
       }
     },
     methods: {
-
+      change(index) {
+        this.changeColor = index
+      },
+      login() {
+        this.$store.commit('loginState')
+        console.log(this.$store.state.isLogin)
+      }
     }
   }
 </script>
@@ -102,10 +111,13 @@
 <style scoped>
   header{
     width: 100%;
-    font-size: 16px;
-    color: #848484;
+    font-size: 18px;
+    color: #434343;
     background: #fff;
     letter-spacing: 1px;
+    border-bottom: 1px solid #efefef;
+    position: fixed;
+    z-index: 1000;
   }
   .mainTop{
     height: 50px;
@@ -119,9 +131,11 @@
   }
   .loginInfo>.hit,.fontStyle>.hit{
     color: #dfdfdf;
+    cursor: auto;
   }
   .loginInfo>span,.fontStyle>span{
     padding-right: 10px;
+    cursor: pointer;
   }
   .loginInfo{
     float: right;
@@ -151,19 +165,15 @@
   .mainBot .navList>ul{
     width: 100%;
     height: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    font-weight: 600;
   }
   .mainBot .navList>ul>li{
     width: 14%;
     height: 100%;
     float: left;
+    box-sizing: border-box;
   }
   a{
-    color: #999;
+    color: #434343;
   }
   .navList>ul>li:last-child{
     text-align: right;
@@ -172,27 +182,30 @@
     padding-left: 20px;
     box-sizing: border-box;
   }
-  .navList>ul>li:hover a{
-    color: #714B38;
+  .navList>ul>li:hover .listHref{
+    color: #CEA972;
     padding-bottom: 4px;
-    border-bottom: 3px solid #714B38;
+    border-bottom: 3px solid #CEA972;
   }
-  /*.navList>ul>li>.list>li:hover a{*/
-    /*color: #714B38;*/
-    /*padding-bottom: 4px;*/
-    /*border-bottom: 3px solid #714B38;*/
-  /*}*/
-  .mainBot .navList .list{
+  .navList>ul>li>.list>li:hover a{
+    color: #CFA972;
+
+  }
+  .navList>ul>li>.list{
     display: none;
-    /*width: 120px;*/
     background: #fff;
   }
-  .mainBot .navList .list>li{
-    border-top: 1px solid #dfdfdf;
+  .mainBot .navList>ul>li>.list>li{
+    border-bottom: 1px solid #dfdfdf;
     height: 40px;
     line-height: 40px;
   }
   .navList>ul>li:hover .list{
     display: block;
+  }
+  .navList>ul>li>.red{
+    color: #CFA972;
+    padding-bottom: 4px;
+    border-bottom: 3px solid #CFA972;
   }
 </style>

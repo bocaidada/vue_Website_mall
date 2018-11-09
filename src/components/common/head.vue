@@ -146,6 +146,7 @@
     z-index: 10;
     left: 0;
     top: 0;
+    overflow: hidden;
   }
 
   .main_left{
@@ -205,10 +206,10 @@
     list-style-type: none;
   }
   .main_center>ul>li:hover a{
-    color: #ccc;
+    color: red;
   }
   .main_center>ul>li>.list>li:hover a{
-    color: #ccc;
+    color: red;
   }
   .main_center>ul>li>.list a{
     color: #fff;

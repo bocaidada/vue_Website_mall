@@ -1,18 +1,38 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home_page from '@/components/homePage/home_page'
-import product_style from '@/components/homePage/product_style'
-import online_store from '@/components/homePage/online_store'
-import about_us from '@/components/homePage/about_us'
-import login from '@/components/homePage/login'
-import store_manage from '@/components/homePage/store_manage'
-import store_info from '@/components/subPage/store_info'
-import product_detail from '@/components/subPage/product_detail'
-import pay_detail from '@/components/subPage/pay_detail'
-import receiver_address from '@/components/subPage/receiver_address'
-import aMap from '@/components/subPage/aMap'
-import shop_car from '@/components/homePage/shop_car'
-import store_custom from '@/components/homePage/store_custom'
+// import home_page from '@/components/homePage/home_page'
+// import product_style from '@/components/homePage/product_style'
+// import online_store from '@/components/homePage/online_store'
+// import about_us from '@/components/homePage/about_us'
+// import login from '@/components/homePage/login'
+// import store_manage from '@/components/homePage/store_manage'
+// import store_info from '@/components/subPage/store_info'
+// import product_detail from '@/components/subPage/product_detail'
+// import pay_detail from '@/components/subPage/pay_detail'
+// import receiver_address from '@/components/subPage/receiver_address'
+// import aMap from '@/components/subPage/aMap'
+// import shop_car from '@/components/homePage/shop_car'
+// import store_custom from '@/components/homePage/store_custom'
+
+
+//组件懒加载方式引入
+
+const home_page = () => import('@/components/homePage/home_page');
+const product_style = () => import('@/components/homePage/product_style');
+const online_store = () => import ('@/components/homePage/online_store');
+const about_us = () => import ('@/components/homePage/about_us');
+const login = () => import ('@/components/homePage/login');
+const store_manage = () => import ('@/components/homePage/store_manage');
+const store_info = () => import ('@/components/subPage/store_info');
+const product_detail = () => import ('@/components/subPage/product_detail');
+const pay_detail = () => import ('@/components/subPage/pay_detail');
+const receiver_address = () => import ('@/components/subPage/receiver_address');
+const aMap = () => import ('@/components/subPage/aMap');
+const server = () => import ('@/components/subPage/server');
+const purchase = () => import ('@/components/subPage/purchase');
+const shop_car = () => import ('@/components/homePage/shop_car');
+const store_custom = () => import ('@/components/homePage/store_custom');
+const quality = () => import ('@/components/homePage/quality');
 
 Vue.use(Router)
 
@@ -35,11 +55,30 @@ export default new Router({
       path: '/product_style',
       name: 'product_style',
       component: product_style
+    },{
+      path: '/quality',
+      name: 'quality',
+      component: quality,
+      // children:[
+      //   {
+      //     path: 'store_manage',
+      //     name: 'store_manage',
+      //     component: store_manage
+      //   }
+      // ]
     },
     {
       path: '/online_store',
       name: 'online_store',
       component: online_store
+    },{
+      path: '/server',
+      name: 'server',
+      component: server
+    },{
+      path: '/purchase',
+      name: 'purchase',
+      component: purchase
     },
     {
       path: '/about_us',

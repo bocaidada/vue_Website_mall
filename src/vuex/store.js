@@ -5,13 +5,14 @@ Vue.use(vuex);
 
 let store = new vuex.Store({
   state: {
+    isLogin: false,
     sign:'',
     token: '',
     sendHost: 'http://192.168.1.121:8080/v1/auth'
   },
   mutations: {
     loginState (state) {
-      state.token = !state.token
+      state.isLogin = !state.isLogin
     },
     // loginState: state => state.token = !state.token,
     // 存储登陆token

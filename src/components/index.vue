@@ -1,7 +1,9 @@
 <template>
   <div id="app">
+    <!--<div v-if="isLogin" class="login"></div>-->
+    <login/>
     <headers/>
-    <router-view/>
+    <router-view ref="tree"/>
     <footers/>
   </div>
 </template>
@@ -9,20 +11,31 @@
 <script>
   import headers from './common/heads'
   import footers from './common/foot'
+  import login from './homePage/login'
   export default {
-        name: "index",
-        components: {headers,footers}
+      name: "index",
+      components: {headers,footers,login},
+      data() {
+          return {
+            isLogin:false
+          }
+      },
+      methods:{
+        // logins() {
+        //   this.isLogin = true
+        // }
+      }
     }
 </script>
 
 <style scoped>
-  /*#app {*/
-    /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
-    /*-webkit-font-smoothing: antialiased;*/
-    /*-moz-osx-font-smoothing: grayscale;*/
-    /*text-align: center;*/
-    /*color: #2c3e50;*/
-    /*!*margin-top: 60px;*!*/
-  /*}*/
-
+  .login{
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,.8);
+  }
 </style>
