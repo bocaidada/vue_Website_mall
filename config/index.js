@@ -9,7 +9,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: '/',
     proxyTable: {   //代理服务
       // '/apis': {    //将www.exaple.com印射为/apis
       //   target: 'http://api.jkmy.com',  // 接口域名

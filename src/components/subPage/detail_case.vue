@@ -51,7 +51,7 @@
           },
           bannerImg:[
             {name:'one',url:'../../../static/img/pinzhi/banner_01.png'},
-            {name:'one',url:'../../../static/img/pinzhi/baner_02.png'},
+            {name:'one',url:'../../../static/img/pinzhi/banner_02.png'},
             {name:'one',url:'../../../static/img/pinzhi/banner_03.png'},
             {name:'one',url:'../../../static/img/pinzhi/banner_04.png'},
             {name:'one',url:'../../../static/img/pinzhi/banner_05.png'},

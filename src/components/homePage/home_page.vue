@@ -59,29 +59,13 @@
         <div class="pro_box brandBox">
            <div v-show="brandColor == 0" class="state">
               <main class="main">
-                <div>
+                <div v-for="(item, index) in brand_state_data" :key="index">
                   <div>
-                    <img src="../../../static/img/index/dongtai_1.png" alt="">
+                    <img :src="item.imgUrl" alt="">
                   </div>
-                  <p>如何挑选最适合你的那块木材？</p>
-                  <span>黄花梨，檀香木，水曲柳，这些耳熟能详的上等木材，你都了解几何？那块最适合用来装饰自己等门面？</span>
-                  <router-link to="">查看详情</router-link>
-                </div>
-                <div>
-                  <div>
-                    <img src="../../../static/img/index/dongtai_2.png" alt="">
-                  </div>
-                  <p>家居木门，哪个步骤最费事？</p>
-                  <span>查了攻略，跑了门店，挑好了木材，付了定金，但你知道自己但专属木门进展到哪步了么？</span>
-                  <router-link to="">查看详情</router-link>
-                </div>
-                <div>
-                  <div>
-                    <img src="../../../static/img/index/dongtai_3.png" alt="">
-                  </div>
-                  <p>木门与桌面，哪个成本更高？</p>
-                  <span>木式桌面质朴风雅，不尽清新又小资，更加环保健康，与木门比起来，想要定制木式桌面需要了解那些？</span>
-                  <router-link to="">查看详情</router-link>
+                  <p>{{item.title}}</p>
+                  <span>{{item.info}}</span>
+                  <router-link :to="item.routerUrl">查看详情</router-link>
                 </div>
               </main>
            </div>
@@ -199,6 +183,21 @@
           time:new Date().getFullYear(),
           productStyleColor:'1',
           brandColor:'0',
+          brand_state_data:[
+            {
+              imgUrl:"../../../static/img/index/dongtai_1.png",
+              title:"如何挑选最适合你的那块木材？",
+              info:"黄花梨，檀香木，水曲柳，这些耳熟能详的上等木材，你都了解几何？那块最适合用来装饰自己等门面？",routerUrl:""
+            },{
+              imgUrl:"../../../static/img/index/dongtai_2.png",
+              title:"家居木门，哪个步骤最费事？",
+              info:"查了攻略，跑了门店，挑好了木材，付了定金，但你知道自己但专属木门进展到哪步了么？",routerUrl:""
+            },{
+              imgUrl:"../../../static/img/index/dongtai_3.png",
+              title:"木门与桌面，哪个成本更高？",
+              info:"木式桌面质朴风雅，不尽清新又小资，更加环保健康，与木门比起来，想要定制木式桌面需要了解那些？",routerUrl:""
+            }
+          ],
           bannerImg:[
             {name:'one',url:'../../../static/img/index/ban1.jpg'},
             {name:'two',url:'../../../static/img/Ban1.png'},
