@@ -6,6 +6,7 @@ Vue.use(vuex);
 let store = new vuex.Store({
   state: {
     isLogin: false,
+    headNum:'0',
     sign:'',
     token: '',
     sendHost: 'http://192.168.1.121:8080/v1/auth'
@@ -19,6 +20,10 @@ let store = new vuex.Store({
     userToken (state,params) {
       state.token = params;
       localStorage.setItem('token', JSON.stringify(params))
+    },
+    // 导航信息
+    headNum (state,params) {
+      state.headNum = params;
     },
     //生成签名
     createSign (state,params) {

@@ -1,7 +1,11 @@
 <template>
   <div class="content">
     <div class="topBan"></div>
-    <div class="botBox"></div>
+    <div class="botBox">
+      <div class="upload">
+
+      </div>
+    </div>
   </div>
 </template>
 

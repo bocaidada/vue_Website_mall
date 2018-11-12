@@ -70,7 +70,7 @@
             children:[
               {name: '原材料采购', path: '/purchase'},
               {name: '智能制造', path: '/make'},
-              {name: '工程案例', path: '/case'},
+              {name: '工程案例', path: '/project_case'},
               {name: '售后服务', path: '/server'}
             ]
           },
@@ -81,6 +81,7 @@
               {name: '门店管理', path: '/store_manage'},
               {name: '门店分布', path: '/product_detail'},
               {name: '地图展示', path: '/store_custom'},
+              {name: '购物车', path: '/shop_car'}
             ]
           },
           {
@@ -99,6 +100,7 @@
     methods: {
       change(index) {
         this.changeColor = index
+        // this.$store.commit('headNum',index)
       },
       login() {
         this.$store.commit('loginState')

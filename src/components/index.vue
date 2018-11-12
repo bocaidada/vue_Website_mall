@@ -20,10 +20,11 @@
             isLogin:false
           }
       },
+      mounted:function(){
+        this.$router.push('/');
+      },
       methods:{
-        // logins() {
-        //   this.isLogin = true
-        // }
+
       }
     }
 </script>

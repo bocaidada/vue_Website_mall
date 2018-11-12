@@ -153,7 +153,7 @@
     .search_btn{
       width: 100%;
       height: 40px;
-      background: #07B08F;
+      background: #CFA972;
       font-size: 12px;
       text-align: center;
       line-height: 40px;

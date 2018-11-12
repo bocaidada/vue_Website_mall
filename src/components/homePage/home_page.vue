@@ -488,6 +488,7 @@
     padding: 60px 0 20px;
     display: flex;
     justify-content: space-between;
+    box-sizing: border-box;
   }
   .brandBox>.state>main>div{
     width: 30%;
@@ -496,6 +497,7 @@
   }
   .brandBox>.state>main>div>div{
     height: 288px;
+    border-radius: 8px;
     overflow: hidden;
   }
   .brandBox>.state>main>div>div>img{

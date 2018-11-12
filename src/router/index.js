@@ -27,9 +27,11 @@ const store_info = () => import ('@/components/subPage/store_info');
 const product_detail = () => import ('@/components/subPage/product_detail');
 const pay_detail = () => import ('@/components/subPage/pay_detail');
 const receiver_address = () => import ('@/components/subPage/receiver_address');
-const aMap = () => import ('@/components/subPage/aMap');
+// const aMap = () => import ('@/components/subPage/aMap');
 const server = () => import ('@/components/subPage/server');
 const purchase = () => import ('@/components/subPage/purchase');
+const project_case = () => import ('@/components/subPage/project_case');
+const detail_case = () => import ('@/components/subPage/detail_case');
 const shop_car = () => import ('@/components/homePage/shop_car');
 const store_custom = () => import ('@/components/homePage/store_custom');
 const quality = () => import ('@/components/homePage/quality');
@@ -79,6 +81,17 @@ export default new Router({
       path: '/purchase',
       name: 'purchase',
       component: purchase
+    },{
+      path: '/project_case',
+      name: 'project_case',
+      component: project_case,
+      children: [
+        {
+          path: 'detail_case/:id',
+          name: 'detail_case',
+          component: detail_case
+        }
+      ]
     },
     {
       path: '/about_us',
@@ -106,11 +119,12 @@ export default new Router({
       path: '/receiver_address',
       name: 'receiver_address',
       component: receiver_address
-    },{
-      path: '/aMap',
-      name: 'aMap',
-      component: aMap
     },
+    // {
+    //   path: '/aMap',
+    //   name: 'aMap',
+    //   component: aMap
+    // },
     {
       path: '/store_manage',
       name: 'store_manage',

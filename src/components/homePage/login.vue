@@ -183,7 +183,7 @@
   }
   input[name='submit']{
     background: rgba(195,155,99,1);
-    color:rgba(88,87,85,1);
+    color:rgba(230,230,230,1);
     cursor: pointer;
     font-weight: 400;
     letter-spacing: 5px;

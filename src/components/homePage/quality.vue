@@ -150,7 +150,7 @@
   .brand{
     text-align: center;
     padding: 60px 0 80px;
-    background:rgba(251,251,251,1);
+    /*background:rgba(251,251,251,1);*/
   }
   .pro_tab{
     height: 45px;
@@ -177,6 +177,9 @@
   }
   .brandBox>div{
     height: 100%;
+  }
+  #server{
+    margin-bottom: 80px;
   }
   @media screen and (max-width: 1600px) {
     .brandBox,.banner,.moduleBox>.mod_bot{
