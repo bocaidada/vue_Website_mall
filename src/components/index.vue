@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <!--<div v-if="isLogin" class="login"></div>-->
     <login/>
     <headers/>
-    <router-view ref="tree"/>
+    <!--<transition name="turn-on" mode='out-in'>-->
+      <router-view ref="tree"/>
+    <!--</transition>-->
     <footers/>
   </div>
 </template>
@@ -17,11 +18,17 @@
       components: {headers,footers,login},
       data() {
           return {
-            isLogin:false
+            isLogin:false,
           }
       },
       mounted:function(){
-        this.$router.push('/');
+        this.$router.push('/');  //页面刷新回到首页
+        this.$router.afterEach((to, from, next) => {
+          window.scrollTo(0, 0)   //跳转页面回到顶部
+        })
+      },
+      watch:{
+
       },
       methods:{
 
@@ -39,4 +46,16 @@
     height: 100vh;
     background: rgba(0,0,0,.8);
   }
+  /*转场动画*/
+  /*.turn-on-enter {*/
+    /*transform: translate3d(100%, 0, 0);*/
+  /*}*/
+  /*.turn-on-leave-to {*/
+    /*transform: translate3d(-100%, 0, 0);*/
+    /*!* transform: translate3d(-20%, 0, 0); *!*/
+  /*}*/
+  /*.turn-on-enter-active,*/
+  /*.turn-on-leave-active {*/
+    /*transition: transform 1s ease;*/
+  /*}*/
 </style>

@@ -96,7 +96,7 @@
           },
           {
             name: '招贤纳士',
-            path: '/join_us',
+            path: '/joinUs',
             children:[]
           },
           {

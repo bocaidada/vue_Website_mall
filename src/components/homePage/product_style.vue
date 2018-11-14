@@ -93,6 +93,9 @@
 <style scoped>
   .content{
     width: 100%;
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*top: 0;*/
   }
   .banner{
     width: 100%;

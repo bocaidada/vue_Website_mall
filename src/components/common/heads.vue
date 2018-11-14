@@ -97,10 +97,12 @@
         ],
       }
     },
+    mounted() {
+
+    },
     methods: {
       change(index) {
         this.changeColor = index
-        // this.$store.commit('headNum',index)
       },
       login() {
         this.$store.commit('loginState')

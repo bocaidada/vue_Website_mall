@@ -1,4 +1,5 @@
 <template>
+  <transition name="slide-fade">
     <div class="login" v-if="isLogin">
         <div class="box">
           <div class="topLogo">
@@ -25,6 +26,7 @@
           <div class="reg"></div>
         </div>
     </div>
+  </transition>
 </template>
 
 <script>
@@ -85,6 +87,8 @@
           });
         },
         submit: function() {
+          this.$store.commit('loginState')
+          console.log(this.$store.state.isLogin)
           let formData = JSON.stringify(this.numberValidateForm); // 这里才是你的表单数据
           console.log(formData)
           console.log(this.numberValidateForm)
@@ -191,5 +195,14 @@
   }
   input[name='submit']:hover{
     background: rgb(195, 150, 112);
+  }
+
+  .slide-fade-enter-active,.slide-fade-leave-active{
+    transition: all 2s;
+    opacity: 1;
+  }
+  .slide-fade-enter, .slide-fade-leave-to{
+    transform: rotate3d(1,1,1,180deg);
+    opacity: 0;
   }
 </style>

@@ -16,6 +16,14 @@ const api = {
   login (params) {
     return axios.post(`${base}/login`, qs.stringify(params));
   },
+  // 职位列表
+  list (params) {
+    return axios.post(`${base}/recruit/list`, qs.stringify(params));
+  },
+  // 申请职位
+  apply (params) {
+    return axios.post(`${base}/recruit/apply`, params);
+  },
 }
 export default api;
 

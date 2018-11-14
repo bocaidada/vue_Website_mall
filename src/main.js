@@ -28,13 +28,6 @@ Vue.config.productionTip = false
 // });
 
 
-router.beforeEach((to,from,next) => {
-  // window.addEventListener('load', function () {
-  //   Vue.$router.push('/')
-  //   return
-  // })
-    next()
-})
 
 
 /* eslint-disable no-new */

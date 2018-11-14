@@ -5,11 +5,11 @@ Vue.use(vuex);
 
 let store = new vuex.Store({
   state: {
-    isLogin: false,
+    isLogin: false,     //登陆页面控制
     headNum:'0',
-    sign:'',
-    token: '',
-    sendHost: 'http://192.168.1.121:8080/v1/auth'
+    sign:'',           //接口参数签名
+    token: '',         //登陆token
+    sendHost: 'http://api.jkmy.com/v1/'  //服务器地址
   },
   mutations: {
     loginState (state) {

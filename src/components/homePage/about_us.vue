@@ -183,10 +183,13 @@
     height: 600px;
   }
   .info{
-    margin-bottom: 50px;
+    margin-bottom: 100px;
   }
   .info_top,.honor_top{
     padding: 80px 0 45px;
+  }
+  .course .info_top{
+    padding-bottom: 0;
   }
   .info_bot{
     height: 408px;
@@ -239,7 +242,7 @@
     box-sizing: border-box;
   }
   .dynamic_state{
-    margin-bottom: 40px;
+    margin-bottom: 90px;
   }
   .dynamic_state>.info_bot{
     height: 495px;
