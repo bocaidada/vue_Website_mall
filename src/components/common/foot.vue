@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <main class="main">
+    <div class="main">
       <div class="footerLogo">
         <router-link to="/">
           <img src="../../../static/img/index/05_logo.png" alt="">
@@ -14,7 +14,7 @@
           </dd>
         </dl>
       </div>
-    </main>
+    </div>
   </footer>
 </template>
 
@@ -72,7 +72,7 @@
     height: 500px;
     background: #7E6B5A;
   }
-  main{
+  .main{
     width: 70%;
     height: 100%;
     margin: 0 auto;

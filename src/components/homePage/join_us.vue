@@ -12,7 +12,7 @@
     </div>
     <div v-if="changeNUm == '0'" class="payment_welfare">
       <div class="stimulate">
-        <main class="main">
+        <div class="main">
           <div class="stimulate_top">
             <img src="../../../static/img/joinUs/fuli1_03.png" alt="">
           </div>
@@ -34,14 +34,14 @@
               <span>优秀人才股权奖励</span>
             </div>
           </div>
-        </main>
+        </div>
       </div>
       <div class="staff">
         <div class="staff_top">
           <img src="../../../static/img/joinUs/fuli_08.png" alt="">
         </div>
         <div class="staff_bot">
-          <main class="main">
+          <div class="main">
             <div class="staff_bot_left">
               <div :class="{divColor:staffImgNUm == 0}" @click="staffChange(0)">
                 <p>办公环境</p>
@@ -55,12 +55,12 @@
             <div class="staff_bot_right">
               <img :src="staffImg[staffImgNUm].url" alt="">
             </div>
-          </main>
+          </div>
         </div>
       </div>
     </div>
     <div v-if="changeNUm == '1'" class="team_welfare">
-      <main class="main">
+      <div class="main">
         <div class="team_welfare_top">
           <img src="../../../static/img/joinUs/tuandui_01.png" alt="">
         </div>
@@ -70,10 +70,10 @@
           <img src="../../../static/img/joinUs/tuandui_04.png" alt="">
         </div>
         <div class="hitLogo"><img src="../../../static/img/joinUs/tuandui_05.png" alt=""></div>
-      </main>
+      </div>
     </div>
     <div v-if="changeNUm == '2'" class="talents">
-      <main class="main">
+      <div class="main">
         <div class="talents_top">
           <div class="imgLogo">
             <img src="../../../static/img/joinUs/zhaopin_01.png" alt="">
@@ -125,15 +125,16 @@
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
-    <div class="apply" v-if="applyBoxFlag">
+    <transition name="apply-fade">
+       <div class="apply" v-if="applyBoxFlag">
       <div class="applyBox">
         <img src="../../../static/img/joinUs/close.png" @click="close()" alt="">
         <h2>应聘</h2>
         <form @submit.prevent="submit" autocomplete="off">
           <div class="field">
-            <input name="name" placeholder="请输入姓名" type="text" v-model="numberValidateForms.name">
+            <input name="name" onkeyup="value=value.replace(/[\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))" placeholder="请输入姓名" type="text" v-model="numberValidateForms.name">
           </div>
           <div class="field">
             <input name="mobile" placeholder="请输入手机号" type="text" v-model="numberValidateForms.mobile">
@@ -144,6 +145,7 @@
         </form>
       </div>
     </div>
+    </transition>
   </div>
 </template>
 
@@ -227,11 +229,23 @@
             } else {
               const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
               if (reg.test(this.numberValidateForms.mobile)) {
-                this.$message({
-                  message: '申请提交成功',
-                  type: 'success'
-                })
-                this.applyBoxFlag = false
+                this.$api.apply(this.numberValidateForms).then((res) => {
+                  console.log(res.data)
+                  if(res.data.code == 200) {
+                    this.$message({
+                      message: '提交申请成功！',
+                      type: 'success'
+                    })
+                    this.applyBoxFlag = false
+                  }else {
+                    this.$message({
+                      message: res.data.msg,
+                      type: 'error'
+                    })
+                  }
+                }, (res) => {
+                  // error callback
+                });
               } else {
                 return this.$message.error('请输入正确的手机号');
               }
@@ -240,9 +254,21 @@
 
             // let formData = JSON.stringify(this.numberValidateForms); // 这里才是你的表单数据
             this.$api.apply(this.numberValidateForms).then((res) => {
-              console.log(res)
+              console.log(res.data)
+              if(res.data.code == 200) {
+                this.$message({
+                  message: '提交申请成功！',
+                  type: 'success'
+                })
+              }else {
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                })
+              }
             }, (res) => {
               // error callback
+              // console.log(res.data.data.msg)
             });
           }
         }
@@ -256,7 +282,7 @@
  .banner{
    height: 600px;
    position: relative;
-   background: #ccc;
+   /*background: #ccc;*/
 }
  .list{
     width: 450px;
@@ -467,7 +493,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 35%;
+    top: 30%;
     background: #fff;
     color: #CEA972;
     box-shadow: 3px 3px 46px 3px rgba(131,121,115,0.15);
@@ -525,4 +551,12 @@
     top: 45px;
     cursor: pointer;
   }
+ .apply-fade-enter-active,.apply-fade-leave-active{
+   transition: all 1.5s;
+   opacity: 1;
+ }
+ .apply-fade-enter, .apply-fade-leave-to{
+   transform: rotate3d(1,0,0,180deg);
+   opacity: 0;
+ }
 </style>

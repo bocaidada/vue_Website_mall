@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%;background: #efefef">
-    <main class="main">
+    <div class="main">
       <div class="title">我的购物车</div>
       <el-table
         ref="multipleTable"
@@ -73,7 +73,7 @@
           </router-link>
         </div>
       </div>
-    </main>
+    </div>
   </div>
 </template>
 

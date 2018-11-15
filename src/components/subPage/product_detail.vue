@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <main class="main">
+    <div class="main">
         <div class="detail">
            <div class="detail_left">
                 <div class="detail_left_top">
@@ -54,7 +54,7 @@
              </div>
            </div>
         </div>
-    </main>
+    </div>
   </div>
 </template>
 

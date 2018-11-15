@@ -24,6 +24,10 @@ const api = {
   apply (params) {
     return axios.post(`${base}/recruit/apply`, params);
   },
+  // 提交原材料
+  sample (params) {
+    return axios.post(`${base}/sample/material`, params);
+  },
 }
 export default api;
 

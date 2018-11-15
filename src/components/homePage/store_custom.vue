@@ -1,6 +1,6 @@
 <template>
     <section class="content">
-        <main class="main">
+        <div class="main">
             <div class="left">
                 <div class="search">
                     <div class="input-box">
@@ -23,7 +23,7 @@
             <div class="right">
               <aMap :message="parentMsg"/>
             </div>
-        </main>
+        </div>
     </section>
 </template>
 

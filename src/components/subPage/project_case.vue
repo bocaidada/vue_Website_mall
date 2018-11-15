@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <router-view/>
-    <main v-if="pageFlag" class="main">
+    <div v-if="pageFlag" class="main">
       <div class="case_title">
         <router-link to="/quality">产品支持</router-link>
         <span> > </span>
@@ -40,7 +40,7 @@
           </el-pagination>
         </div>
       </div>
-    </main>
+    </div>
   </div>
 </template>
 

@@ -13,7 +13,7 @@
             <img src="../../../static/img/aboutUs/1.png" alt="">
           </div>
           <div class="info_bot">
-            <main class="main">
+            <div class="main">
               <div class="video_left">
                 <video controls :src="video_url"></video>
               </div>
@@ -23,7 +23,7 @@
                 <p>金凯秉承工匠精神，把传统工艺结合现代技术，为消费者呈现完美的产品</p>
                 <p>金凯秉承工匠精神，把传统工艺结合现代技术，为消费者呈现完美的产品</p>
               </div>
-            </main>
+            </div>
           </div>
         </div>
       <div class="course">
@@ -42,7 +42,7 @@
           <img src="../../../static/img/aboutUs/3.png" alt="">
         </div>
         <div class="info_bot">
-          <main class="main">
+          <div class="main">
             <div class="info_left dynamic_state_left">
               <div>
                 <div>
@@ -61,7 +61,7 @@
                 </router-link>
               </ul>
             </div>
-          </main>
+          </div>
         </div>
       </div>
       <div class="honor">
@@ -69,12 +69,12 @@
           <img src="../../../static/img/aboutUs/4.png" alt="">
         </div>
         <div class="honor_bot">
-          <main class="main">
+          <div class="main">
             <swiper :options="swiperOption3" style="height: 100%">
               <swiper-slide v-for="(item,index) in honorImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
               <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
-          </main>
+          </div>
         </div>
       </div>
       <div class="honor partner">
@@ -82,9 +82,9 @@
           <img src="../../../static/img/aboutUs/5.png" alt="">
         </div>
         <div class="honor_bot">
-          <main class="main">
+          <div class="main">
             <img src="../../../static/img/aboutUs/hezuo_10.png" alt="">
-          </main>
+          </div>
         </div>
       </div>
     </section>

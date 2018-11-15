@@ -1,5 +1,5 @@
 <template>
-    <main class="main">
+    <div class="main">
       <div class="case_title">
         <router-link to="/quality">产品支持</router-link>
         <span> > </span>
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div style="height: 40px;background: #efefef"></div>
-    </main>
+    </div>
 </template>
 
 <script>

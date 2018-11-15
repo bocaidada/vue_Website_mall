@@ -1,6 +1,6 @@
 <template>
   <section class="content">
-    <main class="main">
+    <div class="main">
       <p class="main_title">收货地址</p>
       <h5>新增收货地址</h5>
       <div class="areas">
@@ -81,7 +81,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </main>
+    </div>
   </section>
 </template>
 

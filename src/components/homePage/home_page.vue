@@ -28,15 +28,15 @@
       </div>
       <div class="join">
         <div class="join_top">
-          <main class="main">
+          <div class="main">
             <span style="opacity: .5">{{time}}</span>
             <img class="logo" src="../../../static/img/logo.png" alt="">
             <img class="hit" src="../../../static/img/index/index_7.png" alt="">
-          </main>
+          </div>
         </div>
         <div class="join_bot">
           <div class="join_ban"></div>
-          <main class="main">
+          <div class="main">
             <div class="join_title">加盟我们</div>
             <div class="join_content">
               <div><img src="../../../static/img/index/jiameng_1.png" alt=""></div>
@@ -46,7 +46,7 @@
             <div class="join_see">
               <span>查看详情</span>
             </div>
-          </main>
+          </div>
         </div>
       </div>
       <div class="productStyle brand">
@@ -58,7 +58,7 @@
         </div>
         <div class="pro_box brandBox">
            <div v-show="brandColor == 0" class="state">
-              <main class="main">
+              <div class="main">
                 <div v-for="(item, index) in brand_state_data" :key="index">
                   <div>
                     <img :src="item.imgUrl" alt="">
@@ -67,23 +67,23 @@
                   <span>{{item.info}}</span>
                   <router-link :to="item.routerUrl">查看详情</router-link>
                 </div>
-              </main>
+              </div>
            </div>
            <div v-show="brandColor == 1" class="history">
-             <main class="main">
+             <div class="main">
                <swiper :options="swiperOption2" style="height: 100%">
                  <swiper-slide v-for="(item,index) in historyImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
                  <div class="swiper-pagination" slot="pagination"></div>
                </swiper>
-             </main>
+             </div>
            </div>
            <div v-show="brandColor == 2" class="culture">
-             <main class="main"></main>
+             <div class="main"></div>
            </div>
            <div v-show="brandColor == 3" class="partner">
-             <main class="main">
+             <div class="main">
                <img src="../../../static/img/index/partner.png" alt="">
-             </main>
+             </div>
            </div>
         </div>
       </div>
@@ -101,15 +101,20 @@
               </div>
               <img src="../../../static/img/index/01_tuanduiwenhua.png" alt="">
             </li>
-            <li>
-
+            <li class="textInfo">
+              <span>我们始终相信梦想到力量，<br>并为之奋斗。<br>如果你一样坚韧不屈，<br>一样曾经踌躇满志，<br>别再犹豫。</span>
             </li>
             <li class="txt">
               <div style="background: url('../../../static/img/index/index_16.png ') no-repeat center/cover"></div>
               <img src="../../../static/img/index/02_jiaruwomen.png" alt="">
             </li>
-            <li>
-
+            <li class="textInfo">
+            <span>做门，<br>
+            我们只用最好的木材<br>
+            但，我们更需要最好的人才<br>
+            来金凯<br>
+            给你一个实现梦想的舞台<br>
+            大门永远敞开</span>
             </li>
             <li>
               <div style="background: url('../../../static/img/index/index_17.png ') no-repeat center/cover"></div>
@@ -119,14 +124,18 @@
               <div style="background: url('../../../static/img/index/index_19.png ') no-repeat center/cover"></div>
               <img src="../../../static/img/index/05_logo.png" alt="">
             </li>
-            <li>
-
+            <li class="textInfo">
+             <span>我们不止做门<br>
+              更会给你一个温馨的家<br>
+              一扇永远照射出阳光的门<br>
+              这里<br>
+              就是家园</span>
             </li>
             <li class="txt">
               <div style="background: url('../../../static/img/index/index_20.png ') no-repeat center/cover"></div>
               <img src="../../../static/img/index/03_xinchoufuli.png" alt="">
             </li>
-            <li>
+            <li class="textInfo">
 
             </li>
             <li class="txt">
@@ -144,7 +153,7 @@
           <img src="../../../static/img/index/index_5.png" alt="">
         </div>
         <div class="about_bot">
-          <main class="main">
+          <div class="main">
               <div class="about_bot_box left">
                 <div class="left_top">
                   <span>300</span><span> +</span>
@@ -169,7 +178,7 @@
                 </div>
                 <p>超过500多的成功案例</p>
               </div>
-          </main>
+          </div>
         </div>
       </div>
     </section>
@@ -483,44 +492,44 @@
     background:rgba(238,238,238,1);
     box-sizing: border-box;
   }
-  .brandBox>.state>main{
+  .brandBox>.state>.main{
     padding: 60px 0 20px;
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
   }
-  .brandBox>.state>main>div{
+  .brandBox>.state>.main>div{
     width: 30%;
     height: 100%;
     position: relative;
   }
-  .brandBox>.state>main>div>div{
+  .brandBox>.state>.main>div>div{
     height: 288px;
     border-radius: 8px;
     overflow: hidden;
   }
-  .brandBox>.state>main>div>div>img{
+  .brandBox>.state>.main>div>div>img{
     width: 100%;
     display: block;
     transition: 1s;
   }
-  .brandBox>.state>main>div>div>img:hover{
+  .brandBox>.state>.main>div>div>img:hover{
     transform: scale(1.2);
   }
-  .brandBox>.state>main>div>p{
+  .brandBox>.state>.main>div>p{
     line-height: 30px;
     margin: 20px 0;
     font-size: 24px;
     color: #333;
     border-left: 8px solid #CFA972;
   }
-  .brandBox>.state>main>div>span{
+  .brandBox>.state>.main>div>span{
     display: block;
     font-size: 16px;
     color: #555;
     text-align: left;
   }
-  .brandBox>.state>main>div>a{
+  .brandBox>.state>.main>div>a{
     display: block;
     line-height: 30px;
     text-align: right;
@@ -529,7 +538,7 @@
     right: 0;
     bottom: 5px;
   }
-  .brandBox>.state>main>div>a:hover{
+  .brandBox>.state>.main>div>a:hover{
     color: #CFA972;
   }
   .recruit{
@@ -561,6 +570,13 @@
     overflow: hidden;
     background: #FDF6ED;
     position: relative;
+  }
+  .textInfo{
+    box-sizing: border-box;
+    padding: 40px 10px 0 30px;
+    position: relative;
+    line-height: 28px;
+    text-align: left;
   }
   .rex_bot>ul>li>div{
     width: 100%;

@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-      <main class="main">
+      <div class="main">
         <el-container>
           <el-aside width="30%" style="background: goldenrod">
             <el-menu
@@ -58,7 +58,7 @@
             <router-view :message="parentMsg" @listenToChild="getChildMsg"/>
           </el-main>
         </el-container>
-      </main>
+      </div>
   </div>
 </template>
 

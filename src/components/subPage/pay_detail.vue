@@ -1,6 +1,6 @@
 <template>
     <section class="content">
-      <main class="main">
+      <div class="main">
         <div class="pay_main">
           <span>确认收货地址</span>
           <span>
@@ -62,7 +62,7 @@
         <div class="main_bot">
           <h2>支付方式</h2>
         </div>
-      </main>
+      </div>
     </section>
 </template>
 

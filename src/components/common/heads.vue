@@ -1,8 +1,8 @@
 <template>
   <div>
     <header>
-        <div class="mainTop">
-            <main class="main">
+        <div class="mainTop" :class="{mainTopHit:navBarFixed}">
+            <div class="main">
               <div class="fontStyle">
                 <span>简</span>
                 <span class="hit">|</span>
@@ -13,10 +13,10 @@
                 <span class="hit">|</span>
                 <span>注册</span>
               </div>
-            </main>
+            </div>
         </div>
         <div class="mainBot">
-          <main class="main">
+          <div class="main">
             <div class="logoImg">
               <router-link  to="/">
                 <img src="../../../static/img/logo.png" alt="">
@@ -29,16 +29,15 @@
                   <ul v-if="item.children.length !== 0" class="list">
                     <li v-for="items in item.children">
                       <router-link :to="items.path">{{items.name}}</router-link>
-                      <!--<a :href="items.path">{{items.name}}</a>-->
                     </li>
                   </ul>
                 </li>
               </ul>
             </div>
-          </main>
+          </div>
         </div>
     </header>
-    <div style="height: 150px"></div>
+    <div class="hid" :class="{hidHit:navBarFixed}"></div>
   </div>
 </template>
 
@@ -48,6 +47,7 @@
     data() {
       return  {
         changeColor: 0,
+        navBarFixed: false,
         navList:[
           {
             name: '首页',
@@ -97,8 +97,9 @@
         ],
       }
     },
-    mounted() {
-
+    mounted () {
+      // 事件监听滚动条
+      window.addEventListener('scroll', this.watchScroll)
     },
     methods: {
       change(index) {
@@ -107,6 +108,15 @@
       login() {
         this.$store.commit('loginState')
         console.log(this.$store.state.isLogin)
+      },
+      watchScroll () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        //  当滚动超过 100 时，实现吸顶效果
+        if (scrollTop > 99) {
+          this.navBarFixed = true
+        } else {
+          this.navBarFixed = false
+        }
       }
     }
   }
@@ -124,10 +134,24 @@
     z-index: 1000;
   }
   .mainTop{
-    height: 50px;
+    height: 32px;
     background: #eee;
     color: #333;
-    line-height: 50px;
+    line-height: 32px;
+    font-size: 12px;
+    transition: all 1s;
+    overflow: hidden;
+  }
+  header .mainTopHit{
+    height: 0;
+  }
+  .hid{
+    height: 112px;
+    transition: all 1s;
+    background: #fff;
+  }
+  header .hidHit{
+    height: 80px;
   }
   .mainTop .fontStyle{
     width: 120px;
@@ -145,8 +169,9 @@
     float: right;
   }
   .mainBot{
-    height: 100px;
-    line-height: 100px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 16px;
   }
   .mainBot .logoImg{
     width: 20%;
@@ -154,6 +179,7 @@
     float: left;
     text-align: left;
     position: relative;
+    margin-left: 15px;
   }
   .mainBot .logoImg img{
     position: absolute;

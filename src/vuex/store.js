@@ -9,7 +9,7 @@ let store = new vuex.Store({
     headNum:'0',
     sign:'',           //接口参数签名
     token: '',         //登陆token
-    sendHost: 'http://api.jkmy.com/v1/'  //服务器地址
+    sendHost: 'http://api.jkmy.com/v1'  //服务器地址
   },
   mutations: {
     loginState (state) {
