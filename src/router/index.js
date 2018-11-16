@@ -14,6 +14,10 @@ const receiver_address = () => import ('@/components/subPage/receiver_address');
 // const aMap = () => import ('@/components/subPage/aMap');
 const server = () => import ('@/components/subPage/server');
 const purchase = () => import ('@/components/subPage/purchase');
+const new_style = () => import ('@/components/subPage/new_style');
+const hot_cake = () => import ('@/components/subPage/hot_cake');
+const classics = () => import ('@/components/subPage/classics');
+const whole_wood = () => import ('@/components/subPage/whole_wood');
 const project_case = () => import ('@/components/subPage/project_case');
 const detail_case = () => import ('@/components/subPage/detail_case');
 const shop_car = () => import ('@/components/homePage/shop_car');
@@ -29,19 +33,31 @@ export default new Router({
       path: '/',
       name: 'home_page',
       component: home_page,
-      // redirect:'/home_page',  //路由重定向
-      // children:[
-      //   {
-      //     path: 'product_style',
-      //     name: 'product_style',
-      //     component: product_style
-      //   }
-      // ]
     },
     {
       path: '/product_style',
       name: 'product_style',
-      component: product_style
+      component: product_style,
+      redirect:'/product_style/new_style',  //路由重定向
+      children:[
+        {
+          path: 'new_style',
+          name: 'new_style',
+          component: new_style
+        },{
+          path: 'hot_cake',
+          name: 'hot_cake',
+          component: hot_cake
+        },{
+          path: 'classics',
+          name: 'classics',
+          component: classics
+        },{
+          path: 'whole_wood',
+          name: 'whole_wood',
+          component: whole_wood
+        }
+      ]
     },{
       path: '/quality',
       name: 'quality',

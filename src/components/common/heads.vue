@@ -110,12 +110,46 @@
         console.log(this.$store.state.isLogin)
       },
       watchScroll () {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        //  当滚动超过 100 时，实现吸顶效果
-        if (scrollTop > 99) {
-          this.navBarFixed = true
-        } else {
-          this.navBarFixed = false
+        let _this = this;
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        if(scrollTop<400){
+          _this.navBarFixed = false
+        }else{
+          let agent = navigator.userAgent;
+          if (/.*Firefox.*/.test(agent)) {
+            document.addEventListener("DOMMouseScroll", function(e) {
+              e = e || window.event;
+              let detail = e.detail;
+              if (detail > 0) {
+                if(!_this.navBarFixed){
+                  // console.log("鼠标向下滚动");
+                  _this.navBarFixed = true
+                }
+              } else {
+                // console.warn("鼠标向上滚动");
+                if(_this.navBarFixed){
+                  _this.navBarFixed = false
+                }
+              }
+            });
+          }else {
+            //鼠标滚动控制导航栏高度
+            document.onmousewheel = function(e) {
+              e = e || window.event;
+              let wheelDelta = e.wheelDelta;
+              if (wheelDelta > 0) {
+                // console.warn("鼠标向上滚动");
+                if(_this.navBarFixed){
+                  _this.navBarFixed = false
+                }
+              } else {
+                // console.log("鼠标向下滚动");
+                if(!_this.navBarFixed){
+                  _this.navBarFixed = true
+                }
+              }
+            }
+          }
         }
       }
     }

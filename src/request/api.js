@@ -28,6 +28,10 @@ const api = {
   sample (params) {
     return axios.post(`${base}/sample/material`, params);
   },
+  // 获取手机短信验证码
+  phone_code (params) {
+    return axios.post(`${base}/auth/sms`, params);
+  }
 }
 export default api;
 

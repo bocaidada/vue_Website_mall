@@ -2,9 +2,7 @@
   <div id="app">
     <login/>
     <headers/>
-    <!--<transition name="turn-on" mode='out-in'>-->
-      <router-view ref="tree"/>
-    <!--</transition>-->
+    <router-view ref="tree"/>
     <footers/>
   </div>
 </template>
@@ -26,36 +24,21 @@
         this.$router.afterEach((to, from, next) => {
           window.scrollTo(0, 0)   //跳转页面回到顶部
         })
+        this.imgMove()
       },
       watch:{
 
       },
       methods:{
-
+        imgMove() {
+          document.getElementsByTagName('img')[0].onmousedown = function(e){
+            e.preventDefault()
+          }
+        }
       }
     }
 </script>
 
 <style scoped>
-  .login{
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 10000;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0,0,0,.8);
-  }
-  /*转场动画*/
-  /*.turn-on-enter {*/
-    /*transform: translate3d(100%, 0, 0);*/
-  /*}*/
-  /*.turn-on-leave-to {*/
-    /*transform: translate3d(-100%, 0, 0);*/
-    /*!* transform: translate3d(-20%, 0, 0); *!*/
-  /*}*/
-  /*.turn-on-enter-active,*/
-  /*.turn-on-leave-active {*/
-    /*transition: transform 1s ease;*/
-  /*}*/
+
 </style>
