@@ -1,29 +1,65 @@
 <template>
     <section class="content">
+      <transition name="upload-fade">
+        <div class="addBox" v-if="addAddressFlag">
+          <div>
+            <img :src="$store.state.qiNiuServer+'/joinUs/close.png'" @click="add_address()" alt="">
+            <h1>新增收货地址</h1>
+            <div class="areas">
+              <span class="tit">配送地区：</span>
+              <area-select type='code' :level='2' v-model="selected" :data="pcaa"></area-select>
+            </div>
+            <el-form style="width: 100%;margin: 20px 5px" :model="ruleForm" :rules="rules" status-icon ref="ruleForm" label-width="100px">
+              <el-form-item
+                label="具体地址："
+                prop="detail">
+                <el-input type="text" v-model="ruleForm.detail" maxlength="255" autocomplete="off" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></el-input>
+              </el-form-item>
+              <el-form-item
+                label="货主姓名："
+                prop="name">
+                <el-input type="text" maxlength="16" v-model="ruleForm.name" placeholder="请输入姓名"></el-input>
+              </el-form-item>
+              <el-form-item
+                label="手机号码："
+                prop="mobile">
+                <el-input v-model.number="ruleForm.mobile" maxlength="11" placeholder="请输入手机号码"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-checkbox  @change="changes()">设置为默认收货地址</el-checkbox>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+      </transition>
       <div class="main">
-        <div class="pay_main">
-          <span>确认收货地址</span>
-          <span>
-            <router-link to="/receiver_address">添加收货地址</router-link>
-          </span>
+        <div class="pay_main" v-if="fromSources == 3">
+          <span>收货地址</span>
+        </div>
+        <div class="pay_main" v-else>
+          <span>选择收货地址</span>
+          <span @click="add_address()">添加收货地址</span>
         </div>
         <div class="ship_site">
-          <el-radio v-for="(item,index) in address" :key="index" v-model="radio" :label="index">{{item.site}}</el-radio>
+          <span v-if="fromSources == 3" style="color: #cfa972;line-height: 40px">{{address}}</span>
+          <el-radio v-else @change="radioChange(item)" v-for="(item,index) in address" :key="index" v-model="radio" :label="index">{{item.provinceStr}}{{item.cityStr}}{{item.countryStr}} {{item.detail}} {{item.name}} {{item.mobile}}</el-radio>
+          <span v-if="address.length == 0">暂无收货地址</span>
         </div>
         <div class="pay_main">
           <span>订单详情</span>
         </div>
         <el-table
           ref="multipleTable"
-          :data="tableData3"
+          :data="tableData"
+          show-summary
+          :summary-method="getSummaries"
           tooltip-effect="dark"
           style="width: 100%"
           :header-cell-class-name="tableheaderClassName"
           @selection-change="handleSelectionChange">
-          <el-table-column
-            type="selection"
-            width="55">
-          </el-table-column>
           <el-table-column
             align="center"
             prop="name"
@@ -36,68 +72,178 @@
           </el-table-column>
           <el-table-column
             align="center"
-            prop="size"
-            label="产品规格"
+            prop="attr"
+            label="属性"
             show-overflow-tooltip>
           </el-table-column>
           <el-table-column
-            align="center"
-            prop="price"
-            label="单价(元)"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            prop="number"
+            prop="num"
             align="center"
             label="数量"
             show-overflow-tooltip>
           </el-table-column>
           <el-table-column
+            prop="price"
             align="center"
-            prop="total"
+            label="单价(元)"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            prop="freight"
+            align="center"
+            label="运费(元)"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="totalPrice"
             label="总价(元)"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="earnestPrice"
+            v-if="fromSources == 3"
+            label="首付款(元)"
             show-overflow-tooltip>
           </el-table-column>
         </el-table>
         <div class="main_bot">
           <h2>支付方式</h2>
+          <div class="payBox">
+            <div class="zhiFu" :class="{selectHit:selectFlag}" @click="change()"></div>
+          </div>
+          <div class="go_pay" @click="go_submit()">前往支付</div>
         </div>
       </div>
     </section>
 </template>
 
 <script>
+    import { pca, pcaa } from 'area-data'; // v5 or higher
     export default {
       name: "pay_detail",
       data () {
+        let checkPhone = (rule, value, callback) => {
+          if (!value) {
+            return callback(new Error('手机号不能为空'));
+          } else {
+            const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+            if (reg.test(value)) {
+              callback();
+            } else {
+              return callback(new Error('请输入正确的手机号'));
+            }
+          }
+        }
+        let checkName = (rule, value, callback) => {
+          if (!value) {
+            return callback(new Error('用户名不能为空'));
+          } else {
+            const reg = /^[A-Za-z\u4e00-\u9fa5]+$/
+            if (reg.test(value)) {
+              callback();
+            } else {
+              return callback(new Error('用户名只可以输入字母和中文'));
+            }
+          }
+        }
         return {
-          radio: '',
-          address:[
-            {site:'浙江省 杭州市 西湖区 西湖街道办事处  林志成 收 15906676509',num:'1'},
-            {site:'山西省 太原市 迎泽区 西湖街道办事处  和徐闻 收 15906676509',num:'2'},
-            {site:'陕西省 西安市 未央区 西湖街道办事处  林志成 收 15906676509',num:'3'}
-          ],
-          tableData3: [{
-            id:'001',
-            name: '烤漆木门',
-            model:'MKT-003',
-            size:'2.0m*1.5m*0.25m',
-            price:'1600',
-            number:'1',
-            total:'1600'
-          },{
-            id:'001',
-            name: '烤漆木门',
-            model:'MKT-003',
-            size:'2.0m*1.5m*0.25m',
-            price:'1600',
-            number:'2',
-            total:'3200'
-          }],
-          multipleSelection: []
+          addAddressFlag: false,
+          defaultFlag: false,
+          selected: [],
+          pca: pca,
+          pcaa: pcaa,
+          ruleForm: {
+            name: '',
+            mobile: '',
+            province:'',
+            city:'',
+            country:'',
+            detail:'',
+            select: 0
+          },
+          rules: {
+            mobile: [
+              {validator: checkPhone, trigger: 'blur'}
+            ],
+            name: [
+              {validator: checkName, trigger: 'blur'}
+            ],
+            detail: [
+              {required: true, message: '具体地址不能为空', trigger: 'blur'}
+            ]
+          },
+          totalNum: 6,
+          selectsFlag: true,
+          msg: '',
+          checked: true,
+          selectFlag: false,
+          radio: 0,
+          protocolFlag: false,
+          address:[],
+          fromSources: this.$store.state.fromSource,
+          tableData: [],
+          multipleSelection: [],
+          payData:{
+            addressId: '',
+            fromSource: this.$store.state.fromSource,
+            payType:''
+          }
         };
       },
+      created() {
+        this.addList()
+      },
+      mounted() {
+
+      },
+      watch:{
+        selected(val,old) {
+          // console.log()
+          console.log(old,val)
+          if(val.length == 3) {
+            this.areaFlag = false;
+            this.ruleForm.province = this.selected[0]
+            this.ruleForm.city = this.selected[1]
+            this.ruleForm.country = this.selected[2]
+          }
+        }
+      },
       methods: {
+        submitForm(formName) {
+          this.$refs[formName].validate((valid) => {
+            if(this.selected.length != 3) {
+              this.$message.error('请选择配配送区域')
+            }
+            if (valid) {
+              console.log(this.ruleForm)
+              console.log('add')
+              this.$http.post('addressAdd',this.ruleForm).then((res)=>{
+                console.log(res.data)
+                if(res.data.code == 200) {
+                  //数据清空
+                  this.$message.success('地址保存成功')
+                  this.addList()
+                  this.selected = []
+                  this.addAddressFlag = false
+                  this.$refs[formName].resetFields();
+                }else{
+                  this.$message({
+                    type: 'error',
+                    message: res.data.msg
+                  })
+                }
+              })
+            } else {
+              console.log('error submit!!');
+              return false;
+            }
+          });
+        },
+        add_address() {
+          this.addAddressFlag = !this.addAddressFlag
+        },
         // 获取多选参数,计算价格
         handleSelectionChange(val) {
           this.multipleSelection = val;
@@ -106,6 +252,97 @@
         tableheaderClassName({ row, rowIndex }) {
           return "table-head-th";
         },
+        change() {
+          this.selectFlag = !this.selectFlag
+          if(this.selectFlag) {
+            this.payData.payType = 1
+          }else{
+            this.payData.payType = ''
+          }
+        },
+        changes() {
+          this.defaultFlag = !this.defaultFlag
+          if(this.defaultFlag) {
+            this.ruleForm.select = 1
+          }else{
+            this.ruleForm.select = 0
+          }
+        },
+        addList() {
+          if(this.fromSources == 3){
+            this.totalNum = 7
+            this.payData.addressId = 0
+            this.$http.get('shopInfo','').then((res)=>{
+              console.log(res.data)
+              this.address = res.data.data.address
+            })
+            this.payLists(0)
+          }else{
+            this.$http.get('addressList','').then((res)=>{
+              console.log(res.data)
+              if(res.data.code == 200) {
+                this.address = res.data.data
+                if(this.address.length){
+                  this.payData.addressId = this.address[0].id
+                  this.payLists(this.address[0].id)
+                }
+              }
+            })
+          }
+        },
+        payLists(params) {
+          this.$http.get('payList',{fromSource:this.fromSources,addressId:params}).then((res)=>{
+            console.log(res.data)
+            this.tableData = res.data.data.list
+          })
+        },
+        radioChange(val){
+          this.payData.addressId = val.id
+          this.payLists(val.id)
+        },
+        // 下单
+        go_submit() {
+          console.log(this.payData)
+          if(!this.selectFlag){
+            return this.$message.error('请选择支付方式')
+          }
+          // if()
+          if(this.payData.addressId === ''){
+            return this.$message.error('请添加收货地址')
+          }
+          this.$http.post('payCart',this.payData).then((res)=>{
+            console.log(res.data)
+            if(res.data.code == 200) {
+              const div = document.createElement('div');
+              div.innerHTML = Base64.decode(res.data.data.html);
+              document.body.appendChild(div);
+              document.forms.alipaysubmit.submit();
+            }
+          })
+        },
+        getSummaries(param) {
+          const { columns, data } = param;
+          const sums = [];
+          columns.forEach((column, index) => {
+            if(index === 0) {
+              sums[index] = '合计'
+            }
+            const values = data.map(item => Number(item[column.property]));
+            if (!values.every(value => isNaN(value))) {
+              sums[this.totalNum] = values.reduce((prev, curr) => {
+                const value = Number(curr);
+                if (!isNaN(value)) {
+                  return prev + curr;
+                } else {
+                  return prev;
+                }
+              }, 0);
+              sums[this.totalNum] = '￥'+sums[this.totalNum];
+            }
+          });
+
+          return sums;
+        }
       }
     }
 </script>
@@ -115,10 +352,10 @@
     display: block;
   }
   .el-radio+.el-radio{
-    margin-left: 0;
+    margin-left: 0 !important;
   }
   .table-head-th{
-    background-color: #07B08F !important;
+    background-color: #C39B63 !important;
     color: #fff;
   }
   .el-table{
@@ -133,6 +370,7 @@
 <style scoped>
   .content{
     padding: 20px 0;
+    position: relative;
   }
   .main{
     background: #fff;
@@ -148,12 +386,12 @@
   }
   .pay_main>span:last-child{
     float: right;
+    color: #C39B63;
+    cursor: pointer;
   }
   .pay_main>span:first-child{
     float: left;
-  }
-  .pay_main>span:last-child>a{
-    color: #5393FF;
+    color: #C39B63;
   }
   .ship_site{
     text-align: left;
@@ -161,15 +399,126 @@
   }
   .main_bot{
     width: 100%;
-    height: 350px;
+    /*height: 350px;*/
     border: 1px solid #dfdfdf;
     margin-bottom: 40px;
-    padding: 20px 30px;
+    padding: 40px 30px;
     box-sizing: border-box;
+    text-align: left;
   }
   h2{
     text-align: left;
-    line-height: 50px;
+    line-height: 30px;
     margin-bottom: 30px;
+  }
+  .payBox{
+    height: 80px;
+    width: 100%;
+  }
+  .payBox>.zhiFu{
+    width: 250px;
+    height: 100%;
+    background: url("http://pifi5lc1c.bkt.clouddn.com/web/zhifubao.png") no-repeat center/cover;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    float: left;
+    margin-right: 30px;
+    position: relative;
+  }
+  .payBox>.selectHit::after {
+    display: block;
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-color: transparent red red transparent ;
+    border-width: 10px;
+    border-style: solid;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  .go_pay{
+    width: 140px;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    border-radius: 5px;
+    background: red;
+    color: #fff;
+    left: 1px;
+    margin: 20px 0;
+    cursor: pointer;
+  }
+  .go_pay:hover{
+    background: #ff5117;
+  }
+  .addBox{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,0,.3);
+    z-index: 10;
+  }
+  .addBox>div{
+    width: 686px;
+    height: 540px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10%;
+    background: #fff;
+    box-sizing: border-box;
+    padding: 15px 45px 20px 20px;
+    text-align: left;
+    border-radius: 5px;
+  }
+  .addBox>div>img{
+    position: absolute;
+    width: auto;
+    right: 35px;
+    top: 30px;
+    cursor: pointer;
+  }
+  .addBox>div>h1{
+    line-height: 60px;
+    font-size: 28px;
+    color: #434343;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .areas{
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    margin-top: 15px;
+    padding-left: 16px;
+  }
+  .areas>.tit{
+    float: left;
+    line-height: 35px;
+    font-size: 13px;
+    margin-right: 5px;
+  }
+  .areas>.tit::before{
+    content: '*';
+    color: #f56c6c;
+    margin-right: 4px;
+  }
+  .el-icon-info{
+    color: #C39B63;
+    margin-right: 20px;
+    font-size: 20px;
+    vertical-align: middle;
+  }
+  .upload-fade-enter-active,.upload-fade-leave-active{
+    transition: all 1.5s;
+    opacity: 1;
+  }
+  .upload-fade-enter, .upload-fade-leave-to{
+    transform: rotate3d(0,1,0,180deg);
+    opacity: 0;
   }
 </style>

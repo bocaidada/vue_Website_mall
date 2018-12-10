@@ -1,106 +1,157 @@
 <template>
     <section class="content">
-        <div class="main">
+        <!--<div class="main">-->
             <div class="left">
                 <div class="search">
                     <div class="input-box">
                       <area-cascader type='text' v-model="selected" :data="pcaa"></area-cascader>
                         <!--<area-select type='text' v-model="selected" :level='0' :data="pcaa" ></area-select>-->
-                        <el-input placeholder="请输入当前位置（写字楼、小区、街道或者学校）" v-model="input" class="input-with-select">
+                        <el-input placeholder="请输入当前位置（写字楼、小区、街道或者学校）" v-model="inputDetail" class="input-with-select">
                         </el-input>
-                      <el-button slot="append" style="border-radius: 0" icon="el-icon-search"></el-button>
+                      <el-button slot="append" style="border-radius: 0" @click="search()" icon="el-icon-search"></el-button>
                     </div>
                     <button class="search_btn">附近门店</button>
                 </div>
                 <ul class="list">
                     <li @click="addressPosition(item)" v-for="(item,index) in  shopData" :key="index">
-                        <p>{{item.title}}</p>
+                        <p>{{item.name}}</p>
                         <p>{{item.distance}}</p>
                         <p>{{item.address}}</p>
                     </li>
                 </ul>
             </div>
             <div class="right">
-              <aMap :message="parentMsg"/>
+              <!--<aMap :message="parentMsg"/>-->
+              <div id="l-map" style="width: 100%;height: 100%"></div>
             </div>
-        </div>
+        <!--</div>-->
     </section>
 </template>
 
 <script>
     import { pca, pcaa } from 'area-data'; // v5 or higher
-    import aMap from '../subPage/aMap'
+    // import aMap from '../subPage/aMap'
     export default {
         name: "store_custom",
-        components:{aMap},
+        // components:{aMap},
         data() {
             return {
-              parentMsg:[121.406051,31.179695],
-              // parentMsg:{
-              //   center:[121.406051,31.179695],
-              //   label:{
-              //     content:'钦汇园',
-              //     offset:[10,12]
-              //   }
-              // },
+              map:{},
               selected: [],
               pca: pca,
               pcaa: pcaa,
-              input: '',
+              inputDetail: '',
               select: '',
-              shopData:[
-                {
-                  title:'杭州市西湖区小二门店',
-                  distance:'<500m',
-                  address:'杭州西湖区三坝雅苑',
-                  abscissa:'171',
-                  ordinate:'20'
-                },{
-                  title:'杭州市西湖区小二门店',
-                  distance:'<500m',
-                  address:'杭州西湖区三坝雅苑',
-                  abscissa:'271',
-                  ordinate:'40'
-                },{
-                  title:'杭州市西湖区小二门店',
-                  distance:'<500m',
-                  address:'杭州西湖区三坝雅苑',
-                  abscissa:'571',
-                  ordinate:'70'
-                },{
-                  title:'杭州市西湖区小二门店',
-                  distance:'<500m',
-                  address:'杭州西湖区三坝雅苑',
-                  abscissa:'471',
-                  ordinate:'60'
-                },{
-                  title:'杭州市西湖区小二门店',
-                  distance:'<500m',
-                  address:'杭州西湖区三坝雅苑',
-                  abscissa:'771',
-                  ordinate:'88'
-                }
-              ],
+              shopData:[],
             }
         },
         created(){
 
         },
+        watch:{
+          "selected" (val,old) {
+            console.log(val)
+            if(val.length == 2) {
+              this.select = val[0] + val[1]
+              console.log(this.select)
+            }
+          }
+        },
+        mounted() {
+          this.init()
+        },
         methods: {
           addressPosition(params) {
-              console.log(params)
-            this.parentMsg = [params.abscissa, params.ordinate]
+            console.log(params)
+            let point = new BMap.Point(params.lon,params.lat);
+            this.map.centerAndZoom(point,12);
+            this.map.addOverlay(new BMap.Marker(point));
+          },
+          init() {
+            let _this = this;
+            this.map = new BMap.Map("l-map");
+            // this.map = map;
+            this.map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
+            this.map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
+            let point = new BMap.Point(120.21937542,30.25924446);
+            this.map.centerAndZoom(point,12);
+            this.$message({
+              message: '地址信息定位中，请稍等',
+              type: 'warning'
+            })
+            let geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function(r){
+              if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                var mk = new BMap.Marker(r.point);
+                _this.map.addOverlay(mk);
+                _this.map.panTo(r.point);
+                // alert('您的位置：'+r.point.lng+','+r.point.lat);
+                _this.$http.get('shopNearby',{lat:r.point.lat,lon:r.point.lng,page:1}).then((res)=>{
+                  console.log(res.data)
+                  _this.shopData = res.data.data.list
+                  if(_this.shopData.length){
+                    _this.$message({
+                      message: '以查询到最近门店',
+                      type: 'success'
+                    })
+                  }else{
+                    _this.$message({
+                      message: '该区域附近没有门店',
+                      type: 'error'
+                    })
+                  }
+                })
+              }
+              else {
+                alert('failed'+this.getStatus());
+              }
+            },{enableHighAccuracy: true})
+          },
+          search() {
+            if(this.select == ''){
+              this.$message.error('请选择搜索区域')
+            }else {
+              let address = this.select + this.inputDetail
+              let _this = this
+              // 创建地址解析器实例
+              let myGeo = new BMap.Geocoder();
+              // 将地址解析结果显示在地图上,并调整地图视野
+              myGeo.getPoint(address, function(point){
+                // console.log(point.lat)
+                // console.log(point.lng)
+                if (point) {
+                  _this.map.centerAndZoom(point, 12);
+                  _this.map.addOverlay(new BMap.Marker(point));
+                  _this.$http.get('shopNearby',{lat:point.lat,lon:point.lng,page:1}).then((res)=>{
+                    console.log(res.data)
+                    _this.shopData = res.data.data.list
+                    if(_this.shopData.length){
+                      _this.$message({
+                        message: '以查询到最近门店',
+                        type: 'success'
+                      })
+                    }else{
+                      _this.$message({
+                        message: '该区域附近没有门店',
+                        type: 'error'
+                      })
+                    }
+                  })
+                }else{
+                  alert("您选择地址没有解析到结果!");
+                }
+              }, _this.selected[0]);
+            }
           }
         }
-
-
     }
 </script>
 
 <style scoped>
     .content{
-        width: 100%;
-        overflow: hidden;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
     }
     .main{
       width: 88%;
@@ -125,6 +176,8 @@
     /*}*/
     .left{
       width:420px;
+      height: 90vh;
+      overflow: hidden;
       position: absolute;
       left: 0;
       top: 0;

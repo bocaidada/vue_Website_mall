@@ -4,6 +4,7 @@
  */
 import axios from 'axios';
 import router from '../router';
+import store from '../vuex/store';
 import { Toast } from 'vant';
 
 /**
@@ -36,6 +37,7 @@ const toLogin = () => {
  * @param {Number} status 请求失败的状态码
  */
 const errorHandle = (status, other) => {
+  console.log(status)
   // 状态码判断
   switch (status) {
     // 401: 未登录状态，跳转登录页
@@ -64,6 +66,7 @@ const errorHandle = (status, other) => {
 let instance = axios.create();
 // 设置post请求头
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
 /**
  * 请求拦截器
  * 每次请求前，在header中添加token
@@ -75,8 +78,10 @@ instance.interceptors.request.use(
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     const token = localStorage.getItem('token')
-    config.headers.t = new Date().getTime().toString().substring(0,10)
-    config.headers.token = token ? token : ''
+    config.headers.hT = store.state.hT
+    config.headers.hToken = token ? token : ''
+    config.headers.hSign = store.state.sign
+    config.headers.hDeviceType = '3'
     return config
   },
   error => Promise.error(error))

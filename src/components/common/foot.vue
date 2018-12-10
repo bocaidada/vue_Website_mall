@@ -1,9 +1,9 @@
 <template>
-  <footer>
+  <footer v-if="footFlag">
     <div class="main">
       <div class="footerLogo">
         <router-link to="/">
-          <img src="../../../static/img/index/05_logo.png" alt="">
+          <img :src="$store.state.qiNiuServer+'/index/05_logo.png'" alt="">
         </router-link>
       </div>
       <div class="main_left footerList">
@@ -23,44 +23,51 @@
     name: "foot",
     data() {
       return {
+        footFlag:this.$store.state.footerFlag,
         footList:[
           {
             name: '关于我们',
             children:[
-              {name: '公司简介', path: '/purchase'},
-              {name: '发展历程', path: '/make'},
-              {name: '公司动态', path: '/case'},
-              {name: '奖项荣誉', path: '/server'}
+              {name: '公司简介', path: '/about_us'},
+              {name: '发展历程', path: '/about_us'},
+              {name: '行业资讯', path: '/news_list'},
+              {name: '奖项荣誉', path: '/about_us'}
             ]
           },{
             name: '加盟我们',
             children:[
-              {name: '加盟条件', path: '/purchase'},
-              {name: '加盟优势', path: '/make'},
-              {name: '加盟流程', path: '/case'},
-              {name: '加盟申请', path: '/server'},
-              {name: '门店地图', path: '/server'}
+              {name: '加盟条件', path: '/offline_store'},
+              {name: '加盟优势', path: '/offline_store'},
+              {name: '加盟流程', path: '/offline_store'},
+              {name: '加盟申请', path: '/offline_store'},
+              {name: '门店地图', path: '/offline_store'}
             ]
           },{
             name: '产品中心',
             children:[
-              {name: '实木门', path: '/purchase'},
-              {name: '复合门', path: '/case'},
-              {name: '烤漆木门', path: '/make'},
-              {name: '全屋定制', path: '/server'}
+              {name: '新款', path: '/product'},
+              {name: '爆款', path: '/product'},
+              {name: '经典', path: '/product'},
+              {name: '整木', path: '/product'}
             ]
           },{
             name: '工程案例',
             children:[
-              {name: '工程案例', path: '/purchase'}
+              {name: '工程案例', path: '/project_case'}
             ]
           },{
-            name: '关注我们',
+            name: '联系我们',
             children:[
-              {name: '微信', path: '/purchase'}
+              {name: 'TEL：4006-0570-86', path: '/'}
             ]
           },
         ]
+      }
+    },
+    watch:{
+      '$store.state.footerFlag':function (val,old) {
+        // console.log(val,old)
+        this.footFlag = val
       }
     }
   }

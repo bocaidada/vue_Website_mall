@@ -2,7 +2,7 @@
   <div class="content">
     <div class="banner">
       <swiper :options="swiperOption" style="height: 100%">
-        <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
+        <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
       </swiper>
       <div class="list">
         <span :class="{hitColor:changeNUm == '0'}" @click="changeCol('0')">薪酬福利</span>
@@ -14,23 +14,23 @@
       <div class="stimulate">
         <div class="main">
           <div class="stimulate_top">
-            <img src="../../../static/img/joinUs/fuli1_03.png" alt="">
+            <img :src="serverBase+'/joinUs/fuli1_03.png'" alt="">
           </div>
           <div class="stimulate_bot">
             <div>
-              <img src="../../../static/img/joinUs/icon_01.png" alt="">
+              <img :src="serverBase+'/joinUs/icon_01.png'" alt="">
               <span>具有竞争力的工资</span>
             </div>
             <div>
-              <img src="../../../static/img/joinUs/icon_02.png" alt="">
+              <img :src="serverBase+'/joinUs/icon_02.png'" alt="">
               <span>丰厚的绩效奖励</span>
             </div>
             <div>
-              <img src="../../../static/img/joinUs/icon_03.png" alt="">
+              <img :src="serverBase+'/joinUs/icon_03.png'" alt="">
               <span>一年两次调薪机会</span>
             </div>
             <div>
-              <img src="../../../static/img/joinUs/icon_04.png" alt="">
+              <img :src="serverBase+'/joinUs/icon_04.png'" alt="">
               <span>优秀人才股权奖励</span>
             </div>
           </div>
@@ -38,7 +38,7 @@
       </div>
       <div class="staff">
         <div class="staff_top">
-          <img src="../../../static/img/joinUs/fuli_08.png" alt="">
+          <img :src="serverBase+'/joinUs/fuli_08.png'" alt="">
         </div>
         <div class="staff_bot">
           <div class="main">
@@ -53,7 +53,7 @@
               </div>
             </div>
             <div class="staff_bot_right">
-              <img :src="staffImg[staffImgNUm].url" alt="">
+              <img :src="serverBase+staffImg[staffImgNUm].url" alt="">
             </div>
           </div>
         </div>
@@ -62,21 +62,21 @@
     <div v-if="changeNUm == '1'" class="team_welfare">
       <div class="main">
         <div class="team_welfare_top">
-          <img src="../../../static/img/joinUs/tuandui_01.png" alt="">
+          <img :src="serverBase+'/joinUs/tuandui_01.png'" alt="">
         </div>
         <div class="team_welfare_bot">
-          <img src="../../../static/img/joinUs/tuandui_02.png" alt="">
-          <img src="../../../static/img/joinUs/tuandui_03.png" alt="">
-          <img src="../../../static/img/joinUs/tuandui_04.png" alt="">
+          <img :src="serverBase+'/joinUs/tuandui_02.png'" alt="">
+          <img :src="serverBase+'/joinUs/tuandui_03.png'" alt="">
+          <img :src="serverBase+'/joinUs/tuandui_04.png'" alt="">
         </div>
-        <div class="hitLogo"><img src="../../../static/img/joinUs/tuandui_05.png" alt=""></div>
+        <div class="hitLogo"><img :src="serverBase+'/joinUs/tuandui_05.png'" alt=""></div>
       </div>
     </div>
     <div v-if="changeNUm == '2'" class="talents">
       <div class="main">
         <div class="talents_top">
           <div class="imgLogo">
-            <img src="../../../static/img/joinUs/zhaopin_01.png" alt="">
+            <img :src="serverBase+'/joinUs/zhaopin_01.png'" alt="">
           </div>
           <h2 class="talents_top_title">让工作更有意思</h2>
           <h5 class="talents_info">
@@ -130,17 +130,17 @@
     <transition name="apply-fade">
        <div class="apply" v-if="applyBoxFlag">
       <div class="applyBox">
-        <img src="../../../static/img/joinUs/close.png" @click="close()" alt="">
-        <h2>应聘</h2>
-        <form @submit.prevent="submit" autocomplete="off">
+        <img :src="serverBase+'/joinUs/close.png'" @click="close()" alt="">
+        <h2>申请职位</h2>
+        <form style="width: 100%" @submit.prevent="submit" autocomplete="off">
           <div class="field">
-            <input name="name" onkeyup="value=value.replace(/[\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))" placeholder="请输入姓名" type="text" v-model="numberValidateForms.name">
+            <input name="name"  onkeyup="value=value.replace(/[\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))" maxlength="16" placeholder="请输入姓名" type="text" v-model="numberValidateForms.name">
           </div>
           <div class="field">
-            <input name="mobile" placeholder="请输入手机号" type="text" v-model="numberValidateForms.mobile">
+            <input name="mobile" maxlength="11" placeholder="请输入手机号" type="text" v-model="numberValidateForms.mobile">
           </div>
           <div class="field">
-            <input name="submit" type="submit" value="应聘">
+            <input name="submit" type="submit" value="提交">
           </div>
         </form>
       </div>
@@ -154,18 +154,19 @@
         name: "join_us",
         data() {
             return {
+              serverBase:this.$store.state.qiNiuServer,
               applyBoxFlag:false,
               applyId:'',
               unfoldFlag:[],
               changeNUm: '0',
               staffImgNUm: 0,
               bannerImg:[
-                {url:'../../../static/img/joinUs/banner_01.jpg'},
-                {url:'../../../static/img/joinUs/banner_02.jpg'}
+                {url:'/joinUs/banner_01.jpg'},
+                {url:'/joinUs/banner_02.jpg'}
               ],
               staffImg:[
-                {url:'../../../static/img/joinUs/111.png'},
-                {url:'../../../static/img/joinUs/222.png'}
+                {url:'/joinUs/111.png'},
+                {url:'/joinUs/222.png'}
               ],
               swiperOption: {
                 spaceBetween: 30,   //图片之间的间距
@@ -201,8 +202,9 @@
           },
           // 列表数据
           initData() {
-            this.$api.list({}).then(res=>{
-              console.log(res.data.data)
+            // this.$api.list({}).then(res=>{
+            this.$http.get('list','').then((res) => {
+              console.log(res.data)
               for (let i=0;i<res.data.data.length;i++) {
                 this.unfoldFlag.push({show:false})
               }
@@ -221,7 +223,14 @@
           },
           //数据提交
           submit: function() {
-            if(!this.numberValidateForms.name){
+            if(this.numberValidateForms.name){
+              const reg = /^[A-Za-z\u4e00-\u9fa5]+$/
+              if (reg.test(this.numberValidateForms.name)) {
+
+              } else {
+                return this.$message.error('用户名只可以输入字母和中文');
+              }
+            }else{
               return this.$message.error('姓名不能为空');
             }
             if (!this.numberValidateForms.mobile) {
@@ -229,7 +238,7 @@
             } else {
               const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
               if (reg.test(this.numberValidateForms.mobile)) {
-                this.$api.apply(this.numberValidateForms).then((res) => {
+                this.$http.post('apply',this.numberValidateForms).then((res) => {
                   console.log(res.data)
                   if(res.data.code == 200) {
                     this.$message({
@@ -243,33 +252,12 @@
                       type: 'error'
                     })
                   }
-                }, (res) => {
-                  // error callback
-                });
+                })
               } else {
                 return this.$message.error('请输入正确的手机号');
               }
             }
             this.numberValidateForms.id = this.applyId;
-
-            // let formData = JSON.stringify(this.numberValidateForms); // 这里才是你的表单数据
-            this.$api.apply(this.numberValidateForms).then((res) => {
-              console.log(res.data)
-              if(res.data.code == 200) {
-                this.$message({
-                  message: '提交申请成功！',
-                  type: 'success'
-                })
-              }else {
-                this.$message({
-                  message: res.data.msg,
-                  type: 'error'
-                })
-              }
-            }, (res) => {
-              // error callback
-              // console.log(res.data.data.msg)
-            });
           }
         }
     }
@@ -556,7 +544,7 @@
    opacity: 1;
  }
  .apply-fade-enter, .apply-fade-leave-to{
-   transform: rotate3d(1,0,0,180deg);
+   transform: rotate3d(0,1,0,180deg);
    opacity: 0;
  }
 </style>

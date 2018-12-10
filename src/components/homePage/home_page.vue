@@ -1,9 +1,10 @@
 <template>
     <section class="content">
       <div class="banner">
-        <swiper :options="swiperOption" style="height: 100%">
-        <!--<swiper :options="swiperOption" style="height: auto">-->
-          <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
+        <swiper v-if="indexDataInit.banner" :options="swiperOption" style="height: 100%">
+          <swiper-slide v-for="(item,index) in indexDataInit.banner" :key="index" :style="{background: 'url('+indexDataInit.baseImgUrl+item.img+') no-repeat center/cover'}">
+            <a style="display: block;width: 100%;height: 100%" :href="item.url" target="_blank"></a>
+          </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
           <!--<div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>-->
           <!--<div class="swiper-button-next swiper-button-white" slot="button-next"></div>-->
@@ -11,27 +12,21 @@
       </div>
       <div class="productStyle">
         <div class="pro_title">
-          <img src="../../../static/img/index/index_1.png" alt="">
+          <img :src="serverBase+'/index/index_1.png'" alt="">
         </div>
         <div class="pro_tab">
-          <span v-for="(item,index) in styleData" :class="{hitColor:productStyleColor == index}" @click="change(index)">{{item.name}}</span>
+          <span v-for="(item,index) in indexDataInit.goods" :class="{hitColor:productStyleColor == index}" @click="change(index)">{{item.name}}</span>
         </div>
-        <div class="pro_box">
-          <!--<div class="pro_box_ban">-->
-            <swiper :options="swiperOption1" style="height: 100%;padding:0 277px">
-              <swiper-slide v-for="(item,index) in styleImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
-              <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
-              <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
-            </swiper>
-          <!--</div>-->
+        <div class="pro_box product_box">
+          <router-link tag="div" :title="item.name" :to="{name:'product_detail',params: {id:item.id}}" v-for="(item,index) in styleData" :key="index" :style="{background: 'url('+indexDataInit.baseImgUrl+item.img+') no-repeat center/cover'}"></router-link>
         </div>
       </div>
       <div class="join">
         <div class="join_top">
           <div class="main">
             <span style="opacity: .5">{{time}}</span>
-            <img class="logo" src="../../../static/img/logo.png" alt="">
-            <img class="hit" src="../../../static/img/index/index_7.png" alt="">
+            <img class="logo" :src="serverBase+'/logo.png'" alt="">
+            <img class="hit" :src="serverBase+'/index/index_7.png'" alt="">
           </div>
         </div>
         <div class="join_bot">
@@ -39,19 +34,20 @@
           <div class="main">
             <div class="join_title">加盟我们</div>
             <div class="join_content">
-              <div><img src="../../../static/img/index/jiameng_1.png" alt=""></div>
-              <div><img src="../../../static/img/index/jiameng_2.png" alt=""></div>
-              <div><img src="../../../static/img/index/jiameng_3.png" alt=""></div>
+              <div><img :src="serverBase+'/index/jiameng_1.png'" alt=""></div>
+              <div><img :src="serverBase+'/index/jiameng_2.png'" alt=""></div>
+              <div><img :src="serverBase+'/index/jiameng_3.png'" alt=""></div>
             </div>
             <div class="join_see">
-              <span>查看详情</span>
+              <!--<span>查看详情</span>-->
+              <router-link to="/offline_store">查看详情</router-link>
             </div>
           </div>
         </div>
       </div>
       <div class="productStyle brand">
         <div class="pro_title">
-          <img src="../../../static/img/index/index_9.png" alt="">
+          <img :src="serverBase+'/index/index_9.png'" alt="">
         </div>
         <div class="pro_tab">
           <span v-for="(item,index) in brandData" :class="{hitColor: brandColor == index}" @click="brandChange(index)">{{item.name}}</span>
@@ -59,20 +55,20 @@
         <div class="pro_box brandBox">
            <div v-show="brandColor == 0" class="state">
               <div class="main">
-                <div v-for="(item, index) in brand_state_data" :key="index">
-                  <div>
-                    <img :src="item.imgUrl" alt="">
+                <div v-for="(item, index) in indexDataInit.news" :key="index" v-if="index < 3">
+                  <div :title="item.name">
+                    <img :src="indexDataInit.baseImgUrl+item.img" alt="">
                   </div>
-                  <p>{{item.title}}</p>
-                  <span>{{item.info}}</span>
-                  <router-link :to="item.routerUrl">查看详情</router-link>
+                  <p>{{item.name}}</p>
+                  <span>{{item.summary}}</span>
+                  <router-link :to="{name:'news_detail',params: {id:item.id}}">查看详情</router-link>
                 </div>
               </div>
            </div>
            <div v-show="brandColor == 1" class="history">
              <div class="main">
                <swiper :options="swiperOption2" style="height: 100%">
-                 <swiper-slide v-for="(item,index) in historyImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
+                 <swiper-slide v-for="(item,index) in historyImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
                  <div class="swiper-pagination" slot="pagination"></div>
                </swiper>
              </div>
@@ -82,31 +78,31 @@
            </div>
            <div v-show="brandColor == 3" class="partner">
              <div class="main">
-               <img src="../../../static/img/index/partner.png" alt="">
+               <img :src="serverBase+'/index/partner.png'" alt="">
              </div>
            </div>
         </div>
       </div>
       <div class="recruit">
         <div class="rec_top">
-          <img src="../../../static/img/index/zhaoxiannashi.png" alt="">
+          <img :src="serverBase+'/index/zhaoxiannashi.png'" alt="">
         </div>
         <div class="rex_bot">
           <ul>
             <li>
-              <img src="../../../static/img/logo.png" alt="">
+              <img :src="serverBase+'/logo.png'" alt="">
             </li>
             <li class="txt">
-              <div style="background: url('../../../static/img/index/index_15.png') no-repeat center/cover">
+              <div :style="'background: url('+serverBase+'/index/index_15.png) no-repeat center/cover'">
               </div>
-              <img src="../../../static/img/index/01_tuanduiwenhua.png" alt="">
+              <img :src="serverBase+'/index/01_tuanduiwenhua.png'" alt="">
             </li>
             <li class="textInfo">
               <span>我们始终相信梦想到力量，<br>并为之奋斗。<br>如果你一样坚韧不屈，<br>一样曾经踌躇满志，<br>别再犹豫。</span>
             </li>
             <li class="txt">
-              <div style="background: url('../../../static/img/index/index_16.png ') no-repeat center/cover"></div>
-              <img src="../../../static/img/index/02_jiaruwomen.png" alt="">
+              <div :style="'background: url('+serverBase+'/index/index_16.png) no-repeat center/cover'"></div>
+              <img :src="serverBase+'/index/02_jiaruwomen.png'" alt="">
             </li>
             <li class="textInfo">
             <span>做门，<br>
@@ -117,12 +113,12 @@
             大门永远敞开</span>
             </li>
             <li>
-              <div style="background: url('../../../static/img/index/index_17.png ') no-repeat center/cover"></div>
-              <img src="../../../static/img/index/05_logo.png" alt="">
+              <div :style="'background: url('+serverBase+'/index/index_17.png) no-repeat center/cover'"></div>
+              <img :src="serverBase+'/index/05_logo.png'" alt="">
             </li>
             <li>
-              <div style="background: url('../../../static/img/index/index_19.png ') no-repeat center/cover"></div>
-              <img src="../../../static/img/index/05_logo.png" alt="">
+              <div :style="'background: url('+serverBase+'/index/index_19.png ) no-repeat center/cover'"></div>
+              <img :src="serverBase+'/index/05_logo.png'" alt="">
             </li>
             <li class="textInfo">
              <span>我们不止做门<br>
@@ -132,25 +128,30 @@
               就是家园</span>
             </li>
             <li class="txt">
-              <div style="background: url('../../../static/img/index/index_20.png ') no-repeat center/cover"></div>
-              <img src="../../../static/img/index/03_xinchoufuli.png" alt="">
+              <div :style="'background: url('+serverBase+'/index/index_20.png) no-repeat center/cover'"></div>
+              <img :src="serverBase+'/index/03_xinchoufuli.png'" alt="">
             </li>
             <li class="textInfo">
-
+              <span>做门，<br>
+              我们只用最好的木材<br>
+              但，我们更需要最好的人才<br>
+              来金凯<br>
+              给你一个实现梦想的舞台<br>
+              大门永远敞开</span>
             </li>
             <li class="txt">
-              <div style="background: url('../../../static/img/index/index_21.png ') no-repeat center/cover"></div>
-              <img src="../../../static/img/index/04_jinkaimumen.png" alt="">
+              <div :style="'background: url('+serverBase+'/index/index_21.png) no-repeat center/cover'"></div>
+              <img :src="serverBase+'/index/04_jinkaimumen.png'" alt="">
             </li>
             <li>
-              <img src="../../../static/img/logo.png" alt="">
+              <img :src="serverBase+'/logo.png'" alt="">
             </li>
           </ul>
         </div>
       </div>
       <div class="aboutUs">
         <div class="about_top">
-          <img src="../../../static/img/index/index_5.png" alt="">
+          <img :src="serverBase+'/index/index_5.png'" alt="">
         </div>
         <div class="about_bot">
           <div class="main">
@@ -161,7 +162,7 @@
                 <p>超过300家的实体门店</p>
               </div>
               <div class="ban">
-                <img src="../../../static/img/index/index_6.png" alt="">
+                <img :src="serverBase+'/index/index_6.png'" alt="">
               </div>
               <div class="about_bot_box center">
                 <div class="left_top">
@@ -170,7 +171,7 @@
                 <p>超过800多人的精英团队</p>
               </div>
               <div class="ban">
-                <img src="../../../static/img/index/index_6.png" alt="">
+                <img :src="serverBase+'/index/index_6.png'" alt="">
               </div>
               <div class="about_bot_box right">
                 <div class="left_top">
@@ -189,44 +190,23 @@
       name: "home_page",
       data() {
         return {
+          serverBase:this.$store.state.qiNiuServer,
+          indexDataInit:{},
           time:new Date().getFullYear(),
-          productStyleColor:'1',
+          productStyleColor: 0,
           brandColor:'0',
-          brand_state_data:[
-            {
-              imgUrl:"../../../static/img/index/dongtai_1.png",
-              title:"如何挑选最适合你的那块木材？",
-              info:"黄花梨，檀香木，水曲柳，这些耳熟能详的上等木材，你都了解几何？那块最适合用来装饰自己等门面？",routerUrl:""
-            },{
-              imgUrl:"../../../static/img/index/dongtai_2.png",
-              title:"家居木门，哪个步骤最费事？",
-              info:"查了攻略，跑了门店，挑好了木材，付了定金，但你知道自己但专属木门进展到哪步了么？",routerUrl:""
-            },{
-              imgUrl:"../../../static/img/index/dongtai_3.png",
-              title:"木门与桌面，哪个成本更高？",
-              info:"木式桌面质朴风雅，不尽清新又小资，更加环保健康，与木门比起来，想要定制木式桌面需要了解那些？",routerUrl:""
-            }
-          ],
-          bannerImg:[
-            {name:'one',url:'../../../static/img/index/ban1.jpg'},
-            {name:'two',url:'../../../static/img/Ban1.png'},
-            {name:'one',url:'../../../static/img/index/ban1.jpg'}
-          ],
-          styleImg:[
-            {name:'one',url:'../../../static/img/index/index_2.png'},
-            {name:'one',url:'../../../static/img/index/index_2.png'},
-            {name:'one',url:'../../../static/img/index/index_2.png'}
-          ],
+          brand_state_data:[],
+          bannerImg:[],
+          styleImg:[],
           historyImg:[
-            {name:'one',url:'../../../static/img/index/lishi_1.png'},
-            {name:'one',url:'../../../static/img/index/lishi_2.png'},
-            {name:'one',url:'../../../static/img/index/lishi_3.png'},
-            {name:'one',url:'../../../static/img/index/lishi_4.png'},
+            {name:'one',url:'/index/lishi_1.png'},
+            {name:'one',url:'/index/lishi_2.png'},
+            {name:'one',url:'/index/lishi_3.png'},
+            {name:'one',url:'/index/lishi_4.png'},
           ],
           swiperOption: {
             spaceBetween: 30,   //图片之间的间距
             loop: true,         //循环播放
-            grabCursor: true,  //手势
             autoplay: {
               delay: 5000,
               disableOnInteraction: false
@@ -234,20 +214,6 @@
             pagination: {   //轮播点
               el: '.swiper-pagination',
               dynamicBullets: true
-            },
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev'
-            }
-          },
-          swiperOption1: {
-            direction: 'vertical',
-            spaceBetween: 30,   //图片之间的间距
-            loop: true,         //循环播放
-            grabCursor: true,  //手势
-            autoplay: {
-              delay: 5000,
-              disableOnInteraction: false
             },
             navigation: {
               nextEl: '.swiper-button-next',
@@ -262,40 +228,53 @@
               dynamicBullets: true
             }
           },
-          styleData:[
-            {name:'新款'},
-            {name:'爆款'},
-            {name:'整木'}
-          ],
+          styleData:[],
           brandData:[
-            {name:'动态'},
+            {name:'资讯'},
             {name:'历史'},
             {name:'文化'},
             {name:'合作伙伴'}
           ]
         }
       },
+      created() {
+        this.dataInit()
+      },
+      mounted() {
+        setTimeout(()=>{
+          this.$store.commit('footerFlag',true)
+        },1000)
+      },
       methods: {
         change(index) {
           this.productStyleColor = index
+          this.styleData = this.indexDataInit.goods[index].item
         },
         brandChange(index) {
+          console.log(index)
           this.brandColor = index
+        },
+        dataInit() {
+          this.$http.get('index','').then((res)=>{
+            console.log(res.data.data)
+            this.indexDataInit = res.data.data
+            this.styleData = res.data.data.goods[0].item
+          })
         }
       }
     }
 </script>
 <style>
   .swiper-pagination-bullet-active{
-    background: #CFA972;
+    background: #CFA972 !important;
   }
   .swiper-button-prev{
     left: 40px;
-    background-image: url("../../../static/img/index/index_3.png") !important;
+    background-image: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_3.png") !important;
   }
   .swiper-button-next{
     right: 40px;
-    background-image: url("../../../static/img/index/index_4.png") !important;
+    background-image: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_4.png") !important;
   }
 </style>
 <style scoped>
@@ -305,7 +284,7 @@
   .banner{
     width: 100%;
     height: 84vh;
-    background: url("../../../static/img/index/ban1.jpg") no-repeat center/cover;
+    background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/shouye_01.jpg") no-repeat center/cover;
   }
   .banner a{
     display: block;
@@ -316,14 +295,14 @@
   .productStyle{
      text-align: center;
      padding: 60px 0 80px;
-     background:rgba(251,251,251,1);
-   }
+    background: rgba(246,246,246,1);
+  }
   .pro_tab{
     height: 45px;
     line-height: 45px;
     color: #959595;
     font-size: 30px;
-    margin: 50px 0 30px;
+    margin: 50px 0;
   }
   .pro_tab>span{
     padding: 0 100px;
@@ -337,15 +316,20 @@
   .hitColor{
     color: #CFA972;
   }
-  .pro_box{
+  .pro_box,.product_box{
     width: 1200px;
     height: 360px;
     margin: 0 auto;
+    cursor: pointer;
   }
-  .pro_box_ban{
-    width: 625px;
+  .product_box{
+    display: flex;
+    justify-content: space-between;
+  }
+  .product_box>div{
+    width: 360px;
     height: 100%;
-    margin: 0 auto;
+    background: #fff;
   }
   .join_top{
     height: 150px;
@@ -382,7 +366,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: url("../../../static/img/index/index_13.jpg") no-repeat center/cover;
+    background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_13.jpg") no-repeat center/cover;
     z-index: -1;
   }
   .join_title{
@@ -408,7 +392,7 @@
   .join_see{
     height: 60px;
   }
-  .join_see>span{
+  .join_see>a{
     display: block;
     width: 260px;
     height: 100%;
@@ -443,7 +427,7 @@
   }
   .brandBox>.culture{
     width: 100%;
-    background: url("../../../static/img/index/wenhua.jpg") no-repeat center/cover;
+    background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/wenhua.jpg") no-repeat center/cover;
   }
   .brandBox>.partner{
     width: 100%;
@@ -517,11 +501,16 @@
     transform: scale(1.2);
   }
   .brandBox>.state>.main>div>p{
+    width: 100%;
     line-height: 30px;
     margin: 20px 0;
     font-size: 24px;
     color: #333;
     border-left: 8px solid #CFA972;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 10px;
   }
   .brandBox>.state>.main>div>span{
     display: block;
@@ -577,6 +566,7 @@
     position: relative;
     line-height: 28px;
     text-align: left;
+    font-size: 16px;
   }
   .rex_bot>ul>li>div{
     width: 100%;
@@ -694,6 +684,10 @@
     .rex_bot>ul>li{
       height: 28vh;
     }
+    .textInfo{
+      line-height: 26px;
+      font-size: 15px;
+    }
   }
   @media screen and (max-width: 1260px) {
     .banner{
@@ -701,6 +695,10 @@
     }
     .rex_bot>ul>li{
       height: 26vh;
+    }
+    .textInfo{
+      line-height: 24px;
+      font-size: 14px;
     }
   }
 </style>

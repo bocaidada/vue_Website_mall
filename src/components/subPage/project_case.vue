@@ -9,22 +9,26 @@
       </div>
       <div class="case_content">
         <div class="case_content_title">
-          <span @click="changeCole('0')" :class="{col:colorChange == '0'}">工程案例</span>
+          <span @click="changeCole(1)" :class="{col:colorChange == 1}">工程案例</span>
           <span>|</span>
-          <span @click="changeCole('1')" :class="{col:colorChange == '1'}">门店案例</span>
+          <span @click="changeCole(2)" :class="{col:colorChange == 2}">门店案例</span>
           <span>|</span>
-          <span @click="changeCole('2')" :class="{col:colorChange == '2'}">外销案例</span>
+          <span @click="changeCole(3)" :class="{col:colorChange == 3}">外销案例</span>
         </div>
-        <div class="case_content_box">
+        <div class="case_content_box" style="position: relative">
+          <div v-if="caseData.length == 0" style="position: absolute;left: 50%;transform: translateX(-50%);top: 30%;">
+            <img :src="$store.state.qiNiuServer+'/kongbai_02.png'" alt="" style="width: 300px;display: block;">
+            <p style="line-height: 80px;font-size: 20px;color: #cfa972;">暂时没有数据</p>
+          </div>
           <ul>
-            <router-link tag="li" :to="{name:'detail_case',params: {id:index}}" v-for="(item,index) in caseData" :key="index">
+            <router-link tag="li" :to="{name:'detail_case',params: {id:item.id}}" v-for="(item,index) in caseData" :key="index">
               <div class="imgBox">
-                <div class="box" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></div>
+                <div class="box" :style="{background: 'url('+baseUrl+item.img+') no-repeat center/cover'}"></div>
               </div>
               <span class="name">
-                <span>{{item.title}}</span>
+                <span>{{item.name}}</span>
               </span>
-              <span class="info">{{item.info}}</span>
+              <span class="info">{{item.summary}}</span>
             </router-link>
           </ul>
         </div>
@@ -49,52 +53,20 @@
         name: "project_case",
         data() {
             return {
-              pageFlag: true,
-              colorChange: '0',
+              baseUrl:'',
+              type: 1,
+              pageFlag: this.$store.state.caseFlag,
+              colorChange: 1,
               currentPage: 1,
-              totalNum: 19,
-              caseData:[
-                {
-                  url:'../../../static/img/2.jpg',
-                  title:'长沙城市花园',
-                  info:'长沙城市花园250套房'
-                },{
-                  url:'../../../static/img/4.jpg',
-                  title:'长沙城市花园',
-                  info:'长沙城市花园250套房'
-                },{
-                  url:'../../../static/img/4.png',
-                  title:'长沙城市花园',
-                  info:'长沙城市花园250套房'
-                },{
-                  url:'../../../static/img/3.jpg',
-                  title:'长沙城市花园',
-                  info:'长沙城市花园250套房'
-                },{
-                  url:'../../../static/img/5.jpg',
-                  title:'长沙城市花园',
-                  info:'长沙城市花园250套房'
-                },{
-                  url:'../../../static/img/7.jpg',
-                  title:'长沙城市花园',
-                  info:'长沙城市花园250套房'
-                },{
-                  url:'../../../static/img/8.jpg',
-                  title:'长沙城市花园',
-                  info:'长沙城市花园250套房'
-                },{
-                  url:'../../../static/img/2.jpg',
-                  title:'长沙城市花园',
-                  info:'长沙城市花园250套房'
-                }
-              ]
+              totalNum: 10,
+              caseData:[]
             }
         },
       watch: {
         '$route' (to, from) {
           // 对路由变化作出响应...
-          console.log(to);
-          console.log(from);
+          // console.log(to);
+          // console.log(from);
           if(from.path == '/project_case') {
             this.pageFlag = false
           }
@@ -103,17 +75,34 @@
           }
         }
       },
-        methods: {
-          changeCole(index) {
-            this.colorChange = index
-          },
-          handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-          },
-          handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
-          }
+      created() {
+        this.caseList(this.type,1)
+      },
+      methods: {
+        caseList(types,pages) {
+          this.$http.get('caseList',{type:types,page:pages}).then((res)=>{
+            console.log(res.data.data)
+            if(res.data.code == 200) {
+              this.totalNum = res.data.data.counts
+              this.baseUrl = res.data.data.baseUrl
+              this.caseData = res.data.data.list
+            }
+          })
+        },
+        changeCole(index) {
+          this.type = index
+          this.caseList(index,1)
+          this.colorChange = index
+        },
+        handleSizeChange(val) {
+          console.log(`每页 ${val} 条`);
+        },
+        // 当前页码
+        handleCurrentChange(val) {
+          this.caseList(this.type,val)
+          console.log(`当前页: ${val}`);
         }
+      }
     }
 </script>
 <style>
@@ -167,7 +156,7 @@
   .case_content_box>ul{
     width: 100%;
     /*height: auto;*/
-    height: 1234px;
+    height: 1200px;
     overflow: hidden;
   }
   .case_content_box>ul>li{
@@ -226,5 +215,9 @@
     box-sizing: border-box;
     text-align: right;
     margin-bottom: 30px;
+  }
+  .pageNum[data-v-dd524514]{
+    background: #fff;
+    padding-bottom: 50px;
   }
 </style>

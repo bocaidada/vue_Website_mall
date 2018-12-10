@@ -1,26 +1,10 @@
 <template>
   <div class="content">
-    <el-amap class="amapBox" :vid="'amap-vue'" :zoom="zoom" :center="message">
-      <el-amap-marker vid="marker"
-                      :position="message"
-                      :label="label">
-      </el-amap-marker>
-    <!--<el-amap-marker v-for="marker in markers" :position="marker.position">-->
-    <!--</el-amap-marker>-->
-    </el-amap>
+    <div id="l-map" style="height:900px"></div>
   </div>
 </template>
 
 <script>
-    import Vue from 'vue'
-    import VueAMap from 'vue-amap';   //高德地图
-    Vue.use(VueAMap);
-    VueAMap.initAMapApiLoader({
-      key: 'your amap key',
-      plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
-      // 默认高德 sdk 版本为 1.4.4
-      v: '1.4.4'
-    });
     export default {
         name: "aMap",
         props: {
@@ -28,40 +12,47 @@
         },
         data() {
           return {
-            zoom:16,
-            // center:this.message,
-            label:{
-              content:'钦汇园',
-              offset:[10,12]
-            }
+
           }
         },
       created() {
-        // this.init()
        },
+
+      mounted() {
+
+        this.init()
+      },
       watch: {
           message:function (val,old) {
             console.log(val,old)
           }
       },
       methods: {
-          init() {
-            this.markers = [
-              {
-                position: [121.5273285, 31.21515044]
-              }, {
-                position: [121.5273286, 31.21515045]
-              }
-            ];
-            // 模拟实时更新位置
-            // 开启一个1s的轮训，每个人的经纬度都自增0.00001
-            const step = 0.00001;
-            setInterval(() => {
-              this.markers.forEach((marker) => {
-                marker.position = [marker.position[0] + step, marker.position[1] + step];
-              });
-            }, 1000);
-          }
+        init() {
+          let _this = this;
+          let map = new BMap.Map("l-map");
+          map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
+          map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
+          let point = new BMap.Point(120.21937542,30.25924446);
+          map.centerAndZoom(point,12);
+
+
+          let geolocation = new BMap.Geolocation();
+          geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+              var mk = new BMap.Marker(r.point);
+              map.addOverlay(mk);
+              map.panTo(r.point);
+              alert('您的位置：'+r.point.lng+','+r.point.lat);
+              _this.$http.get('shopNearby',{lat:r.point.lat,lon:r.point.lng,page:1}).then((res)=>{
+                console.log(res.data)
+              })
+            }
+            else {
+              alert('failed'+this.getStatus());
+            }
+          },{enableHighAccuracy: true})
+        }
       }
     }
 </script>

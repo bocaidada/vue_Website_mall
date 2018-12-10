@@ -5,39 +5,39 @@
       <h5>新增收货地址</h5>
       <div class="areas">
         <span class="tit">配送地区：</span>
-        <area-select type='text' :level='2' v-model="selected" :data="pcaa"></area-select>
+        <area-select type='code' :level='2' v-model="selected" :data="pcaa"></area-select>
         <span class="hit" v-if="areaFlag" style="color: #ff0000;padding-left: 20px;">* 请选择配送区域 *</span>
       </div>
-      <el-form :model="ruleForm" :rules="rules" status-icon ref="ruleForm" label-width="100px">
+      <el-form style="width: 70%;margin: 20px 5px" :model="ruleForm" :rules="rules" status-icon ref="ruleForm" label-width="100px">
         <el-form-item
           label="具体地址："
-          prop="address">
-          <el-input type="text" v-model="ruleForm.address" autocomplete="off" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></el-input>
+          prop="detail">
+          <el-input type="text" v-model="ruleForm.detail" maxlength="255" autocomplete="off" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></el-input>
         </el-form-item>
         <el-form-item
           label="货主姓名："
           prop="name">
-          <el-input type="text" v-model="ruleForm.name" placeholder="请输入姓名"></el-input>
+          <el-input type="text" maxlength="16" v-model="ruleForm.name" placeholder="请输入姓名"></el-input>
         </el-form-item>
         <el-form-item
           label="手机号码："
-          prop="phone">
-          <el-input v-model.number="ruleForm.phone" placeholder="请输入手机号码"></el-input>
+          prop="mobile">
+          <el-input v-model.number="ruleForm.mobile"  maxlength="11" placeholder="请输入手机号码"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-checkbox v-model="ruleForm.checked">设置为默认收货地址</el-checkbox>
+          <el-checkbox  @change="change()">设置为默认收货地址</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
           <!--<el-button @click="resetForm('ruleForm2')">重置</el-button>-->
         </el-form-item>
       </el-form>
-      <p class="main_title"><i class="el-icon-info"></i><span>已保存了16条地址，还能保存4条</span></p>
+      <p class="main_title"><i class="el-icon-info"></i><span>已保存了 <span style="color: red">{{addLists.length}}</span> 条地址，还能保存 <span style="color: red">{{20-addLists.length}}</span> 条</span></p>
 
       <el-table
         ref="multipleTable"
         border
-        :data="userAddressData.addressData"
+        :data="addLists"
         tooltip-effect="dark"
         style="width: 95%;margin: 0 auto 100px"
         :header-cell-class-name="tableheaderClassName">
@@ -48,17 +48,19 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="area"
           label="所在地区">
+          <template  slot-scope="scope">
+            <span>{{scope.row.provinceStr}} {{scope.row.cityStr}} {{scope.row.countryStr}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="detail"
           label="详细地址">
         </el-table-column>
         <el-table-column
           align="center"
-          prop="phone"
+          prop="mobile"
           label="电话/手机"
           show-overflow-tooltip>
         </el-table-column>
@@ -74,9 +76,7 @@
           align="center"
           label="设为默认">
           <template  slot-scope="scope">
-            <!--<el-radio v-if="scope.row.checked" @click="setDefaultAddress(scope.row)" style="color: #79C1FF" class="radio" v-model="radio" :label="scope.$index">默认地址</el-radio>-->
-            <!--<el-radio v-else class="radio" @click="setDefaultAddress(scope.row)" v-model="radio" :label="scope.$index">设为默认</el-radio>-->
-            <el-button v-if="scope.row.checked" type="text" @click="setDefaultAddress(scope.row)" size="small" style="color: #07B08F">默认地址</el-button>
+            <el-button v-if="scope.row.isSelect == 1" type="text" @click="setDefaultAddress(scope.row)" size="small" style="color: #C39B63">默认地址</el-button>
             <el-button v-else type="text" @click="setDefaultAddress(scope.row)" size="small">设为默认</el-button>
           </template>
         </el-table-column>
@@ -90,11 +90,12 @@
     export default {
         name: "receiver_address",
         data() {
-          var checkPhone = (rule, value, callback) => {
+          let checkPhone = (rule, value, callback) => {
             if (!value) {
               return callback(new Error('手机号不能为空'));
             } else {
               const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+              // const reg = /^[A-Za-z\u4e00-\u9fa5]+$/
               // console.log(reg.test(value));
               if (reg.test(value)) {
                 callback();
@@ -103,7 +104,23 @@
               }
             }
           }
+          let checkName = (rule, value, callback) => {
+            if (!value) {
+              return callback(new Error('用户名不能为空'));
+            } else {
+              const reg = /^[A-Za-z\u4e00-\u9fa5]+$/
+              // console.log(reg.test(value));
+              if (reg.test(value)) {
+                callback();
+              } else {
+                return callback(new Error('用户名只可以输入字母和中文'));
+              }
+            }
+          }
             return {
+              submitType:true,
+              residueNum:'',
+              defaultFlag:true,
               radio:'',
               areaFlag:false,
               selected: [],
@@ -111,68 +128,87 @@
               pcaa: pcaa,
               ruleForm: {
                 name: '',
-                address: '',
-                phone: '',
-                area:'',
-                checked:false
+                mobile: '',
+                province:'',
+                city:'',
+                country:'',
+                detail:'',
+                select: 0
               },
-              userAddressData:{
-                totalNum: '12',
-                residueNum:'8',
-                addressData:[
-                  {
-                    name: '林志成',
-                    address: '浙江省杭州市西湖区三坝雅苑2单元',
-                    phone: '15906676509',
-                    area:'浙江省/杭州市/西湖区',
-                    checked:true
-                  },{
-                    name: '林志成',
-                    address: '浙江省杭州市西湖区三坝雅苑2单元',
-                    phone: '15906676509',
-                    area:'浙江省/杭州市/西湖区',
-                    checked:false
-                  }
-                ]
-              },
+              addLists:[],
               rules: {
-                phone: [
+                mobile: [
                   {validator: checkPhone, trigger: 'blur'}
                 ],
                 name: [
-                  {required: true, message: '姓名不能为空', trigger: 'blur'}
+                  {validator: checkName, trigger: 'blur'}
                 ],
-                address: [
+                detail: [
                   {required: true, message: '具体地址不能为空', trigger: 'blur'}
                 ]
               }
             }
         },
+        created() {
+          this.address_list()
+        },
         watch: {
           selected(val,old) {
+            // console.log()
             console.log(old,val)
             if(val.length == 3) {
               this.areaFlag = false;
-              this.ruleForm.area = this.selected[0] + '/' + this.selected[1] + '/' + this.selected[2]
+              this.ruleForm.province = this.selected[0]
+              this.ruleForm.city = this.selected[1]
+              this.ruleForm.country = this.selected[2]
             }
           }
         },
         methods: {
+          address_list() {
+            this.$http.get('addressList','').then((res)=>{
+              console.log(res.data)
+              this.addLists = res.data.data
+            })
+          },
           submitForm(formName) {
             this.$refs[formName].validate((valid) => {
               if(this.selected.length != 3) {
                 this.areaFlag = true;
               }
+              console.log(valid)
               if (valid) {
-                // if(this.ruleForm.area == '') {
-                //   this.areaFlag = true;
-                //   return
-                // }
-                alert('submit!');
                 console.log(this.ruleForm)
-                //数据清空
-                // this.selected = []
-                // this.$refs[formName].resetFields();
+                if(this.submitType) {
+                  console.log('add')
+                  this.$http.post('addressAdd',this.ruleForm).then((res)=>{
+                    console.log(res.data)
+                    if(res.data.code == 200) {
+                      //数据清空
+                      this.$message.success('地址保存成功')
+                      this.address_list()
+                      this.selected = []
+                      this.$refs[formName].resetFields();
+                    }else{
+                      this.$message({
+                        type: 'error',
+                        message: res.data.msg
+                      })
+                    }
+                  })
+                }else{
+                  this.$http.post('addressUpdate',this.ruleForm).then((res)=>{
+                    console.log(res.data)
+                    if(res.data.code == 200) {
+                      //数据清空
+                      this.$message.success('地址修改成功')
+                      this.address_list()
+                      this.submitType = true
+                      this.selected = []
+                      this.$refs[formName].resetFields();
+                    }
+                  })
+                }
               } else {
                 console.log('error submit!!');
                 return false;
@@ -187,10 +223,16 @@
               cancelButtonText: '取消',
               type: 'warning'
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              });
+              this.$http.post('addressDelete',{id:row.id}).then((res)=>{
+                console.log(res.data)
+                if(res.data.code == 200) {
+                  this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                  });
+                  this.address_list()
+                }
+              })
             }).catch(() => {
               this.$message({
                 type: 'info',
@@ -201,13 +243,25 @@
           //编辑某一条数据
           handleUpdate(row) {
             console.log(row);
+            this.submitType = false;
             this.ruleForm = row;
-            this.selected = ["河北省", "秦皇岛市", "北戴河区"]
+
+            this.selected = [row.provinceStr, row.cityStr, row.countryStr]
+
+            // this.ruleForm.province = row.provinceStr
+            // this.ruleForm.city = row.cityStr
+            // this.ruleForm.country = row.countryStr
           },
           //设置默认地址
           setDefaultAddress(row) {
-            console.log(row);
-            row.checked = !row.checked
+            // console.log(row);
+            this.$http.post('addressSelect',{id:row.id}).then((res)=>{
+              console.log(res.data)
+              if(res.data.code == 200) {
+                this.$message.success('默认地址设置成功')
+                this.address_list()
+              }
+            })
           },
           //设置表头颜色
           tableheaderClassName({ row, rowIndex }) {
@@ -217,50 +271,53 @@
           openDetails(row) {
             console.log(row)
           },
+          change() {
+            if(this.defaultFlag) {
+              this.ruleForm.select = 1
+            }else{
+              this.ruleForm.select = 0
+            }
+            this.defaultFlag = !this.defaultFlag
+          }
         }
     }
 </script>
 <style>
   .table-head-th{
-    background-color: #07B08F !important;
+    background-color: #C39B63 !important;
     color: #fff;
   }
   .area-select-wrap{
     text-align: left;
     float: left;
   }
-  form{
-    /*width: 614px;*/
-    width: 70%;
-    margin: 20px 5px;
-  }
   .area-select{
     height: 37px;
   }
   .area-select .area-select-icon{
-    border-top-color: #07B08F;
+    border-top-color: #C39B63;
   }
   .el-form-item__content{
     text-align: left;
   }
   .el-checkbox,.area-select,.el-input__inner::placeholder,.operate,.deAddress{
-    color: #07B08F;
+    color: #C39B63;
   }
 
   .el-button--primary{
     width: 90px;
     text-align: center;
     letter-spacing: 1px;
-    border-color: #07B08F;
+    border-color: #C39B63;
   }
   .el-checkbox__inner,.area-select,.el-input__inner{
-    border: 1px solid #07B08F;
+    border: 1px solid #C39B63;
   }
   .el-button--primary,.el-button--primary:hover{
-    background-color: #06b08f;
+    background-color: #C39B63;
   }
   .el-table__row{
-   height: 80px;
+    height: 80px;
   }
   .radio .el-radio__inner{
     display: none;
@@ -317,7 +374,7 @@
     line-height: 35px;
   }
   .el-icon-info{
-    color: #07B08F;
+    color: #C39B63;
     margin-right: 20px;
     font-size: 20px;
     vertical-align: middle;

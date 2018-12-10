@@ -1,8 +1,8 @@
 <template>
     <section class="content">
         <div class="banner">
-          <swiper :options="swiperOption" style="height: 100%">
-            <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
+          <swiper :options="swiperOptions" style="height: 100%">
+            <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
             <!--<div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>-->
             <!--<div class="swiper-button-next swiper-button-white" slot="button-next"></div>-->
@@ -10,7 +10,7 @@
         </div>
         <div class="info">
           <div class="info_top">
-            <img src="../../../static/img/aboutUs/1.png" alt="">
+            <img :src="serverBase+'/aboutUs/1.png'" alt="">
           </div>
           <div class="info_bot">
             <div class="main">
@@ -18,47 +18,52 @@
                 <video controls :src="video_url"></video>
               </div>
               <div class="info_right">
-                <p>金凯，从1997年诞生起，见证着木门行业的崛起与发展至今已逾20年历史。一路走来，我们始终坚持把“制造工艺与艺术美学”完美的融合，为改善着全世界人们的家居生活环境作贡献。</p>
-                <p>金凯，从1997年诞生起，见证着木门行业的崛起与发展至今已逾20年历史。一路走来，我们始终坚持把“制造工艺与艺术美学”完美的融合，为改善着全世界人们的家居生活环境作贡献。</p>
-                <p>金凯秉承工匠精神，把传统工艺结合现代技术，为消费者呈现完美的产品</p>
-                <p>金凯秉承工匠精神，把传统工艺结合现代技术，为消费者呈现完美的产品</p>
+                <p>浙江金凯门业有限责任公司，创建于2005年，是国内较早具备研发、设计、生产、服务、销售，原木门、实木复合门、免漆门等木门产品的知名品牌企业。拥有两大生产基地，总占地面积200多亩，公司引进德国、荷兰、台湾等国内外一流的生产设备100多台，形成年产65万套室内门的生产能力。</p>
+                  <!--  <p>企业率先在同行业中通过了ISO9001国际质量管理体系认证、ISO14001环境管理体系，CMS测量管理认证，CTC中国建材认证，中国木门健康认证。</p>-->
+                      <p>两大生产基地巩固了金凯在国内外遥遥领先的市场份额。万科、金地、世茂、华润、和昌、越秀、中航里城、银亿、东原、中天、南京名万，南平建设等国内大型地产公司先后与公司成为战略合作伙伴，产品远销五大洲四大洋，获得了欧美国家的高度认可。</p>
+                    <p> “打造中国木门一流品牌”是金凯人不懈的追求。</p>
               </div>
             </div>
           </div>
         </div>
       <div class="course">
         <div class="info_top">
-          <img src="../../../static/img/aboutUs/2.png" alt="">
+          <img :src="serverBase+'/aboutUs/2.png'" alt="">
         </div>
         <div class="course_bot">
           <swiper :options="swiperOption2" style="height: 100%">
-            <swiper-slide v-for="(item,index) in historyImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
+            <swiper-slide v-for="(item,index) in historyImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
         </div>
       </div>
       <div class="dynamic_state">
         <div class="info_top">
-          <img src="../../../static/img/aboutUs/3.png" alt="">
+          <img :src="serverBase+'/aboutUs/3.png'" alt="">
         </div>
         <div class="info_bot">
           <div class="main">
             <div class="info_left dynamic_state_left">
-              <div>
+              <div v-if="dynamicData.list ">
                 <div>
-                  <img src="../../../static/img/aboutUs/tu_08.jpg" alt="">
+                  <!--<img src="../../../static/img/aboutUs/tu_08.jpg" alt="">-->
+                  <img :src="dynamicData.baseUrl+dynamicData.list[0].img" alt="">
                 </div>
-                <p>如何挑选最适合你的那块木材？</p>
-                <span>黄花梨，檀香木，水曲柳，这些耳熟能详的上等木材，你都了解几何？那块最适合用来装饰自己等门面？</span>
-                <router-link to="">查看详情</router-link>
+                <p>{{dynamicData.list[0].name}}</p>
+                <span>{{dynamicData.list[0].summary}}</span>
+                <router-link :to="{name:'news_detail',params: {id:dynamicData.list[0].id}}">查看详情</router-link>
               </div>
             </div>
             <div class="info_right">
-              <ul>
-                <router-link tag="li" to="" v-for="(item,index) in dynamicData" :key="index">
-                  <span>{{item.id}}.</span>
-                  <span>{{item.title}}</span>
+              <ul v-if="dynamicData.list">
+                <router-link tag="li" :to="{name:'news_detail',params: {id:item.id}}" v-for="(item,index) in dynamicData.list" :key="index">
+                  <div v-if="index">
+                    <span>{{index}}.</span>
+                    <span>{{item.name}}</span>
+                  </div>
                 </router-link>
+                <li v-if="dynamicData.list.length == 1" style="text-align: center">暂无最新行业资讯</li>
+                <li style="text-align: center;color:#CFA972" v-if="moreFlag">查看更多</li>
               </ul>
             </div>
           </div>
@@ -66,12 +71,12 @@
       </div>
       <div class="honor">
         <div class="honor_top">
-          <img src="../../../static/img/aboutUs/4.png" alt="">
+          <img :src="serverBase+'/aboutUs/4.png'" alt="">
         </div>
         <div class="honor_bot">
           <div class="main">
             <swiper :options="swiperOption3" style="height: 100%">
-              <swiper-slide v-for="(item,index) in honorImg" :key="index" :style="{background: 'url('+item.url+') no-repeat center/cover'}"></swiper-slide>
+              <swiper-slide v-for="(item,index) in honorImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
               <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
           </div>
@@ -79,11 +84,11 @@
       </div>
       <div class="honor partner">
         <div class="honor_top">
-          <img src="../../../static/img/aboutUs/5.png" alt="">
+          <img :src="serverBase+'/aboutUs/5.png'" alt="">
         </div>
         <div class="honor_bot">
           <div class="main">
-            <img src="../../../static/img/aboutUs/hezuo_10.png" alt="">
+            <img :src="serverBase+'/aboutUs/hezuo_10.png'" alt="">
           </div>
         </div>
       </div>
@@ -95,40 +100,30 @@
         name: "about_us",
       data() {
           return {
-            video_url:'../../../static/img/1.mp4',
+            serverBase:this.$store.state.qiNiuServer,
+            moreFlag: false,
+            video_url:'http://pifi5lc1c.bkt.clouddn.com/media/video/jkmy.mp4',
             bannerImg:[
-              {name:'one',url:'../../../static/img/aboutUs/banner_01.png'},
-              {name:'one',url:'../../../static/img/aboutUs/banner_04.jpg'}
+              {name:'one',url:'/aboutUs/banner_01.png'}
             ],
             historyImg:[
-              {name:'one',url:'../../../static/img/index/lishi_1.png'},
-              {name:'one',url:'../../../static/img/index/lishi_2.png'},
-              {name:'one',url:'../../../static/img/index/lishi_3.png'},
-              {name:'one',url:'../../../static/img/index/lishi_4.png'},
+              {name:'one',url:'/index/lishi_5.png'},
+              {name:'one',url:'/index/lishi_6.png'},
+              {name:'one',url:'/index/lishi_7.png'},
+              {name:'one',url:'/index/lishi_8.png'},
             ],
-            dynamicData:[
-              {id:'1',title:"重大新闻重大新闻重大新闻重大新闻重大新闻重大新闻重大新闻重大新闻"},
-              {id:'2',title:"重大新闻重大新闻重大新闻重大新闻"},
-              {id:'3',title:"重大新闻重大新闻重大新闻重大新闻"},
-              {id:'4',title:"重大新闻重大新闻重大新闻重大新闻"},
-              {id:'5',title:"重大新闻重大新闻重大新闻重大新闻"},
-              {id:'6',title:"重大新闻重大新闻重大新闻重大新闻"},
-              {id:'7',title:"重大新闻重大新闻重大新闻重大新闻"},
-              {id:'8',title:"重大新闻重大新闻重大新闻重大新闻"},
-              {id:'9',title:"重大新闻重大新闻重大新闻重大新闻"},
-              {id:'10',title:"重大新闻重大新闻重大新闻重大新闻"}
-              ],
+            dynamicData:[],
             honorImg:[
-              {name:'one',url:'../../../static/img/aboutUs/honor1.png'},
-              {name:'one',url:'../../../static/img/aboutUs/honor2.png'},
-              {name:'one',url:'../../../static/img/aboutUs/honor3.jpg'},
-              {name:'one',url:'../../../static/img/aboutUs/honor4.png'},
-              {name:'one',url:'../../../static/img/aboutUs/honor5.png'},
-              {name:'one',url:'../../../static/img/aboutUs/honor6.png'},
-              {name:'one',url:'../../../static/img/aboutUs/honor7.png'},
-              {name:'one',url:'../../../static/img/aboutUs/honor8.png'}
+              {name:'one',url:'/aboutUs/honor1.png'},
+              {name:'one',url:'/aboutUs/honor2.png'},
+              {name:'one',url:'/aboutUs/honor3.jpg'},
+              {name:'one',url:'/aboutUs/honor4.png'},
+              {name:'one',url:'/aboutUs/honor5.png'},
+              {name:'one',url:'/aboutUs/honor6.png'},
+              {name:'one',url:'/aboutUs/honor7.png'},
+              {name:'one',url:'/aboutUs/honor8.png'}
             ],
-            swiperOption: {
+            swiperOptions: {
               spaceBetween: 30,   //图片之间的间距
               loop: true,         //循环播放
               grabCursor: true,  //手势
@@ -174,6 +169,20 @@
               }
             }
           }
+      },
+      created() {
+        this.dataInit()
+      },
+      methods:{
+         dataInit() {
+           this.$http.get('newsAbout','').then((res)=>{
+             console.log(res.data.data)
+             if(res.data.data.list.length >10){
+               this.moreFlag = true
+             }
+             this.dynamicData = res.data.data
+           })
+         }
       }
     }
 </script>
@@ -209,9 +218,10 @@
     object-fit: fill;
   }
   .info .info_right{
+    height: 366px;
     width: 40%;
     box-sizing: border-box;
-    padding: 0 0 0 50px;
+    padding: 0 0 0 35px;
     text-align: left;
     color: #333;
     float: left;
@@ -229,10 +239,10 @@
     position: absolute;
     bottom: -38px;
     right: 0;
-    background: url("../../../static/img/aboutUs/icon_02.png") no-repeat center/cover;
+    background: url("http://pifi5lc1c.bkt.clouddn.com/web/aboutUs/icon_02.png") no-repeat center/cover;
   }
   .course{
-    background: url("../../../static/img/aboutUs/banner_04.jpg") no-repeat center/cover;
+    background: url("http://pifi5lc1c.bkt.clouddn.com/web/aboutUs/banner_04.jpg") no-repeat center/cover;
   }
   .course_bot{
     width: 1200px;
