@@ -49,7 +49,6 @@
                <span>数量：</span>
                <el-input-number v-model="doorData.number" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
                <span>件</span>
-               <!--<span>库存 {{initDates.num}} 件</span>-->
              </p>
              <div class="buyBox">
                <div @click="submitData()">直接订购</div>
@@ -67,9 +66,7 @@
               <span v-for="item in initDates.params[0].params">{{item.k}}：{{item.v}}</span>
             </div>
           </template>
-          <div class="goods_detail_box" v-html="content">
-            <!--{{{ content }}}-->
-          </div>
+          <div class="goods_detail_box" v-html="content"></div>
         </div>
         <div class="brand_server" v-else>
           <div class="brand_server_box">
@@ -124,7 +121,6 @@
               return callback(new Error('手机号不能为空'));
             } else {
               const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
-              // console.log(reg.test(value));
               if (reg.test(value)) {
                 callback();
               } else {
@@ -137,7 +133,6 @@
             return callback(new Error('用户名不能为空'));
           } else {
             const reg = /^[A-Za-z\u4e00-\u9fa5]+$/
-            // console.log(reg.test(value));
             if (reg.test(value)) {
               callback();
             } else {
@@ -208,17 +203,15 @@
       },
       watch: {
         selected(val,old) {
-          console.log(old,val)
+          // console.log(old,val)
           if(val.length == 3) {
             this.areaData.addressCodeStr = this.selected[0] + ',' + this.selected[1] + ',' + this.selected[2]
             this.areaData.templateId = this.initDates.freight_template_id
             this.areaData.number = this.doorData.number
-            // this.areaFlag = false
             if(this.areaData.templateId == 0) {
               this.carriage = this.initDates.globalFreight
             }else{
               this.$http.get('goodsFreight',this.areaData).then((res)=>{
-                console.log(res.data)
                 if(res.data.code == 200){
                   this.carriage = res.data.data.price
                 }else{
@@ -228,11 +221,8 @@
                 }
               })
             }
-            console.log(this.areaData)
+            // console.log(this.areaData)
           }
-        },
-        doorOpen:function () {
-          console.log(this.doorOpen)
         }
       },
       methods: {
@@ -253,7 +243,7 @@
               this.doorData.customerName = this.ruleForm.customerName
               this.doorData.customerMobile = this.ruleForm.customerMobile
               this.$http.post('carAdd',this.doorData).then((res)=>{
-                console.log(res.data)
+                // console.log(res.data)
                 if(res.data.code != 200){
                   if(res.data.error_code == 1001){
                     this.$store.commit('outUserToken')
@@ -267,7 +257,7 @@
                 }else{
                   this.formFlag = false
                   this.$store.commit('fromSource',3)
-                  this.$router.push('/pay_detail')
+                  this.$router.push('/manage_pay_detail')
                 }
               })
               } else {
@@ -292,7 +282,7 @@
           this.doorData.number = value
         },
         changeBorder(val) {
-          console.log(val)
+          // console.log(val)
           this.borderNum = val.id
           this.radio1 = val.value
           if(this.initDates.attrs.length>1) {
@@ -303,10 +293,8 @@
             this.pathId = val.id
           }
           for(let i=0; i<this.initDates.sku.length;i++) {
-            console.log(this.initDates.sku[i])
             if(this.initDates.sku[i].idPath == this.pathId) {
               this.doorData.skuId = this.initDates.sku[i].id
-              console.log(this.doorData.skuId)
               this.price = this.initDates.sku[i].price
               this.shopPrices = this.initDates.sku[i].shopPrice
               break
@@ -315,7 +303,6 @@
         },
         //门板颜色
         selectDoorColor(params) {
-          // console.log(params)
           this.topImgUrl = this.baseUrl+params.img
           this.colorNum = params.id
           if(this.initDates.attrs.length>1) {
@@ -326,13 +313,10 @@
             this.pathId = params.id
           }
           for(let i=0; i<this.initDates.sku.length;i++) {
-            console.log(this.initDates.sku[i])
             if(this.initDates.sku[i].idPath == this.pathId) {
               this.doorData.skuId = this.initDates.sku[i].id
-              console.log(this.doorData.skuId)
               this.price = this.initDates.sku[i].price
               this.shopPrices = this.initDates.sku[i].shopPrice
-              // console.log(this.doorData.skuId)
               break
             }
           }

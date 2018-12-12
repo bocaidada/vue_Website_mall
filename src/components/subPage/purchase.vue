@@ -124,7 +124,7 @@
             }
           },
           handlePictureCardPreview(file) {
-            console.log(file)
+            // console.log(file)
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
           },

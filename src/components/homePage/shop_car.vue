@@ -103,7 +103,7 @@
         methods: {
           carListData() {
             this.$http.get('carList','').then((res)=>{
-              console.log(res.data)
+              // console.log(res.data)
               if(res.data.code != 200){
                 if(res.data.error_code == 1001){
                   this.$store.commit('outUserToken')
@@ -127,7 +127,7 @@
           },
           // 获取多选参数,计算价格
           handleSelectionChange(val) {
-            console.log(val)
+            // console.log(val)
             if(val.length == 0){
               this.selectFlag = true
             }
@@ -179,7 +179,7 @@
             // console.log(index, row);
             row.num = parseInt(row.num) + 1;
             this.$http.post('carEdit',{cartItemId:row.id,number:row.num}).then((res)=>{
-              console.log(res)
+              // console.log(res)
             })
           },
           //减少数量
@@ -188,7 +188,7 @@
             if(row.num >= '2'){
               row.num = parseInt(row.num) - 1
               this.$http.post('carEdit',{cartItemId:row.id,number:row.num}).then((res)=>{
-                console.log(res)
+                // console.log(res)
               })
             }
           },
@@ -205,7 +205,7 @@
           order() {
             if(this.totalNum > 0) {
               this.$http.post('carOrder',{cartItemIds:this.orderId}).then((res)=>{
-                console.log(res.data)
+                // console.log(res.data)
                 if(res.data.code == 200){
                   this.$store.commit('fromSource',1)
                   this.$router.push('/pay_detail')

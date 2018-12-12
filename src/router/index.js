@@ -10,8 +10,8 @@ const store_manage = () => import ('@/components/homePage/store_manage');
 const product_detail = () => import ('@/components/subPage/product_detail');
 const shop_product_detail = () => import ('@/components/subPage/shop_product_detail');
 const pay_detail = () => import ('@/components/subPage/pay_detail');
+const manage_pay_detail = () => import ('@/components/subPage/manage_pay_detail');
 const receiver_address = () => import ('@/components/subPage/receiver_address');
-const aMap = () => import ('@/components/subPage/aMap');
 const server = () => import ('@/components/subPage/server');
 const purchase = () => import ('@/components/subPage/purchase');
 const project_case = () => import ('@/components/subPage/project_case');
@@ -39,40 +39,68 @@ export default new Router({
       path: '/',
       name: 'home_page',
       component: home_page,
+      meta: {
+        keepAlive: true   //判断是否需要做页面缓存
+      }
     },
     {
       path: '/product',
       name: 'product',
       component: product,
-    },{
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
       path: '/quality',
       name: 'quality',
       component: quality,
+      meta: {
+        keepAlive: true
+      }
     },{
       path: '/make',
       name: 'make',
       component: make,
+      meta: {
+        keepAlive: true
+      }
     },{
-      path: '/pay_success',
+      path: '/pay_success/:id',
       name: 'pay_success',
       component: pay_success,
+      meta: {
+        keepAlive: false
+      }
     },{
       path: '/my_order',
       name: 'my_order',
       component: my_order,
+      meta: {
+        keepAlive: false
+      },
       children: [
         {
           path: 'oder_detail/:id',
           name: 'oder_detail',
-          component: oder_detail
+          component: oder_detail,
+          meta: {
+            keepAlive: false
+          }
         },{
           path: 'after_sale/:id',
           name: 'after_sale',
-          component: after_sale
+          component: after_sale,
+          meta: {
+            keepAlive: false
+          }
         },{
           path: 'after_sale_dispose/:id',
           name: 'after_sale_dispose',
-          component: after_sale_dispose
+          component: after_sale_dispose,
+          meta: {
+            keepAlive: false
+          }
         }
       ]
     },
@@ -80,101 +108,165 @@ export default new Router({
       path: '/online_store',
       name: 'online_store',
       component: online_store,
+      meta: {
+        keepAlive: false
+      },
       children: [
         {
           path: 'product_detail/:id',
           name: 'product_detail',
-          component: product_detail
+          component: product_detail,
+          meta: {
+            keepAlive: false
+          }
         }
      ]
     },{
       path: '/news_list',
       name: 'news_list',
       component: news_list,
+      meta: {
+        keepAlive: true
+      },
       children: [
         {
           path: 'news_detail/:id',
           name: 'news_detail',
-          component: news_detail
+          component: news_detail,
+          meta: {
+            keepAlive: false
+          }
         }
       ]
     },
     {
-      path: '/aMap',
-      name: 'aMap',
-      component: aMap
-    },{
       path: '/server',
       name: 'server',
-      component: server
+      component: server,
+      meta: {
+        keepAlive: true
+      }
     },{
       path: '/offline_store',
       name: 'offline_store',
-      component: offline_store
+      component: offline_store,
+      meta: {
+        keepAlive: false
+      }
+
     },{
       path: '/purchase',
       name: 'purchase',
-      component: purchase
+      component: purchase,
+      meta: {
+        keepAlive: true
+      }
     },{
       path: '/project_case',
       name: 'project_case',
       component: project_case,
+      meta: {
+        keepAlive: true
+      },
       children: [
         {
           path: 'detail_case/:id',
           name: 'detail_case',
-          component: detail_case
+          component: detail_case,
+          meta: {
+            keepAlive: false
+          }
         }
       ]
     },
     {
       path: '/about_us',
       name: 'about_us',
-      component: about_us
+      component: about_us,
+      meta: {
+        keepAlive: true
+      }
     },{
       path: '/join_us',
       name: 'join_us',
-      component: join_us
+      component: join_us,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/shop_car',
       name: 'shop_car',
-      component: shop_car
+      component: shop_car,
+      meta: {
+        keepAlive: false
+      }
     },{
       path: '/store_custom',
       name: 'store_custom',
-      component: store_custom
+      component: store_custom,
+      meta: {
+        keepAlive: false
+      }
     },
     {
       path: '/pay_detail',
       name: 'pay_detail',
-      component: pay_detail
+      component: pay_detail,
+      meta: {
+        keepAlive: false
+      }
+    },{
+      path: '/manage_pay_detail',
+      name: 'manage_pay_detail',
+      component: manage_pay_detail,
+      meta: {
+        keepAlive: false
+      }
     },{
       path: '/receiver_address',
       name: 'receiver_address',
-      component: receiver_address
+      component: receiver_address,
+      meta: {
+        keepAlive: false
+      }
     },
     {
       path: '/store_manage',
       name: 'store_manage',
       component: store_manage,
+      meta: {
+        keepAlive: false
+      },
       children: [
         {
           path: 'shop_product_detail/:id',
           name: 'shop_product_detail',
-          component: shop_product_detail
+          component: shop_product_detail,
+          meta: {
+            keepAlive: false
+          }
         },{
           path: 'oder_detail/:id',
           name: 'oder_detail',
-          component: oder_detail
+          component: oder_detail,
+          meta: {
+            keepAlive: false
+          }
         },{
           path: 'after_sale/:id',
           name: 'after_sale',
-          component: after_sale
+          component: after_sale,
+          meta: {
+            keepAlive: false
+          }
         },{
           path: 'after_sale_dispose/:id',
           name: 'after_sale_dispose',
-          component: after_sale_dispose
+          component: after_sale_dispose,
+          meta: {
+            keepAlive: false
+          }
         }
       ]
     },

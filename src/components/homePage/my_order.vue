@@ -140,14 +140,14 @@
             this.multipleSelection = val;
           },
           handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            // console.log(`每页 ${val} 条`);
           },
           handleCurrentChange(val) {
             this.list(this.type,val)
-            console.log(`当前页: ${val}`);
+            // console.log(`当前页: ${val}`);
           },
           saleSee(row,index) {
-            console.log(row,index)
+            // console.log(row,index)
             if(index == 1) {
               this.$router.push('/my_order/after_sale/'+row.id)
             }else if(index == 2){
@@ -161,8 +161,6 @@
           '$route' (to, from) {
             // 对路由变化作出响应...
             // console.log(to);
-            // console.log(to.path.indexOf("/online_store/product_detail"))
-            // console.log(from);
             if(from.path == '/my_order') {
               this.orderFlag = false
             }

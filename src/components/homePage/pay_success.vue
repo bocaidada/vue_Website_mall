@@ -23,15 +23,14 @@
         name: "pay_success",
         data() {
           return {
-            orderNum: this.$store.state.orderType,
+            orderNum: 2,
           }
         },
         mounted() {
-          console.log(this.$store.state.orderType)
-        },
-        watch: {
-          "$store.state.orderType" (val,old) {
-            this.orderNum = val
+          if(this.$route.params.id == 1) {
+            this.orderNum = 2
+          }else{
+            this.orderNum = 1
           }
         },
         methods: {}

@@ -46,7 +46,6 @@
             <div class="info_left dynamic_state_left">
               <div v-if="dynamicData.list ">
                 <div>
-                  <!--<img src="../../../static/img/aboutUs/tu_08.jpg" alt="">-->
                   <img :src="dynamicData.baseUrl+dynamicData.list[0].img" alt="">
                 </div>
                 <p>{{dynamicData.list[0].name}}</p>
@@ -56,14 +55,16 @@
             </div>
             <div class="info_right">
               <ul v-if="dynamicData.list">
-                <router-link tag="li" :to="{name:'news_detail',params: {id:item.id}}" v-for="(item,index) in dynamicData.list" :key="index">
+                <router-link tag="li" :to="{name:'news_detail',params: {id:item.id}}" v-for="(item,index) in dynamicData.list" :key="index" v-if="index < 11">
                   <div v-if="index">
                     <span>{{index}}.</span>
                     <span>{{item.name}}</span>
                   </div>
                 </router-link>
                 <li v-if="dynamicData.list.length == 1" style="text-align: center">暂无最新行业资讯</li>
-                <li style="text-align: center;color:#CFA972" v-if="moreFlag">查看更多</li>
+                <li style="text-align: center;color:#CFA972" v-if="moreFlag">
+                  <router-link to="/news_list" style="color: #CFA972">查看更多</router-link>
+                </li>
               </ul>
             </div>
           </div>
@@ -165,7 +166,6 @@
               pagination: {
                 el: '.swiper-pagination',
                 dynamicBullets: true
-                // clickable: true
               }
             }
           }
@@ -176,7 +176,6 @@
       methods:{
          dataInit() {
            this.$http.get('newsAbout','').then((res)=>{
-             console.log(res.data.data)
              if(res.data.data.list.length >10){
                this.moreFlag = true
              }
@@ -205,7 +204,6 @@
   }
   .info_bot>.main{
     height: 100%;
-    /*background: #d23c26;*/
   }
   .video_left{
     width: 60%;

@@ -183,7 +183,7 @@
         methods: {
           orderData() {
             this.$http.get('orderServiceInfo',{id:this.$route.params.id}).then((res)=>{
-              console.log(res.data)
+              // console.log(res.data)
               if(res.data.code == 200) {
                 this.orderInfo = res.data.data
               }
@@ -201,7 +201,7 @@
             return isLt5M;
           },
           handleSuccess(res) {
-            console.log(res);
+            // console.log(res);
             if (res.code == 200){
               this.uploadDateForm.imgs += ',' + res.data.img
             }else{
@@ -220,7 +220,7 @@
             }
           },
           handlePictureCardPreview(file) {
-            console.log(file)
+            // console.log(file)
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
           },
@@ -238,7 +238,7 @@
               }
               console.log(this.uploadDateForm)
               this.$http.post('orderServiceCreate',this.uploadDateForm).then((res)=>{
-                console.log(res.data)
+                // console.log(res.data)
                 if(res.data.code == 200) {
                   if(this.orderNum == 1){
                     this.$router.push('/store_manage/after_sale_dispose/'+this.$route.params.id)

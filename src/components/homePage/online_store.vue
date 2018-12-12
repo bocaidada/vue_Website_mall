@@ -77,8 +77,6 @@
         '$route' (to, from) {
           // 对路由变化作出响应...
           // console.log(to);
-          // console.log(to.path.indexOf("/online_store/product_detail"))
-          // console.log(from);
           if(from.path == '/online_store') {
             this.pageFlag = false
           }
@@ -91,7 +89,7 @@
       methods: {
         dataInit() {
           this.$http.get('goodsCatalog','').then((res)=>{
-            console.log(res.data)
+            // console.log(res.data)
             if(res.data.code == 200){
               this.classify = res.data.data.list
             }
@@ -99,7 +97,7 @@
         },
         contentList(types,pages) {
           this.$http.get('goodsList',{catalogId:types,page:pages}).then((res)=>{
-            console.log(res.data)
+            // console.log(res.data)
             this.totalNum = res.data.data.counts
             this.baseUrl = res.data.data.baseUrl
             this.caseData = res.data.data.list
@@ -111,11 +109,11 @@
           this.contentList(index,1)
         },
         handleSizeChange(val) {
-          console.log(`每页 ${val} 条`);
+          // console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
           this.contentList(this.type,val)
-          console.log(`当前页: ${val}`);
+          // console.log(`当前页: ${val}`);
         }
       }
     }

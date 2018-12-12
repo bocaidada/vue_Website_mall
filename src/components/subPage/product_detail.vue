@@ -43,7 +43,6 @@
                <span>数量：</span>
                <el-input-number v-model="doorData.number" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
                <span>件</span>
-               <!--<span>库存 {{initDates.num}} 件</span>-->
              </p>
              <div class="buyBox">
                <div @click="submitData('addCar')">加入购物车</div>
@@ -159,7 +158,7 @@
               this.carriage = this.initDates.globalFreight
             }else{
               this.$http.get('goodsFreight',this.areaData).then((res)=>{
-                console.log(res.data)
+                // console.log(res.data)
                 if(res.data.code == 200){
                   this.carriage = res.data.data.price
                 }else{
@@ -185,7 +184,7 @@
             this.initDates = res.data.data.info
             this.content = Base64.decode(res.data.data.info.content)
             this.topImgUrl = this.baseUrl+this.initDates.imgs[0]
-            console.log(this.initDates)
+            // console.log(this.initDates)
             this.price = this.initDates.price
             this.salesPrice = this.initDates.salesPrice
           })
@@ -198,11 +197,9 @@
         },
         //门板数量
         handleChange(value) {
-          console.log(value);
           this.doorData.number = value
         },
         changeBorder(val) {
-          console.log(val)
           this.borderNum = val.id
           this.radio1 = val.value
           if(this.initDates.attrs.length>1) {
@@ -213,20 +210,17 @@
             this.pathId = val.id
           }
           for(let i=0; i<this.initDates.sku.length;i++) {
-            console.log(this.initDates.sku[i])
             if(this.initDates.sku[i].idPath == this.pathId) {
               this.doorData.skuId = this.initDates.sku[i].id
-              console.log(this.doorData.skuId)
+              // console.log(this.doorData.skuId)
               this.price = this.initDates.sku[i].price
               this.salesPrice = this.initDates.sku[i].salesPrice
-              // console.log(this.doorData.skuId)
               break
             }
           }
         },
         //门板颜色
         selectDoorColor(params) {
-          // console.log(params)
           this.topImgUrl = this.baseUrl+params.img
           this.colorFlag = false
           this.colorNum = params.id
@@ -238,10 +232,8 @@
             this.pathId = params.id
           }
           for(let i=0; i<this.initDates.sku.length;i++) {
-            console.log(this.initDates.sku[i])
             if(this.initDates.sku[i].idPath == this.pathId) {
               this.doorData.skuId = this.initDates.sku[i].id
-              // console.log(this.doorData.skuId)
               this.price = this.initDates.sku[i].price
               this.salesPrice = this.initDates.sku[i].salesPrice
               break
@@ -268,10 +260,7 @@
               return
             }
           }
-          console.log(this.doorData)
-
           this.$http.post('carAdd',this.doorData).then((res)=>{
-            console.log(res.data)
             if(res.data.code != 200){
               if(res.data.error_code == 1001){
                 this.$store.commit('outUserToken')

@@ -30,7 +30,7 @@
     data() {
       return {
         qiNiuBase:this.$store.state.qiNiuServer,
-        tabNum: 0,
+        tabNum: this.$store.state.tabNum,
         botTabImg:{
           new1:'/style/new1.png',
           new2:'/style/new2.png',
@@ -76,8 +76,18 @@
         }
       }
     },
+    created() {
+
+    },
+    watch: {
+      "$store.state.tabNum" (val,old) {
+        if(val >= 0) {
+          this.changeNUm(val)
+        }
+      }
+    },
     mounted() {
-      this.pageData = this.newData
+      this.changeNUm(this.tabNum)
     },
     methods: {
       changeNUm(index) {
@@ -91,7 +101,18 @@
         }else{
           this.pageData = this.woodData
         }
-        window.scrollTo(0, 0)
+        setTimeout(()=>{
+          // window.scrollTo(0, 0)
+          let distance = document.documentElement.scrollTop || document.body.scrollTop; //获得当前高度
+          let step = distance/50; //每步的距离
+          (function jump(){
+            if(distance > 0){
+              distance-=step;
+              window.scrollTo(0,distance);
+              setTimeout(jump,10)
+            }
+          })();
+        },0)
       }
     }
   }

@@ -29,7 +29,6 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-          <!--<el-button @click="resetForm('ruleForm2')">重置</el-button>-->
         </el-form-item>
       </el-form>
       <p class="main_title"><i class="el-icon-info"></i><span>已保存了 <span style="color: red">{{addLists.length}}</span> 条地址，还能保存 <span style="color: red">{{20-addLists.length}}</span> 条</span></p>
@@ -95,8 +94,6 @@
               return callback(new Error('手机号不能为空'));
             } else {
               const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
-              // const reg = /^[A-Za-z\u4e00-\u9fa5]+$/
-              // console.log(reg.test(value));
               if (reg.test(value)) {
                 callback();
               } else {
@@ -109,7 +106,6 @@
               return callback(new Error('用户名不能为空'));
             } else {
               const reg = /^[A-Za-z\u4e00-\u9fa5]+$/
-              // console.log(reg.test(value));
               if (reg.test(value)) {
                 callback();
               } else {
@@ -154,8 +150,7 @@
         },
         watch: {
           selected(val,old) {
-            // console.log()
-            console.log(old,val)
+            // console.log(old,val)
             if(val.length == 3) {
               this.areaFlag = false;
               this.ruleForm.province = this.selected[0]
@@ -178,11 +173,11 @@
               }
               console.log(valid)
               if (valid) {
-                console.log(this.ruleForm)
+                // console.log(this.ruleForm)
                 if(this.submitType) {
                   console.log('add')
                   this.$http.post('addressAdd',this.ruleForm).then((res)=>{
-                    console.log(res.data)
+                    // console.log(res.data)
                     if(res.data.code == 200) {
                       //数据清空
                       this.$message.success('地址保存成功')
@@ -198,7 +193,7 @@
                   })
                 }else{
                   this.$http.post('addressUpdate',this.ruleForm).then((res)=>{
-                    console.log(res.data)
+                    // console.log(res.data)
                     if(res.data.code == 200) {
                       //数据清空
                       this.$message.success('地址修改成功')
@@ -224,7 +219,7 @@
               type: 'warning'
             }).then(() => {
               this.$http.post('addressDelete',{id:row.id}).then((res)=>{
-                console.log(res.data)
+                // console.log(res.data)
                 if(res.data.code == 200) {
                   this.$message({
                     type: 'success',
@@ -245,12 +240,7 @@
             console.log(row);
             this.submitType = false;
             this.ruleForm = row;
-
             this.selected = [row.provinceStr, row.cityStr, row.countryStr]
-
-            // this.ruleForm.province = row.provinceStr
-            // this.ruleForm.city = row.cityStr
-            // this.ruleForm.country = row.countryStr
           },
           //设置默认地址
           setDefaultAddress(row) {

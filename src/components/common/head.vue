@@ -78,7 +78,6 @@
           {
             name: '在线商城',
             path: '/online_store',
-            // path: '/aMap',
             children:[]
           },
           {
@@ -126,7 +125,6 @@
         }
       },
       "$store.state.token" (val,old) {
-        console.log(val)
         if(val) {
           this.rightFlag = false
         }else{
@@ -134,7 +132,6 @@
         }
       },
       "$store.state.headColorNum" (val,old) {
-        console.log(val)
         if(val) {
           this.changeColor = val
         }
@@ -145,11 +142,10 @@
         this.changeColor = index
       },
       linkTo(params) {
-        console.log(params)
+        // console.log(params)
         if(params == 'car') {
           this.$router.push('/shop_car')
         }else if(params == 'logout'){
-          // this.rightFlag = true
           this.$http.post('logout','').then((res)=>{
             if(res.data.code == 200){
               this.$router.push('/');

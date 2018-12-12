@@ -50,10 +50,10 @@
         },
         watch:{
           "selected" (val,old) {
-            console.log(val)
+            // console.log(val)
             if(val.length == 2) {
               this.select = val[0] + val[1]
-              console.log(this.select)
+              // console.log(this.select)
             }
           }
         },
@@ -62,7 +62,7 @@
         },
         methods: {
           addressPosition(params) {
-            console.log(params)
+            // console.log(params)
             let point = new BMap.Point(params.lon,params.lat);
             this.map.centerAndZoom(point,12);
             this.map.addOverlay(new BMap.Marker(point));

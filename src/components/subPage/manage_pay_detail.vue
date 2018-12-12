@@ -1,47 +1,11 @@
 <template>
     <section class="content">
-      <transition name="upload-fade">
-        <div class="addBox" v-if="addAddressFlag">
-          <div>
-            <img :src="$store.state.qiNiuServer+'/joinUs/close.png'" @click="add_address()" alt="">
-            <h1>新增收货地址</h1>
-            <div class="areas">
-              <span class="tit">配送地区：</span>
-              <area-select type='code' :level='2' v-model="selected" :data="pcaa"></area-select>
-            </div>
-            <el-form style="width: 100%;margin: 20px 5px" :model="ruleForm" :rules="rules" status-icon ref="ruleForm" label-width="100px">
-              <el-form-item
-                label="具体地址："
-                prop="detail">
-                <el-input type="text" v-model="ruleForm.detail" maxlength="255" autocomplete="off" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></el-input>
-              </el-form-item>
-              <el-form-item
-                label="货主姓名："
-                prop="name">
-                <el-input type="text" maxlength="16" v-model="ruleForm.name" placeholder="请输入姓名"></el-input>
-              </el-form-item>
-              <el-form-item
-                label="手机号码："
-                prop="mobile">
-                <el-input v-model.number="ruleForm.mobile" maxlength="11" placeholder="请输入手机号码"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-checkbox  @change="changes()">设置为默认收货地址</el-checkbox>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-              </el-form-item>
-            </el-form>
-          </div>
-        </div>
-      </transition>
       <div class="main">
         <div class="pay_main">
-          <span>选择收货地址</span>
-          <span @click="add_address()">添加收货地址</span>
+          <span>收货地址</span>
         </div>
         <div class="ship_site">
-          <el-radio @change="radioChange(item)" v-for="(item,index) in address" :key="index" v-model="radio" :label="index">{{item.provinceStr}}{{item.cityStr}}{{item.countryStr}} {{item.detail}} {{item.name}} {{item.mobile}}</el-radio>
+          <span style="color: #cfa972;line-height: 40px">{{address}}</span>
           <span v-if="address.length == 0">暂无收货地址</span>
         </div>
         <div class="pay_main">
@@ -96,6 +60,12 @@
             label="总价(元)"
             show-overflow-tooltip>
           </el-table-column>
+          <el-table-column
+            align="center"
+            prop="earnestPrice"
+            label="首付款(元)"
+            show-overflow-tooltip>
+          </el-table-column>
         </el-table>
         <div class="main_bot">
           <h2>支付方式</h2>
@@ -109,60 +79,10 @@
 </template>
 
 <script>
-    import { pca, pcaa } from 'area-data'; // v5 or higher
     export default {
-      name: "pay_detail",
+      name: "manage_pay_detail",
       data () {
-        let checkPhone = (rule, value, callback) => {
-          if (!value) {
-            return callback(new Error('手机号不能为空'));
-          } else {
-            const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
-            if (reg.test(value)) {
-              callback();
-            } else {
-              return callback(new Error('请输入正确的手机号'));
-            }
-          }
-        }
-        let checkName = (rule, value, callback) => {
-          if (!value) {
-            return callback(new Error('用户名不能为空'));
-          } else {
-            const reg = /^[A-Za-z\u4e00-\u9fa5]+$/
-            if (reg.test(value)) {
-              callback();
-            } else {
-              return callback(new Error('用户名只可以输入字母和中文'));
-            }
-          }
-        }
         return {
-          addAddressFlag: false,
-          defaultFlag: false,
-          selected: [],
-          pca: pca,
-          pcaa: pcaa,
-          ruleForm: {
-            name: '',
-            mobile: '',
-            province:'',
-            city:'',
-            country:'',
-            detail:'',
-            select: 0
-          },
-          rules: {
-            mobile: [
-              {validator: checkPhone, trigger: 'blur'}
-            ],
-            name: [
-              {validator: checkName, trigger: 'blur'}
-            ],
-            detail: [
-              {required: true, message: '具体地址不能为空', trigger: 'blur'}
-            ]
-          },
           selectsFlag: true,
           msg: '',
           checked: true,
@@ -199,39 +119,6 @@
         }
       },
       methods: {
-        submitForm(formName) {
-          this.$refs[formName].validate((valid) => {
-            if(this.selected.length != 3) {
-              this.$message.error('请选择配配送区域')
-            }
-            if (valid) {
-              // console.log(this.ruleForm)
-              // console.log('add')
-              this.$http.post('addressAdd',this.ruleForm).then((res)=>{
-                // console.log(res.data)
-                if(res.data.code == 200) {
-                  //数据清空
-                  this.$message.success('地址保存成功')
-                  this.addList()
-                  this.selected = []
-                  this.addAddressFlag = false
-                  this.$refs[formName].resetFields();
-                }else{
-                  this.$message({
-                    type: 'error',
-                    message: res.data.msg
-                  })
-                }
-              })
-            } else {
-              console.log('error submit!!');
-              return false;
-            }
-          });
-        },
-        add_address() {
-          this.addAddressFlag = !this.addAddressFlag
-        },
         // 获取多选参数,计算价格
         handleSelectionChange(val) {
           this.multipleSelection = val;
@@ -257,21 +144,20 @@
           }
         },
         addList() {
-          this.$http.get('addressList','').then((res)=>{
+          this.payData.addressId = 0
+          this.$http.get('shopInfo','').then((res)=>{
             // console.log(res.data)
             if(res.data.code == 200) {
-              this.address = res.data.data
-              if(this.address.length){
-                this.payData.addressId = this.address[0].id
-                this.payLists(this.address[0].id)
-              }
+              this.address = res.data.data.address
             }
           })
+          this.payLists(0)
         },
         payLists(params) {
           this.$http.get('payList',{fromSource:this.fromSources,addressId:params}).then((res)=>{
-            // console.log(res.data)
-            this.tableData = res.data.data.list
+           if(res.data.code == 200) {
+             this.tableData = res.data.data.list
+           }
           })
         },
         radioChange(val){
@@ -288,7 +174,6 @@
             return this.$message.error('请添加收货地址')
           }
           this.$http.post('payCart',this.payData).then((res)=>{
-            // console.log(res.data)
             if(res.data.code == 200) {
               const div = document.createElement('div');
               div.innerHTML = Base64.decode(res.data.data.html);
@@ -306,7 +191,7 @@
             }
             const values = data.map(item => Number(item[column.property]));
             if (!values.every(value => isNaN(value))) {
-              sums[6] = values.reduce((prev, curr) => {
+              sums[7] = values.reduce((prev, curr) => {
                 const value = Number(curr);
                 if (!isNaN(value)) {
                   return prev + curr;
@@ -314,7 +199,7 @@
                   return prev;
                 }
               }, 0);
-              sums[6] = '￥'+sums[6];
+              sums[7] = '￥'+sums[7];
             }
           });
           return sums;
@@ -375,7 +260,6 @@
   }
   .main_bot{
     width: 100%;
-    /*height: 350px;*/
     border: 1px solid #dfdfdf;
     margin-bottom: 40px;
     padding: 40px 30px;
@@ -428,73 +312,5 @@
   }
   .go_pay:hover{
     background: #ff5117;
-  }
-  .addBox{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: rgba(0,0,0,.3);
-    z-index: 10;
-  }
-  .addBox>div{
-    width: 686px;
-    height: 540px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 10%;
-    background: #fff;
-    box-sizing: border-box;
-    padding: 15px 45px 20px 20px;
-    text-align: left;
-    border-radius: 5px;
-  }
-  .addBox>div>img{
-    position: absolute;
-    width: auto;
-    right: 35px;
-    top: 30px;
-    cursor: pointer;
-  }
-  .addBox>div>h1{
-    line-height: 60px;
-    font-size: 28px;
-    color: #434343;
-    text-align: center;
-    margin-bottom: 50px;
-  }
-  .areas{
-    width: 100%;
-    height: 40px;
-    box-sizing: border-box;
-    margin-top: 15px;
-    padding-left: 16px;
-  }
-  .areas>.tit{
-    float: left;
-    line-height: 35px;
-    font-size: 13px;
-    margin-right: 5px;
-  }
-  .areas>.tit::before{
-    content: '*';
-    color: #f56c6c;
-    margin-right: 4px;
-  }
-  .el-icon-info{
-    color: #C39B63;
-    margin-right: 20px;
-    font-size: 20px;
-    vertical-align: middle;
-  }
-  .upload-fade-enter-active,.upload-fade-leave-active{
-    transition: all 1.5s;
-    opacity: 1;
-  }
-  .upload-fade-enter, .upload-fade-leave-to{
-    transform: rotate3d(0,1,0,180deg);
-    opacity: 0;
   }
 </style>

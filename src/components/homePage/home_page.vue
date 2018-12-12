@@ -57,7 +57,8 @@
               <div class="main">
                 <div v-for="(item, index) in indexDataInit.news" :key="index" v-if="index < 3">
                   <div :title="item.name">
-                    <img :src="indexDataInit.baseImgUrl+item.img" alt="">
+                    <img v-if="item.img" :src="indexDataInit.baseImgUrl+item.img" alt="">
+                    <img v-else :src="$store.state.qiNiuServer+'/empty_place.png'" alt="">
                   </div>
                   <p>{{item.name}}</p>
                   <span>{{item.summary}}</span>
@@ -251,14 +252,14 @@
           this.styleData = this.indexDataInit.goods[index].item
         },
         brandChange(index) {
-          console.log(index)
           this.brandColor = index
         },
         dataInit() {
           this.$http.get('index','').then((res)=>{
-            console.log(res.data.data)
-            this.indexDataInit = res.data.data
-            this.styleData = res.data.data.goods[0].item
+            if(res.data.code == 200) {
+              this.indexDataInit = res.data.data
+              this.styleData = res.data.data.goods[0].item
+            }
           })
         }
       }
@@ -284,7 +285,7 @@
   .banner{
     width: 100%;
     height: 84vh;
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/shouye_01.jpg") no-repeat center/cover;
+    background: #fff;
   }
   .banner a{
     display: block;
@@ -510,7 +511,8 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-left: 10px;
+    padding-left: 15px;
+    text-align: left;
   }
   .brandBox>.state>.main>div>span{
     display: block;

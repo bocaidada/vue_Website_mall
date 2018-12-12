@@ -80,7 +80,7 @@
           dataInit() {
             this.$http.get('serviceChatList',{id:this.$route.params.id}).then((res)=>{
               if(res.data.code == 200) {
-                console.log(res.data)
+                // console.log(res.data)
                 this.dataList = res.data.data
                 if(res.data.data.status == 2) {
                   this.solveFlag = false
@@ -90,9 +90,14 @@
           },
           solve() {
             this.$http.post('orderServiceChatFinish',{id:this.$route.params.id}).then((res)=>{
+              console.log(res.data)
               if(res.data.code == 200) {
                 this.solveFlag = false
-                // console.log(res.data)
+              }else{
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                })
               }
             })
           },

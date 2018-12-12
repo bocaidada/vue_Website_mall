@@ -15,7 +15,8 @@
             <ul>
               <router-link tag="li" :to="{name:'news_detail',params: {id:item.id}}" v-for="(item,index) in caseData" :key="index">
                 <div class="imgBox">
-                  <div class="box" :style="{background: 'url('+baseUrl+item.img+') no-repeat center/cover'}"></div>
+                  <div v-if="item.img" class="box" :style="{background: 'url('+baseUrl+item.img+') no-repeat center/cover'}"></div>
+                  <div v-else class="box" :style="{background: 'url('+$store.state.qiNiuServer+'/empty_place.png) no-repeat center/cover'}"></div>
                 </div>
                 <span class="name">
                   <span class="tit">{{item.name}}</span>
@@ -69,8 +70,7 @@
     watch: {
       '$route' (to, from) {
         // 对路由变化作出响应...
-        console.log(to);
-        console.log(from);
+        // console.log(to);
         if(from.path == '/news_list') {
           this.pageFlag = false
         }
@@ -86,7 +86,7 @@
     methods: {
       contentList(pages) {
         this.$http.get('newsList',{page:pages}).then((res)=>{
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.code == 200) {
             this.totalNum = res.data.data.counts
             this.baseUrl = res.data.data.baseUrl
@@ -95,11 +95,11 @@
         })
       },
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         this.contentList(val)
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
       }
     }
   }
@@ -166,7 +166,7 @@
   }
   .case_content_box>ul>li>.imgBox{
     height: 250px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #f7ecec;
     overflow: hidden;
   }
   .case_content_box>ul>li>.imgBox>.box{
@@ -207,14 +207,11 @@
     text-overflow: ellipsis;
   }
   .pageNum{
-    padding-right: 40px;
+    padding: 40px;
     box-sizing: border-box;
     text-align: right;
     margin-bottom: 30px;
-  }
-  .pageNum[data-v-dd524514]{
     background: #fff;
-    padding-bottom: 50px;
   }
 </style>
 

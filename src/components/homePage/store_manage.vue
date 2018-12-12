@@ -305,7 +305,7 @@
       '$route' (to, from) {
         // 对路由变化作出响应...
         // console.log(to);
-        console.log(from);
+        // console.log(from);
         if(from.path == '/store_manage') {
           this.pageFlag = false
         }
@@ -319,7 +319,7 @@
       //商品分类
       dataInit() {
         this.$http.get('shopGoodsCatalog','').then((res)=>{
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.code == 200){
             this.classify = res.data.data.list
           }
@@ -328,7 +328,7 @@
       //商品列表
       contentList(types,pages) {
         this.$http.get('shopGoodsList',{catalogId:types,page:pages}).then((res)=>{
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.code == 200){
             this.totalNum = res.data.data.counts
             this.baseUrl = res.data.data.baseUrl
@@ -339,7 +339,7 @@
       //门店订单列表
       shop_order_list(pages) {
         this.$http.get('shopOrderList',{page:pages}).then((res)=>{
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.code == 200) {
             this.tableData = res.data.data.list
             this.totalNum1 = res.data.data.counts
@@ -349,7 +349,7 @@
       //门店信息
       shop_info() {
         this.$http.get('shopInfo','').then((res)=>{
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.code == 200){
             this.shopName = res.data.data.name
             this.shopAddress = res.data.data.address
@@ -367,7 +367,7 @@
       //门店活动banner
       shop_ban() {
         this.$http.get('shopBanner','').then((res)=>{
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.code == 200){
             if(res.data.data.list.length){
               this.bannerFlag = true
@@ -382,11 +382,11 @@
         this.contentList(index,1)
       },
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         this.contentList(this.type,val)
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
       },
       topChange(params) {
         this.indentNum = params
@@ -410,11 +410,11 @@
         // this.multipleSelection = val;
       },
       handleSizeChange1(val) {
-        console.log(`每页 ${val} 条`);
+        // console.log(`每页 ${val} 条`);
       },
       handleCurrentChange1(val) {
         this.shop_order_list(val)
-        console.log(`当前页: ${val}`);
+        // console.log(`当前页: ${val}`);
       },
       handleSees(row,index) {
         console.log(row)
@@ -426,7 +426,7 @@
           }).then(() => {
             this.$http.post('shopOrderPay',{id:row.id}).then((res)=>{
               if(res.data.code == 200){
-                console.log(res.data)
+                // console.log(res.data)
                 this.$message({
                   type: 'success',
                   message: '下单成功!'
@@ -450,7 +450,7 @@
           });
         }else if(index == 2){
           this.$http.post('shopOrderStatus',{id:row.id}).then((res)=>{
-            console.log(res.data)
+            // console.log(res.data)
             if(res.data.code == 200) {
               this.shop_order_list(1)
             }
@@ -470,7 +470,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$http.post('login',this.ruleForm).then((res)=>{
-              console.log(res.data)
+              // console.log(res.data)
               if(res.data.code == 200){
                 this.$message({
                   message: '登陆成功！！！',

@@ -6,17 +6,18 @@ Vue.use(vuex);
 let store = new vuex.Store({
   state: {
     method:'POST',
-    headColorNum:0,
+    headColorNum:0,      //头部全局控制高亮
     hT:'',
-    caseFlag:true,
+    tabNum: 0,           //产品风格切换
     fromSource: 1,       //下单类型  1：购物车，2：直接购买 3:门店下单
     orderType: 2,        //订单类型  1:门店订单,2:个人订单
+    isLogin: false,     //登陆页面控制
+    footerFlag: false,     //底部控制
     productFlag:true,
+    caseFlag:true,
     storeFlag:true,
     orderFlag:true,
-    isLogin: false,     //登陆页面控制
     regState:true,
-    footerFlag: false,     //底部控制
     headNum:'0',
     sign:'',           //接口参数签名
     token: '',         //登陆token
@@ -40,6 +41,7 @@ let store = new vuex.Store({
     storeFlag: (state,params) => state.storeFlag = params,
     footerFlag: (state,params) => state.footerFlag = params,
     headNum: (state,params) => state.headNum = params,
+    tabNum: (state,params) => state.tabNum = params,
     // 存储登陆token
     userToken (state,params) {
       if(params === '') {
@@ -79,6 +81,9 @@ let store = new vuex.Store({
     },
     footerFlag ({ commit },params) {
       commit('footerFlag',params)
+    },
+    tabNum ({ commit },params) {
+      commit('tabNum',params)
     },
     method ({ commit }) {
       commit('method')

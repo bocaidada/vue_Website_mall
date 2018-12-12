@@ -9,7 +9,7 @@
       <div class="main_left footerList">
         <dl v-for="(item,index) in footList" :key="index">
           <dt>{{item.name}}</dt>
-          <dd v-for="(items,index1) in item.children" :key="index1">
+          <dd v-for="(items,index1) in item.children" :key="index1"  @click="footTab(items.path,index1)">
             <router-link :to="items.path">{{items.name}}</router-link>
           </dd>
         </dl>
@@ -69,6 +69,13 @@
         // console.log(val,old)
         this.footFlag = val
       }
+    },
+    methods: {
+      footTab(item,index) {
+        if(item === '/product') {
+          this.$store.commit('tabNum',index)
+        }
+      }
     }
   }
 </script>
@@ -89,7 +96,7 @@
   }
   .footerList{
     width: 100%;
-    height: 58%;
+    height: 55%;
   }
   .footerList dl{
     width: 20%;

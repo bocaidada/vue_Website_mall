@@ -2,7 +2,11 @@
   <div id="app">
     <login/>
     <headers/>
-    <router-view ref="tree"/>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"  ref="tree"/>
+      <!--<router-view ref="tree"/>-->
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"  ref="tree"/>
     <footers/>
   </div>
 </template>
@@ -29,7 +33,7 @@
       },
       watch:{
         '$route' (to,from) {
-          console.log(to)
+          // console.log(to)
           // console.log(from)
           if(to.path == '/news_list'){
             this.$store.commit('caseFlag',true)

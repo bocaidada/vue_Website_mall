@@ -81,7 +81,7 @@
       methods: {
         caseList(types,pages) {
           this.$http.get('caseList',{type:types,page:pages}).then((res)=>{
-            console.log(res.data.data)
+            // console.log(res.data.data)
             if(res.data.code == 200) {
               this.totalNum = res.data.data.counts
               this.baseUrl = res.data.data.baseUrl
@@ -95,12 +95,12 @@
           this.colorChange = index
         },
         handleSizeChange(val) {
-          console.log(`每页 ${val} 条`);
+          // console.log(`每页 ${val} 条`);
         },
         // 当前页码
         handleCurrentChange(val) {
           this.caseList(this.type,val)
-          console.log(`当前页: ${val}`);
+          // console.log(`当前页: ${val}`);
         }
       }
     }

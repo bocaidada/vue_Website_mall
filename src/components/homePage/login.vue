@@ -96,7 +96,6 @@
         return {
           // 找回密码步骤开关
           oneFlag:true,
-          // oneFlag:true,
           password:'',
           forgetFlag:true,
           //图形验证码唯一识别码
@@ -146,11 +145,9 @@
       },
       watch: {
         "$store.state.isLogin":function (val,old) {
-          // console.log(val,old)
           this.isLogin = val
         },
         "$store.state.regState":function (val,old) {
-          // console.log(val)
           if(val){
             this.hitNUm = 0
           }else{
@@ -159,12 +156,9 @@
           this.stateFlag = val
         },
         "regDateForm.username":function (val,old) {
-          // console.log(val.length)
           if(val.length == 11) {
             const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
-            if (reg.test(val)) {
-
-            }else{
+            if (reg.test(val)) {} else{
               return this.$message.error('请输入正确的手机号');
             }
           }
@@ -182,9 +176,8 @@
             if(this.regDateForm.code.length<6){
               return this.$message.error('验证码错误')
             }
-            // this.$api.register(this.regDateForm).then((res)=>{
             this.$http.post('register',this.regDateForm).then((res)=>{
-              console.log(res.data)
+              // console.log(res.data)
               if(res.data.code == 200){
                 this.$message({
                   message: '注册成功！！！',
@@ -206,7 +199,6 @@
         }else {
           return this.$message.error('请完整填写用户信息');
         }
-        console.log(this.regDateForm)
       },
       logSubmit: function() {
         console.log(this.loginDateForm)
@@ -216,10 +208,8 @@
             if(this.loginDateForm.password.length<6){
               return this.$message.error('密码不得小于六位');
             }
-            // this.$store.commit('createSign',this.loginDateForm)
-            // this.$api.login(this.loginDateForm).then((res)=>{
             this.$http.post('login',this.loginDateForm).then((res)=>{
-              console.log(res.data)
+              // console.log(res.data)
               if(res.data.code == 200){
                 this.$message({
                   message: '登陆成功！！！',
@@ -268,10 +258,9 @@
       // 找回密码第一步
       nextStep1() {
         if(this.forgetData.code){
-          // this.$api.findpwd(this.forgetData).then((res)=>{
           this.$http.post('findpwd',this.forgetData).then((res)=>{
             if(res.data.code == 200){
-              console.log(res.data.data.unique)
+              // console.log(res.data.data.unique)
               this.resetPass.mobile = this.forgetData.mobile
               this.resetPass.key = res.data.data.unique
               this.oneFlag = false
@@ -291,10 +280,9 @@
       nextStep2() {
         if(this.resetPass.password && this.resetPass.password.length>5){
           if(this.resetPass.password == this.password){
-            // this.$api.resetpwd(this.resetPass).then((res)=>{
             this.$http.post('resetpwd',this.resetPass).then((res)=>{
               if(res.data.code == 200){
-                console.log(res.data)
+                // console.log(res.data)
                 this.forgetFlag = true
                 this.oneFlag = true
                 this.$message({
@@ -318,7 +306,6 @@
       },
       //请求图片验证码
       imgCode() {
-        // this.key = md5(new Date().getTime())
         if(localStorage.getItem('key')){
           this.key = localStorage.getItem('key')
         }else{
@@ -328,7 +315,6 @@
       },
       //获取验证码
       getPhoneCode(params,index) {
-        // this.getSms.mobile = this.regDateForm.username
         this.getSms.mobile = params
         this.getSms.key = this.key
         this.getSms.type = index
@@ -336,8 +322,7 @@
         if(this.getSms.mobile && this.getSms.code) {
           const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
           if (reg.test(this.getSms.mobile)) {
-            // this.$api.phone_code(this.getSms).then((res)=>{
-            this.$http.post('phone_code',this.getSms).then((res)=>{
+            this.$http.post('phone_code',this.getSms).then((res) => {
               console.log(res.data)
               if(res.data.code == 200){
                 if(this.phoneFlag){
@@ -359,6 +344,7 @@
                   })
                 }
               }else{
+                this.addNum()
                 this.$message({
                   message: res.data.msg,
                   type: 'error'
@@ -393,7 +379,6 @@
     transform: translateX(-50%);
     top: 15%;
     color: #CEA972;
-    /*box-shadow: 0 0 1px 1px rgba(207,169,114,.8);*/
     padding: 20px 5px;
   }
   .login>img{

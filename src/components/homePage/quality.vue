@@ -131,7 +131,7 @@
         },
         caseList(types,pages) {
           this.$http.get('caseList',{type:types,page:pages}).then((res)=>{
-            console.log(res.data.data)
+            // console.log(res.data.data)
             this.totalNum = res.data.data.counts
             this.baseUrl = res.data.data.baseUrl
             this.caseData = res.data.data.list

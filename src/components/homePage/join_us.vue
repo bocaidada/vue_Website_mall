@@ -202,9 +202,7 @@
           },
           // 列表数据
           initData() {
-            // this.$api.list({}).then(res=>{
             this.$http.get('list','').then((res) => {
-              console.log(res.data)
               for (let i=0;i<res.data.data.length;i++) {
                 this.unfoldFlag.push({show:false})
               }
@@ -239,7 +237,6 @@
               const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
               if (reg.test(this.numberValidateForms.mobile)) {
                 this.$http.post('apply',this.numberValidateForms).then((res) => {
-                  console.log(res.data)
                   if(res.data.code == 200) {
                     this.$message({
                       message: '提交申请成功！',

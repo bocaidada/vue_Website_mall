@@ -167,7 +167,7 @@
           initDataMap() {
             let _this = this
             this.$http.get('shopMap','').then((res)=>{
-              console.log(res.data)
+              // console.log(res.data)
               if(res.data.code == 200) {
                 let list = res.data.data.list
                 if(list.length) {
