@@ -13,12 +13,7 @@
         <img :src="serverBase+'/pinzhi/wenzi_icon_01.png'" alt="">
       </div>
       <div class="mod_bot">
-        <swiper :options="swiperOption1" style="height: 100%">
-          <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
-          <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
-          <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
-        </swiper>
+        <img :src="serverBase+'/pinzhi/banner_02.png'" alt="">
       </div>
     </div>
     <div class="moduleBox" id="make">
@@ -26,12 +21,7 @@
         <img :src="serverBase+'/pinzhi/wenzi_icon_02.png'" alt="">
       </div>
       <div class="mod_bot">
-        <swiper :options="swiperOption2" style="height: 100%">
-          <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
-          <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
-          <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
-        </swiper>
+        <img :src="serverBase+'/pinzhi/banner_03.png'" alt="">
       </div>
     </div>
     <div class="brand" id="case">
@@ -60,12 +50,7 @@
         <img :src="serverBase+'/pinzhi/wenzi_icon_04.png'" alt="">
       </div>
       <div class="mod_bot">
-        <swiper :options="swiperOption3" style="height: 100%">
-          <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
-          <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
-          <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
-        </swiper>
+        <img :src="serverBase+'/pinzhi/banner_05.png'" alt="">
       </div>
     </div>
   </section>
@@ -83,13 +68,8 @@
                 {name:'one',url:'/pinzhi/banner_01.png'},
                 {name:'one',url:'/pinzhi/banner_02.png'},
                 {name:'one',url:'/pinzhi/banner_03.png'},
-                {name:'one',url:'/pinzhi/banner_04.png'},
-                {name:'one',url:'/pinzhi/banner_05.png'},
+                {name:'one',url:'/pinzhi/banner_05.png'}
               ],
-              swiperOption1:{},
-              swiperOption2:{},
-              swiperOption3:{},
-              swiperOption4:{},
               swiperOption: {
                 spaceBetween: 30,   //图片之间的间距
                 loop: true,         //循环播放
@@ -116,10 +96,7 @@
             }
         },
       created() {
-        this.swiperOption1 = this.swiperOption
-        this.swiperOption2 = this.swiperOption
-        this.swiperOption3 = this.swiperOption
-        this.swiperOption4 = this.swiperOption
+
       },
       mounted() {
         this.caseList(this.brandColor,1)
@@ -156,8 +133,11 @@
   .moduleBox>.mod_top>img{
     width: auto;
   }
-  .moduleBox>.mod_bot{
-    height: 600px;
+  /*.moduleBox>.mod_bot{*/
+    /*height: 600px;*/
+  /*}*/
+  .moduleBox>.mod_bot>img{
+    width: 100%;
   }
   .brand{
     text-align: center;

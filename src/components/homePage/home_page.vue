@@ -204,6 +204,8 @@
             {name:'one',url:'/index/lishi_2.png'},
             {name:'one',url:'/index/lishi_3.png'},
             {name:'one',url:'/index/lishi_4.png'},
+            {name:'one',url:'/index/lishi_5.png'},
+            {name:'one',url:'/index/lishi_6.png'}
           ],
           swiperOption: {
             spaceBetween: 30,   //图片之间的间距
@@ -224,6 +226,10 @@
           swiperOption2: {
             slidesPerView: 3,
             freeMode: true,
+            autoplay: {
+              delay: 5000,
+              disableOnInteraction: false
+            },
             pagination: {   //轮播点
               el: '.swiper-pagination',
               dynamicBullets: true

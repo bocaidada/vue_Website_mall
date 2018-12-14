@@ -246,7 +246,7 @@
                 // console.log(res.data)
                 if(res.data.code != 200){
                   if(res.data.error_code == 1001){
-                    this.$store.commit('outUserToken')
+                    this.$store.commit('userToken','')
                     this.$store.commit('loginState',true)
                   }
                   this.$message({
@@ -257,6 +257,7 @@
                 }else{
                   this.formFlag = false
                   this.$store.commit('fromSource',3)
+                  sessionStorage.setItem("fromSource",JSON.stringify(this.$store.state.fromSource))
                   this.$router.push('/manage_pay_detail')
                 }
               })

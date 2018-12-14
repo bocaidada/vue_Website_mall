@@ -50,6 +50,10 @@
             </tr>
           </table>
         </div>
+        <div class="remark" v-if="listData.remark">
+          <p>订单备注</p>
+          <p>{{listData.remark}}</p>
+        </div>
         <div class="detail_top">
           <span>订单进度</span>
         </div>
@@ -63,10 +67,10 @@
             </div>
           </div>
           <div cla ss="schedule_bot">
-            <!--<div class="schedule_bot_state">-->
-              <!--<img :src="serverBase+'/news/yiqianshou_01.png'" alt="">-->
-              <!--<span>已签收</span>-->
-            <!--</div>-->
+            <div class="schedule_bot_state">
+              <img :src="serverBase+'/news/yiqianshou_01.png'" alt="">
+              <span>{{listData.status}}</span>
+            </div>
             <div class="schedule_bot_flow">
               <table border="0">
                 <tr v-for="(item,index) in tableData" :key="index">
@@ -113,16 +117,7 @@
                 yellow3:'/news/yellow_3.png',
                 yellow4:'/news/yellow_4.png',
               },
-              tableData:[
-                {date: '2018-11-29',week:'周四',time:'14:01:55',info:'已接单（您的订单商家已经开始处理）'},
-                {date: '2018-11-29',week:'周四',time:'14:01:55',info:'已接单（您的订单商家已经开始处理）'},
-                {date: '2018-11-29',week:'周四',time:'14:01:55',info:'已接单（您的订单商家已经开始处理）'},
-                {date: '2018-11-23',week:'周一',time:'14:01:55',info:'测量（厂家会安排人员尽快与您取得联系并安排工作人员上门测量）'},
-                {date: '2018-11-23',week:'周一',time:'14:01:55',info:'已接单（您的订单商家已经开始处理）'},
-                {date: '2018-11-23',week:'周一',time:'14:01:55',info:'已接单（您的订单商家已经开始处理）'},
-                {date: '2018-11-21',week:'周六',time:'14:01:55',info:'已接单（您的订单商家已经开始处理）'},
-                {date: '2018-11-21',week:'周六',time:'14:01:55',info:'已接单（您的订单商家已经开始处理）'}
-              ]
+              tableData:[]
             }
         },
         created() {
@@ -141,6 +136,7 @@
               this.orderType = 'userOrderInfo'
             }
             this.$http.get(this.orderType,{id:this.$route.params.id}).then((res)=>{
+              console.log(res.data)
               if(res.data.code == 200) {
                 this.listData = res.data.data
                 this.hitNum = this.listData.schedule.step
@@ -189,7 +185,18 @@
     color: #333;
     font-size: 16px;
     border: 2px solid #eee;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
+  }
+  .remark{
+    margin: 30px 0;
+  }
+  .remark>p:first-child{
+    line-height: 40px;
+  }
+  .remark>p:last-child{
+    line-height: 40px;
+    font-size: 16px;
+    color: #999;
   }
   th,td{
     text-align: center;

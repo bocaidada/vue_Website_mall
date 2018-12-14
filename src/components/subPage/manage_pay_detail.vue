@@ -1,5 +1,15 @@
 <template>
     <section class="content">
+      <transition name="upload-fade">
+        <div class="uploadData" v-if="leaveWordFlag">
+          <div class="uploadBox">
+            <img :src="$store.state.qiNiuServer+'/joinUs/close.png'" @click="addLeaveWord()" alt="">
+            <h2>添加备注</h2>
+            <textarea placeholder="请填写备注信息..." name="" v-model="remark" maxlength="255" id="" cols="30" rows="10"></textarea>
+            <button @click="subLeaveWord()">提交</button>
+          </div>
+        </div>
+      </transition>
       <div class="main">
         <div class="pay_main">
           <span>收货地址</span>
@@ -56,6 +66,13 @@
           </el-table-column>
           <el-table-column
             align="center"
+            label="留言">
+            <template  slot-scope="scope">
+              <el-button class="operate" type="text" @click="addLeaveWord()" size="small">添加备注</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
             prop="totalPrice"
             label="总价(元)"
             show-overflow-tooltip>
@@ -83,6 +100,9 @@
       name: "manage_pay_detail",
       data () {
         return {
+          remark:'',
+          messageArr:[],
+          leaveWordFlag: false,
           selectsFlag: true,
           msg: '',
           checked: true,
@@ -96,15 +116,23 @@
           payData:{
             addressId: '',
             fromSource: this.$store.state.fromSource,
-            payType:''
+            payType:'',
+            remark:''
           }
         };
       },
       created() {
-        this.addList()
+        let source = sessionStorage.getItem('fromSource')
+        if(source) {
+          this.fromSources = source
+          this.payData.fromSource = source
+        }else{
+          this.fromSources = this.$store.state.fromSource
+          this.payData.fromSource = this.$store.state.fromSource
+        }
       },
       mounted() {
-
+        this.addList()
       },
       watch:{
         selected(val,old) {
@@ -164,15 +192,30 @@
           this.payData.addressId = val.id
           this.payLists(val.id)
         },
+        addLeaveWord () {
+          this.leaveWordFlag = !this.leaveWordFlag
+        },
+        subLeaveWord() {
+          if(this.remark == '') {
+            this.$message.error('请填写相关留言')
+          }else{
+            this.messageArr[0] = this.remark
+            this.$message({
+              message: '备注添加成功',
+              type: 'success'
+            })
+            this.leaveWordFlag = false
+          }
+        },
         // 下单
         go_submit() {
           // console.log(this.payData)
           if(!this.selectFlag){
             return this.$message.error('请选择支付方式')
           }
-          if(this.payData.addressId === ''){
-            return this.$message.error('请添加收货地址')
-          }
+          this.payData.remark = JSON.stringify(this.messageArr)
+          // console.log(this.payData)
+          // return
           this.$http.post('payCart',this.payData).then((res)=>{
             if(res.data.code == 200) {
               const div = document.createElement('div');
@@ -191,7 +234,7 @@
             }
             const values = data.map(item => Number(item[column.property]));
             if (!values.every(value => isNaN(value))) {
-              sums[7] = values.reduce((prev, curr) => {
+              sums[8] = values.reduce((prev, curr) => {
                 const value = Number(curr);
                 if (!isNaN(value)) {
                   return prev + curr;
@@ -199,7 +242,7 @@
                   return prev;
                 }
               }, 0);
-              sums[7] = '￥'+sums[7];
+              sums[8] = '￥'+sums[8];
             }
           });
           return sums;
@@ -312,5 +355,74 @@
   }
   .go_pay:hover{
     background: #ff5117;
+  }
+
+  .uploadData{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,0,.2);
+    z-index: 100;
+  }
+  .uploadBox{
+    width: 900px;
+    /*height: 500px;*/
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 25%;
+    background: #fff;
+    color: #CEA972;
+    box-shadow: 3px 3px 46px 3px rgba(131,121,115,0.15);
+    box-sizing: border-box;
+    padding: 20px 50px;
+    text-align: center;
+  }
+  .uploadBox>img{
+    position: absolute;
+    right: 50px;
+    top: 26px;
+    cursor: pointer;
+  }
+  .uploadBox>h2{
+    line-height: 50px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .uploadBox>button{
+    border: none;
+    outline: none;
+    width: 240px;
+    height: 45px;
+    background: #cfa972;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    letter-spacing: 5px;
+    margin: 0 auto;
+  }
+  .uploadBox>button:hover{
+    background: #cf8958;
+  }
+  textarea{
+    width: 100%;
+    height: 320px;
+    resize: none;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid #DABA8C;
+    outline: none;
+  }
+  .upload-fade-enter-active,.upload-fade-leave-active{
+    transition: all 1.5s;
+    opacity: 1;
+  }
+  .upload-fade-enter, .upload-fade-leave-to{
+    transform: rotate3d(0,1,0,180deg);
+    opacity: 0;
   }
 </style>

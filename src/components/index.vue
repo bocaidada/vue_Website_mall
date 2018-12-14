@@ -62,10 +62,12 @@
             this.$store.commit('headColorNum',6)
           }
           if(to.path.indexOf("online_store/product_detail") != -1){
+            this.$store.commit('headColorNum',2)
             this.$store.commit('productFlag',false)
             this.$store.commit('orderType',2)
           }
           if(to.path.indexOf("project_case/detail_case") != -1){
+            this.$store.commit('headColorNum',3)
             this.$store.commit('caseFlag',false)
           }
           if(to.path == '/store_manage'){

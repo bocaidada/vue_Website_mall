@@ -263,7 +263,7 @@
           this.$http.post('carAdd',this.doorData).then((res)=>{
             if(res.data.code != 200){
               if(res.data.error_code == 1001){
-                this.$store.commit('outUserToken')
+                this.$store.commit('userToken','')
                 this.$store.commit('loginState',true)
               }
               this.$message({
@@ -278,6 +278,7 @@
                 })
               }else{
                 this.$store.commit('fromSource',2)
+                sessionStorage.setItem("fromSource",JSON.stringify(this.$store.state.fromSource))
                 this.$router.push('/pay_detail')
               }
             }

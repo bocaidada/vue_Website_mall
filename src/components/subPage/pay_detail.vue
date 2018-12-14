@@ -35,6 +35,16 @@
           </div>
         </div>
       </transition>
+      <transition name="upload-fade">
+        <div class="uploadData" v-if="leaveWordFlag">
+          <div class="uploadBox">
+            <img :src="$store.state.qiNiuServer+'/joinUs/close.png'" @click="closeLeaveWord()" alt="">
+            <h2>添加备注</h2>
+            <textarea placeholder="请填写备注信息..." name="" v-model="messageArr[messageNum]" maxlength="255" id="" cols="30" rows="10"></textarea>
+            <button @click="subLeaveWord()">提交</button>
+          </div>
+        </div>
+      </transition>
       <div class="main">
         <div class="pay_main">
           <span>选择收货地址</span>
@@ -92,6 +102,13 @@
           </el-table-column>
           <el-table-column
             align="center"
+            label="留言">
+            <template  slot-scope="scope">
+              <el-button class="operate" type="text" @click="addLeaveWord(scope.$index)" size="small">添加备注</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
             prop="totalPrice"
             label="总价(元)"
             show-overflow-tooltip>
@@ -138,6 +155,9 @@
           }
         }
         return {
+          messageNum: 0,
+          messageArr:[],
+          leaveWordFlag: false,
           addAddressFlag: false,
           defaultFlag: false,
           selected: [],
@@ -176,15 +196,23 @@
           payData:{
             addressId: '',
             fromSource: this.$store.state.fromSource,
-            payType:''
+            payType:'',
+            remark:''
           }
         };
       },
       created() {
-        this.addList()
+        let source = sessionStorage.getItem('fromSource')
+        if(source) {
+          this.fromSources = source
+          this.payData.fromSource = source
+        }else{
+          this.fromSources = this.$store.state.fromSource
+          this.payData.fromSource = this.$store.state.fromSource
+        }
       },
       mounted() {
-
+        this.addList()
       },
       watch:{
         selected(val,old) {
@@ -232,6 +260,24 @@
         add_address() {
           this.addAddressFlag = !this.addAddressFlag
         },
+        addLeaveWord (index) {
+          this.messageNum = index
+          this.leaveWordFlag = true
+        },
+        closeLeaveWord() {
+          this.leaveWordFlag = false
+        },
+        subLeaveWord() {
+          if(this.messageArr[this.messageNum] == '') {
+            this.$message.error('请填写相关留言')
+          }else{
+            this.$message({
+              message: '备注添加成功',
+              type: 'success'
+            })
+            this.leaveWordFlag = false
+          }
+        },
         // 获取多选参数,计算价格
         handleSelectionChange(val) {
           this.multipleSelection = val;
@@ -271,7 +317,13 @@
         payLists(params) {
           this.$http.get('payList',{fromSource:this.fromSources,addressId:params}).then((res)=>{
             // console.log(res.data)
-            this.tableData = res.data.data.list
+            if(res.data.code == 200) {
+              this.tableData = res.data.data.list
+              // console.log(this.tableData.length)
+              for(let i=0;i<this.tableData.length;i++){
+                this.messageArr.push('')
+              }
+            }
           })
         },
         radioChange(val){
@@ -280,13 +332,15 @@
         },
         // 下单
         go_submit() {
-          // console.log(this.payData)
           if(!this.selectFlag){
             return this.$message.error('请选择支付方式')
           }
           if(this.payData.addressId === ''){
             return this.$message.error('请添加收货地址')
           }
+          this.payData.remark = JSON.stringify(this.messageArr)
+          // console.log(this.payData)
+          // return
           this.$http.post('payCart',this.payData).then((res)=>{
             // console.log(res.data)
             if(res.data.code == 200) {
@@ -294,6 +348,11 @@
               div.innerHTML = Base64.decode(res.data.data.html);
               document.body.appendChild(div);
               document.forms.alipaysubmit.submit();
+            }else{
+              this.$message({
+                message: res.data.msg,
+                type: 'error'
+              })
             }
           })
         },
@@ -306,7 +365,7 @@
             }
             const values = data.map(item => Number(item[column.property]));
             if (!values.every(value => isNaN(value))) {
-              sums[6] = values.reduce((prev, curr) => {
+              sums[7] = values.reduce((prev, curr) => {
                 const value = Number(curr);
                 if (!isNaN(value)) {
                   return prev + curr;
@@ -314,7 +373,7 @@
                   return prev;
                 }
               }, 0);
-              sums[6] = '￥'+sums[6];
+              sums[7] = '￥'+sums[7];
             }
           });
           return sums;
@@ -483,6 +542,68 @@
     color: #f56c6c;
     margin-right: 4px;
   }
+
+  .uploadData{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,0,.2);
+    z-index: 100;
+  }
+  .uploadBox{
+    width: 900px;
+    /*height: 500px;*/
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 25%;
+    background: #fff;
+    color: #CEA972;
+    box-shadow: 3px 3px 46px 3px rgba(131,121,115,0.15);
+    box-sizing: border-box;
+    padding: 20px 50px;
+    text-align: center;
+  }
+  .uploadBox>img{
+    position: absolute;
+    right: 50px;
+    top: 26px;
+    cursor: pointer;
+  }
+  .uploadBox>h2{
+    line-height: 50px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .uploadBox>button{
+    border: none;
+    outline: none;
+    width: 240px;
+    height: 45px;
+    background: #cfa972;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    letter-spacing: 5px;
+    margin: 0 auto;
+  }
+  .uploadBox>button:hover{
+    background: #cf8958;
+  }
+  textarea{
+    width: 100%;
+    height: 320px;
+    resize: none;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid #DABA8C;
+    outline: none;
+  }
+
   .el-icon-info{
     color: #C39B63;
     margin-right: 20px;

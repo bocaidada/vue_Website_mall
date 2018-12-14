@@ -208,6 +208,7 @@
                 // console.log(res.data)
                 if(res.data.code == 200){
                   this.$store.commit('fromSource',1)
+                  sessionStorage.setItem("fromSource",JSON.stringify(this.$store.state.fromSource))
                   this.$router.push('/pay_detail')
                 }else{
                   this.$message({

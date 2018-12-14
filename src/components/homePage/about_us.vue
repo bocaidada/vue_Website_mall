@@ -1,12 +1,7 @@
 <template>
     <section class="content">
         <div class="banner">
-          <swiper :options="swiperOptions" style="height: 100%">
-            <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-            <!--<div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>-->
-            <!--<div class="swiper-button-next swiper-button-white" slot="button-next"></div>-->
-          </swiper>
+          <img :src="serverBase+'/aboutUs/banner_01.png'" alt="" ondragstart="return false">
         </div>
         <div class="info">
           <div class="info_top">
@@ -15,11 +10,10 @@
           <div class="info_bot">
             <div class="main">
               <div class="video_left">
-                <video controls :src="video_url"></video>
+                <video controls :src="video_url" :poster="serverBase+'/video_cover.jpg'"></video>
               </div>
               <div class="info_right">
                 <p>浙江金凯门业有限责任公司，创建于2005年，是国内较早具备研发、设计、生产、服务、销售，原木门、实木复合门、免漆门等木门产品的知名品牌企业。拥有两大生产基地，总占地面积200多亩，公司引进德国、荷兰、台湾等国内外一流的生产设备100多台，形成年产65万套室内门的生产能力。</p>
-                  <!--  <p>企业率先在同行业中通过了ISO9001国际质量管理体系认证、ISO14001环境管理体系，CMS测量管理认证，CTC中国建材认证，中国木门健康认证。</p>-->
                       <p>两大生产基地巩固了金凯在国内外遥遥领先的市场份额。万科、金地、世茂、华润、和昌、越秀、中航里城、银亿、东原、中天、南京名万，南平建设等国内大型地产公司先后与公司成为战略合作伙伴，产品远销五大洲四大洋，获得了欧美国家的高度认可。</p>
                     <p> “打造中国木门一流品牌”是金凯人不懈的追求。</p>
               </div>
@@ -103,15 +97,18 @@
           return {
             serverBase:this.$store.state.qiNiuServer,
             moreFlag: false,
-            video_url:'http://pifi5lc1c.bkt.clouddn.com/media/video/jkmy.mp4',
+            // video_url:'http://pifi5lc1c.bkt.clouddn.com/media/video/jkmy.mp4',
+            video_url:'http://122.228.74.186/6974CEC0B484871D0D92941DD/03000B01005BDFEF34012A85D40E897EFBAFD0-0018-4B17-964D-3F28C0357086.mp4?ccode=0502&duration=180&expire=18000&psid=34f1a970c3d23f93c674b421fb1064cf&ups_client_netip=73c32ccc&ups_ts=1544668585&ups_userid=1345823510&utid=YYAqFFugPHUCAX1pNSz%2F7xZ8&vid=XMzk2MTk4MjE2OA&vkey=A138dc4ef41e3b94deca51567e0029939&iv=1&sp=&ali_redirect_domain=ykugc.cp31.ott.cibntv.net&ali_redirect_ex_ftag=1ce9f6bb1a3f45d99b3bbfc1964642a8fbb6e197f73d723b&ali_redirect_ex_tmining_ts=1544668613&ali_redirect_ex_tmining_expire=3600&ali_redirect_ex_hot=1',
             bannerImg:[
               {name:'one',url:'/aboutUs/banner_01.png'}
             ],
             historyImg:[
-              {name:'one',url:'/index/lishi_5.png'},
-              {name:'one',url:'/index/lishi_6.png'},
-              {name:'one',url:'/index/lishi_7.png'},
-              {name:'one',url:'/index/lishi_8.png'},
+              {name:'one',url:'/aboutUs/lishi_1.png'},
+              {name:'one',url:'/aboutUs/lishi_2.png'},
+              {name:'one',url:'/aboutUs/lishi_3.png'},
+              {name:'one',url:'/aboutUs/lishi_4.png'},
+              {name:'one',url:'/aboutUs/lishi_5.png'},
+              {name:'one',url:'/aboutUs/lishi_6.png'}
             ],
             dynamicData:[],
             honorImg:[
@@ -188,7 +185,10 @@
 
 <style scoped>
   .banner{
-    height: 600px;
+    width: 100%;
+  }
+  .banner>img{
+    width: 100%;
   }
   .info{
     margin-bottom: 100px;

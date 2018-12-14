@@ -218,7 +218,7 @@
                 this.loginDateForm = {username: '',password:'',type: 1}
                 this.$store.commit('userToken',res.data.data.token)
                 this.close()
-                this.$router.push('/')
+                // this.$router.push('/')
               }else{
                 this.$message({
                   message: res.data.msg,

@@ -27,24 +27,24 @@
     watch: {
       '$route' (to, from) {
         // 对路由变化作出响应...
-        console.log(to);
-        console.log(from);
+        // console.log(to);
+        // console.log(from);
       },
       '$store.state.caseFlag' (val,old) {
-        console.log(val,old)
+        // console.log(val,old)
         // this.pageFlag = val
       }
     },
     created() {
-      console.log(this.$route.params.id)
-      console.log(this.$store.state.caseFlag);
+      // console.log(this.$route.params.id)
+      // console.log(this.$store.state.caseFlag);
       this.content()
     },
     methods: {
       content() {
         this.$http.get('newsInfo',{id:this.$route.params.id}).then((res)=>{
           if(res.data.code == 200){
-            console.log(res.data.data)
+            // console.log(res.data.data)
             this.contentData = res.data.data
             this.content = Base64.decode(res.data.data.info.content)
             if(this.content) {
