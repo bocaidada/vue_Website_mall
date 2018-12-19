@@ -22,9 +22,11 @@ let store = new vuex.Store({
     sign:'',           //接口参数签名
     token: '',         //登陆token
     // sendHost: 'http://api.jkmy.com/v1',  //本地服务器地址
-    sendHost: 'http://t-api.jinkaidoor.com/v1',  //测试服务器地址
-    // sendHost: 'http://api.jinkaidoor.com/v1',  //正式服务器地址
-    qiNiuServer:'http://pifi5lc1c.bkt.clouddn.com/web' //七牛云服务器
+    // sendHost: 'http://t-api.jinkaidoor.com/v1',  //测试服务器地址
+    sendHost: 'http://pre-api.jinkaidoor.com/v1',  //正式服务器地址
+    // qiNiuServer:'http://pifi5lc1c.bkt.clouddn.com/web' //七牛云测试服务器
+    qiNiuServer:'http://cdn.jinkaidoor.com/web' //七牛云正式服务器
+    // qiNiuServer:'http://pifig7czp.bkt.clouddn.com/web' //七牛云正式服务器
   },
   mutations: {
     loginState (state,params) {

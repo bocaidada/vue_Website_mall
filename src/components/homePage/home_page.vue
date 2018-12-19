@@ -3,7 +3,7 @@
       <div class="banner">
         <swiper v-if="indexDataInit.banner" :options="swiperOption" style="height: 100%">
           <swiper-slide v-for="(item,index) in indexDataInit.banner" :key="index" :style="{background: 'url('+indexDataInit.baseImgUrl+item.img+') no-repeat center/cover'}">
-            <a style="display: block;width: 100%;height: 100%" :href="item.url" target="_blank"></a>
+            <a style="display: block;width: 100%;height: 100%" v-if="item.url" :href="item.url" target="_blank"></a>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
           <!--<div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>-->
@@ -277,11 +277,13 @@
   }
   .swiper-button-prev{
     left: 40px;
-    background-image: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_3.png") !important;
+    /*background-image: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_3.png") !important;*/
+    background-image: url("http://cdn.jinkaidoor.com/web/index/index_3.png") !important;
   }
   .swiper-button-next{
     right: 40px;
-    background-image: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_4.png") !important;
+    /*background-image: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_4.png") !important;*/
+    background-image: url("http://cdn.jinkaidoor.com/web/index/index_4.png") !important;
   }
 </style>
 <style scoped>
@@ -373,7 +375,8 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_13.jpg") no-repeat center/cover;
+    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_13.jpg") no-repeat center/cover;*/
+    background: url("http://cdn.jinkaidoor.com/web/index/index_13.jpg") no-repeat center/cover;
     z-index: -1;
   }
   .join_title{
@@ -434,7 +437,8 @@
   }
   .brandBox>.culture{
     width: 100%;
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/wenhua.jpg") no-repeat center/cover;
+    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/wenhua.jpg") no-repeat center/cover;*/
+    background: url("http://cdn.jinkaidoor.com/web/index/wenhua.jpg") no-repeat center/cover;
   }
   .brandBox>.partner{
     width: 100%;

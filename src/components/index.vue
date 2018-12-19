@@ -1,5 +1,24 @@
 <template>
   <div id="app">
+    <div class="service">
+      <div class="service_left">
+        客 <br> 服<br>中<br>心
+      </div>
+      <div class="service_right">
+        <div onclick="window.open('http://p.qiao.baidu.com/cps/chat?siteId=12829790&userId=26860524','门店客服','width=1000,height=600,menubar=no,toolbar=no, status=no,scrollbars=yes,top=100');">
+          <img :src="$store.state.qiNiuServer+'/icon_01.png'" alt="">
+          在线客服
+        </div>
+        <div title="TEL：4006-0570-85" @click="open('加盟咨询','TEL：4006-0570-85')">
+          <img :src="$store.state.qiNiuServer+'/icon_02.png'" alt="">
+          加盟咨询
+        </div>
+        <div title="TEL：4006-0570-86" @click="open('客服电话','TEL：4006-0570-86')">
+          <img :src="$store.state.qiNiuServer+'/icon_03.png'" alt="">
+          客服电话
+        </div>
+      </div>
+    </div>
     <login/>
     <headers/>
     <keep-alive>
@@ -66,6 +85,10 @@
             this.$store.commit('productFlag',false)
             this.$store.commit('orderType',2)
           }
+          if(to.path == '/project_case'){
+            this.$store.commit('headColorNum',3)
+            this.$store.commit('caseFlag',true)
+          }
           if(to.path.indexOf("project_case/detail_case") != -1){
             this.$store.commit('headColorNum',3)
             this.$store.commit('caseFlag',false)
@@ -92,7 +115,15 @@
         }
       },
       methods:{
-
+        open(name,tel) {
+          this.$notify({
+            title: name,
+            message: tel,
+            duration: 8000,
+            offset: 100,
+            type: 'success'
+          });
+        }
       }
     }
 </script>
@@ -107,7 +138,63 @@
   button{
     outline: none;
   }
+  h2{
+    text-align: left !important;
+  }
 </style>
 <style scoped>
 
+ .service{
+   width: 46px;
+   /*width: 200px;*/
+   height: 140px;
+   background: #D6C198;
+   /*background: rgba(195,161,102,.8);*/
+   position: fixed;
+   right: 0;
+   top: 40%;
+   z-index: 10000;
+   overflow: hidden;
+   cursor: pointer;
+   color: #fff;
+   border-radius: 5px;
+   transition: width 1s;
+ }
+ .service:hover{
+   width: 200px;
+ }
+  .service_left{
+    width: 50px;
+    height: 100%;
+    float: left;
+    border-right: 2px solid #efefef;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 0;
+    line-height: 30px;
+  }
+ .service_right{
+    width: 150px;
+    height: 100%;
+    float: left;
+    letter-spacing: 1px;
+  }
+ .service_right>div{
+   width: 100%;
+   height: 46px;
+   border-bottom: 2px solid #efefef;
+   box-sizing: border-box;
+   line-height: 46px;
+   text-align: left;
+ }
+ .service_right>div>img{
+   height: 60%;
+   vertical-align: middle;
+   padding:0 5px 0 16px;
+ }
+ .service_right>div:last-child{
+   border-bottom: none;
+ }
 </style>

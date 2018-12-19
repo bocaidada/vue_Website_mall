@@ -21,7 +21,8 @@
                   <input name="pass" maxlength="20" placeholder="请输入密码" type="password" v-model="loginDateForm.password">
                 </div>
                 <div class="field">
-                  <input class="logSubmit" @keyup.enter="logSubmit()" @click="logSubmit()" type="button" value="登录">
+                  <input class="logSubmit" @click="logSubmit()" type="button" value="登录">
+                  <!--<input class="logSubmit" @keyup.enter="logSubmit()" @click="logSubmit()" type="button" value="登录">-->
                 </div>
                 <span class="forget" @click="forgetPass()">忘记密码 ？</span>
               </form>
@@ -145,6 +146,7 @@
       },
       watch: {
         "$store.state.isLogin":function (val,old) {
+          console.log(val)
           this.isLogin = val
         },
         "$store.state.regState":function (val,old) {
@@ -201,7 +203,7 @@
         }
       },
       logSubmit: function() {
-        console.log(this.loginDateForm)
+        // console.log(this.loginDateForm)
         if(this.loginDateForm.username && this.loginDateForm.password){
           const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
           if (reg.test(this.loginDateForm.username)) {
@@ -218,6 +220,7 @@
                 this.loginDateForm = {username: '',password:'',type: 1}
                 this.$store.commit('userToken',res.data.data.token)
                 this.close()
+
                 // this.$router.push('/')
               }else{
                 this.$message({
@@ -250,8 +253,9 @@
       addNum() {
         this.keyNum += 1
       },
-      // 取消登陆
+      // 关闭登陆窗口
       close() {
+        // this.isLogin = false
         this.forgetFlag = true
         this.$store.commit('loginState',true)
       },
@@ -504,11 +508,16 @@
     margin-bottom: 10px;
   }
   .slide-fade-enter-active,.slide-fade-leave-active{
-    transition: all 2s;
+    transition: all 1.5s;
+    -moz-transition: all 1.5s;
+    -webkit-transition: all 1.5s;
     opacity: 1;
   }
   .slide-fade-enter, .slide-fade-leave-to{
     transform: rotate3d(1,1,1,180deg);
+    -ms-transform: rotate3d(1,1,1,180deg);
+    -moz-transform: rotate3d(1,1,1,180deg);
+    -webkit-transform: rotate3d(1,1,1,180deg);
     opacity: 0;
   }
 </style>

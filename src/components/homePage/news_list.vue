@@ -65,7 +65,7 @@
     },
     mounted() {
       this.contentList(1)
-      console.log(this.$store.state.caseFlag);
+      // console.log(this.$store.state.caseFlag);
     },
     watch: {
       '$route' (to, from) {
@@ -79,7 +79,7 @@
         }
       },
       '$store.state.caseFlag':function(val,old) {
-        console.log(val,old)
+        // console.log(val,old)
         // this.pageFlag = val
       }
     },

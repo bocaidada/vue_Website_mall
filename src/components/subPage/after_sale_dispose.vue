@@ -89,17 +89,40 @@
             })
           },
           solve() {
-            this.$http.post('orderServiceChatFinish',{id:this.$route.params.id}).then((res)=>{
-              console.log(res.data)
-              if(res.data.code == 200) {
-                this.solveFlag = false
-              }else{
-                this.$message({
-                  message: res.data.msg,
-                  type: 'error'
-                })
-              }
-            })
+            this.$confirm('问题是否已经解决, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$http.post('orderServiceChatFinish',{id:this.$route.params.id}).then((res)=>{
+                console.log(res.data)
+                if(res.data.code == 200) {
+                  this.solveFlag = false
+                }else{
+                  this.$message({
+                    message: res.data.msg,
+                    type: 'error'
+                  })
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消'
+              });
+            });
+            // this.$http.post('orderServiceChatFinish',{id:this.$route.params.id}).then((res)=>{
+            //   console.log(res.data)
+            //   if(res.data.code == 200) {
+            //     this.solveFlag = false
+            //     this.$message.success('')
+            //   }else{
+            //     this.$message({
+            //       message: res.data.msg,
+            //       type: 'error'
+            //     })
+            //   }
+            // })
           },
           chatCreate() {
             if(this.createData.msg == ''){

@@ -557,9 +557,13 @@
     color: #999;
     border-radius: 3px;
   }
-  input::placeholder{
+  input::-webkit-input-placeholder{
     color: #ccc;
-    font-size: 12px ;
+    font-size: 12px
+  }
+  input::-ms-input-placeholder{
+    color: #ccc;
+    font-size: 12px
   }
   .correlation{
     margin-top: 30px;
@@ -669,10 +673,15 @@
   }
   .shopLogin-fade-enter-active,.shopLogin-fade-leave-active{
     transition: all 1.5s;
+    -moz-transition: all 1.5s;
+    -webkit-transition: all 1.5s;
     opacity: 1;
   }
   .shopLogin-fade-enter, .shopLoginy-fade-leave-to{
     transform: rotate3d(0,1,0,180deg);
+    -ms-transform: rotate3d(0,1,0,180deg);
+    -moz-transform: rotate3d(0,1,0,180deg);
+    -webkit-transform: rotate3d(0,1,0,180deg);
     opacity: 0;
   }
 </style>

@@ -107,7 +107,7 @@
           let step = distance/50; //每步的距离
           (function jump(){
             if(distance > 0){
-              distance-=step;
+              distance -= step;
               window.scrollTo(0,distance);
               setTimeout(jump,10)
             }

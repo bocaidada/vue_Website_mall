@@ -100,19 +100,21 @@
       },
       methods: {
         dataInit() {
-          this.$http.get('goodsCatalog','').then((res)=>{
-            // console.log(res.data)
+          this.$http.get('goodsTags','').then((res)=>{
+            console.log(res.data)
             if(res.data.code == 200){
-              this.classify = res.data.data.list
+              this.classify = res.data.data
             }
           })
         },
         contentList(types,pages) {
-          this.$http.get('goodsList',{catalogId:types,page:pages}).then((res)=>{
+          this.$http.get('goodsList_by_tag',{tagId:types,page:pages}).then((res)=>{
             // console.log(res.data)
-            this.totalNum = res.data.data.counts
-            this.baseUrl = res.data.data.baseUrl
-            this.caseData = res.data.data.list
+            if(res.data.code == 200) {
+              this.totalNum = res.data.data.counts
+              this.baseUrl = res.data.data.baseUrl
+              this.caseData = res.data.data.list
+            }
           })
         },
         changeCole(index) {

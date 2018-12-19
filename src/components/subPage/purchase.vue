@@ -167,12 +167,18 @@
         }
     }
 </script>
-
+<style>
+  .v-modal{
+    background: none !important;
+    z-index: -1;
+  }
+</style>
 <style scoped>
   .topBan{
     width: 100%;
     height: 600px;
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/pinzhi/yuan_banner_01.jpg") no-repeat center/cover;
+    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/pinzhi/yuan_banner_01.jpg") no-repeat center/cover;*/
+    background: url("http://cdn.jinkaidoor.com/web/pinzhi/yuan_banner_01.jpg") no-repeat center/cover;
   }
   .botBox{
     width: 100%;
@@ -283,6 +289,10 @@
     color: #b5b5b5;
     font-size: 14px;
   }
+  .fieldBot>input::-ms-input-placeholder{
+    color: #b5b5b5;
+    font-size: 14px;
+  }
   .fieldBot>input[name='name'],.fieldBot>input[name='mobile']{
     width: 38%;
     padding: 0 20px;
@@ -314,10 +324,15 @@
 
   .upload-fade-enter-active,.upload-fade-leave-active{
     transition: all 1.5s;
+    -moz-transition: all 1.5s;
+    -webkit-transition: all 1.5s;
     opacity: 1;
   }
   .upload-fade-enter, .upload-fade-leave-to{
     transform: rotate3d(0,1,0,180deg);
+    -ms-transform: rotate3d(0,1,0,180deg);
+    -moz-transform: rotate3d(0,1,0,180deg);
+    -webkit-transform: rotate3d(0,1,0,180deg);
     opacity: 0;
   }
 </style>

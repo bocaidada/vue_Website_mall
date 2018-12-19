@@ -50,7 +50,7 @@
         <img :src="serverBase+'/pinzhi/wenzi_icon_04.png'" alt="">
       </div>
       <div class="mod_bot">
-        <img :src="serverBase+'/pinzhi/banner_05.png'" alt="">
+        <img :src="serverBase+'/pinzhi/banner_05.png'" alt="" style="display: block">
       </div>
     </div>
   </section>

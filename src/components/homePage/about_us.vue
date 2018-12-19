@@ -10,7 +10,8 @@
           <div class="info_bot">
             <div class="main">
               <div class="video_left">
-                <video controls :src="video_url" :poster="serverBase+'/video_cover.jpg'"></video>
+                <!--<video controls :src="video_url" :poster="serverBase+'/video_cover.jpg'"></video>-->
+                <embed :src='video_url' allowFullScreen='true' width='100%' height='100%' align='middle' allowScriptAccess='always' type='application/x-shockwave-flash'/>
               </div>
               <div class="info_right">
                 <p>浙江金凯门业有限责任公司，创建于2005年，是国内较早具备研发、设计、生产、服务、销售，原木门、实木复合门、免漆门等木门产品的知名品牌企业。拥有两大生产基地，总占地面积200多亩，公司引进德国、荷兰、台湾等国内外一流的生产设备100多台，形成年产65万套室内门的生产能力。</p>
@@ -98,7 +99,7 @@
             serverBase:this.$store.state.qiNiuServer,
             moreFlag: false,
             // video_url:'http://pifi5lc1c.bkt.clouddn.com/media/video/jkmy.mp4',
-            video_url:'http://122.228.74.186/6974CEC0B484871D0D92941DD/03000B01005BDFEF34012A85D40E897EFBAFD0-0018-4B17-964D-3F28C0357086.mp4?ccode=0502&duration=180&expire=18000&psid=34f1a970c3d23f93c674b421fb1064cf&ups_client_netip=73c32ccc&ups_ts=1544668585&ups_userid=1345823510&utid=YYAqFFugPHUCAX1pNSz%2F7xZ8&vid=XMzk2MTk4MjE2OA&vkey=A138dc4ef41e3b94deca51567e0029939&iv=1&sp=&ali_redirect_domain=ykugc.cp31.ott.cibntv.net&ali_redirect_ex_ftag=1ce9f6bb1a3f45d99b3bbfc1964642a8fbb6e197f73d723b&ali_redirect_ex_tmining_ts=1544668613&ali_redirect_ex_tmining_expire=3600&ali_redirect_ex_hot=1',
+            video_url:'http://player.youku.com/player.php/sid/XMzk2MTk4MjE2OA==/v.swf',
             bannerImg:[
               {name:'one',url:'/aboutUs/banner_01.png'}
             ],
@@ -237,10 +238,12 @@
     position: absolute;
     bottom: -38px;
     right: 0;
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/aboutUs/icon_02.png") no-repeat center/cover;
+    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/aboutUs/icon_02.png") no-repeat center/cover;*/
+    background: url("http://cdn.jinkaidoor.com/web/aboutUs/icon_02.png") no-repeat center/cover;
   }
   .course{
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/aboutUs/banner_04.jpg") no-repeat center/cover;
+    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/aboutUs/banner_04.jpg") no-repeat center/cover;*/
+    background: url("http://cdn.jinkaidoor.com/web/aboutUs/banner_04.jpg") no-repeat center/cover;
   }
   .course_bot{
     width: 1200px;

@@ -133,6 +133,7 @@
       },
       mounted() {
         this.addList()
+        this.messageArr[0] = ''
       },
       watch:{
         selected(val,old) {
@@ -222,6 +223,11 @@
               div.innerHTML = Base64.decode(res.data.data.html);
               document.body.appendChild(div);
               document.forms.alipaysubmit.submit();
+            }else{
+              this.$message({
+                message: res.data.msg,
+                type: 'error'
+              })
             }
           })
         },
@@ -321,7 +327,8 @@
   .payBox>.zhiFu{
     width: 250px;
     height: 100%;
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/zhifubao.png") no-repeat center/cover;
+    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/zhifubao.png") no-repeat center/cover;*/
+    background: url("http://cdn.jinkaidoor.com/web/zhifubao.png") no-repeat center/cover;
     border-radius: 2px;
     overflow: hidden;
     cursor: pointer;

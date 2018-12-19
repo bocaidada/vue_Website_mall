@@ -46,6 +46,9 @@ let apiName = {
   newsInfo:'news/info', // 新闻详情
   carList:'cart/list', // 购物车列表
   goodsFreight:'goods/freight',    // 运费查询
+  goodsTags:'goods/tags',    // 商品标签列表
+  goodsList_by_tag:'goods/list_by_tag',    // 商品列表（根据商品标签筛选）
+
 
   shopBanner:'shop/banner',    // 门店banner
   shopInfo:'shop/info',    // 门店信息

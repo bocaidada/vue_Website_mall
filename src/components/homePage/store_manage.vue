@@ -182,8 +182,7 @@
             </el-table-column>
             <el-table-column
               align="center"
-              label="操作"
-              v-if="this.type == 1">
+              label="操作">
               <template  slot-scope="scope">
                 <el-button
                   size="mini"
@@ -191,6 +190,7 @@
                   @click="handleSees(scope.row,1)" v-if="scope.row.btnStatus == 1">发货</el-button>
                 <el-button
                   size="mini"
+                  type="text"
                   @click="handleSees(scope.row,2)" v-if="scope.row.btnStatus == 2">收货</el-button>
                 <el-button
                   type="text"
@@ -243,7 +243,7 @@
         indentFlag: true,
         bannerFlag: false,
         num: 0,
-        type: 1,
+        type: 0,
         baseUrl:'',
         classify:[],
         pageFlag: this.$store.state.storeFlag,
@@ -316,20 +316,20 @@
       }
     },
     methods: {
-      //商品分类
+      // 产品分类
       dataInit() {
-        this.$http.get('shopGoodsCatalog','').then((res)=>{
-          // console.log(res.data)
+        this.$http.get('goodsTags','').then((res)=>{
+          console.log(res.data)
           if(res.data.code == 200){
-            this.classify = res.data.data.list
+            this.classify = res.data.data
           }
         })
       },
-      //商品列表
+      // 商品分类
       contentList(types,pages) {
-        this.$http.get('shopGoodsList',{catalogId:types,page:pages}).then((res)=>{
+        this.$http.get('goodsList_by_tag',{tagId:types,page:pages}).then((res)=>{
           // console.log(res.data)
-          if(res.data.code == 200){
+          if(res.data.code == 200) {
             this.totalNum = res.data.data.counts
             this.baseUrl = res.data.data.baseUrl
             this.caseData = res.data.data.list

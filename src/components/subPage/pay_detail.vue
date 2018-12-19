@@ -310,6 +310,8 @@
               if(this.address.length){
                 this.payData.addressId = this.address[0].id
                 this.payLists(this.address[0].id)
+              }else{
+                this.payLists('')
               }
             }
           })
@@ -318,8 +320,8 @@
           this.$http.get('payList',{fromSource:this.fromSources,addressId:params}).then((res)=>{
             // console.log(res.data)
             if(res.data.code == 200) {
+              this.messageArr = []
               this.tableData = res.data.data.list
-              // console.log(this.tableData.length)
               for(let i=0;i<this.tableData.length;i++){
                 this.messageArr.push('')
               }

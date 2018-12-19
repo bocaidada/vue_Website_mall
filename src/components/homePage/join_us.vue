@@ -334,7 +334,8 @@
  }
   .staff_bot{
     height: 600px;
-    background: url("../../../static/img/joinUs/banner_09.png") no-repeat center/cover;
+    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/joinUs/banner_09.png") no-repeat center/cover;*/
+    background: url("http://cdn.jinkaidoor.com/web/joinUs/banner_09.png") no-repeat center/cover;
   }
  .staff_bot>.main{
     height: 100%;
@@ -519,6 +520,9 @@
  input::-webkit-input-placeholder{
    color: rgba(195,155,99,1);
  }
+ input::-ms-input-placeholder{
+   color: rgba(195,155,99,1);
+ }
  input[name='submit']{
    background: rgba(195,155,99,1);
    color:rgba(230,230,230,1);
@@ -538,10 +542,15 @@
   }
  .apply-fade-enter-active,.apply-fade-leave-active{
    transition: all 1.5s;
+   -moz-transition: all 1.5s;
+   -webkit-transition: all 1.5s;
    opacity: 1;
  }
  .apply-fade-enter, .apply-fade-leave-to{
    transform: rotate3d(0,1,0,180deg);
+   -ms-transform: rotate3d(0,1,0,180deg);
+   -moz-transform: rotate3d(0,1,0,180deg);
+   -webkit-transform: rotate3d(0,1,0,180deg);
    opacity: 0;
  }
 </style>
