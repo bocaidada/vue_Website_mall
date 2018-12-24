@@ -47,7 +47,7 @@
                 <div class="field">
                   <input class="regSubmit" @click="regSubmit()" type="button" value="注册">
                 </div>
-                  <p class="logHit">点击 “注册” 即表示您同意并愿意遵守 <br>金凯木业商城 <a href="http://t-www.jinkaidoor.com/protocol.html" target="_blank">服务协议</a></p>
+                  <p class="logHit">点击 “注册” 即表示您同意并愿意遵守 <br>金凯木业商城 <a href="http://www.jinkaidoor.com/protocol.html" target="_blank">服务协议</a></p>
               </form>
             </div>
           </div>

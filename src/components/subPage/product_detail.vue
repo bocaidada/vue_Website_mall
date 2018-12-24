@@ -47,7 +47,7 @@
              <div class="buyBox">
                <div @click="submitData('addCar')">加入购物车</div>
                <div @click="submitData('buy')">直接购买</div>
-               <div @click="submitData('shop')" v-if="initDates.showShop">门店定制</div>
+               <div @click="submitData('shop')" v-if="showShop">门店定制</div>
                <div v-if="initDates.urlJd" class="side">
                  <a :href="initDates.urlJd" target="_blank">京东购买</a>
                </div>
@@ -99,6 +99,7 @@
       components: { PicZoom  },
       data() {
           return {
+            showShop: 0,
             price:'',
             salesPrice:'',
             serverBase:this.$store.state.qiNiuServer,
@@ -144,7 +145,7 @@
         this.dataInit()
       },
       mounted() {
-
+        this.getButton()
       },
       watch: {
         selected(val,old) {
@@ -185,7 +186,7 @@
              this.initDates = res.data.data.info
              this.content = Base64.decode(res.data.data.info.content)
              this.topImgUrl = this.baseUrl+this.initDates.imgs[0]
-             console.log(this.initDates)
+             // console.log(this.initDates)
              this.price = this.initDates.price
              this.salesPrice = this.initDates.salesPrice
            }else{
@@ -194,6 +195,14 @@
                type: 'error'
              })
            }
+          })
+        },
+        getButton() {
+          this.$http.get('goodsShowShop','').then(res=>{
+            // console.log(res.data.data)
+            if(res.data.code == 200) {
+              this.showShop = res.data.data
+            }
           })
         },
         change(flag) {
