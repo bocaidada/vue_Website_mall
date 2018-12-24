@@ -327,7 +327,6 @@
   .payBox>.zhiFu{
     width: 250px;
     height: 100%;
-    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/zhifubao.png") no-repeat center/cover;*/
     background: url("http://cdn.jinkaidoor.com/web/zhifubao.png") no-repeat center/cover;
     border-radius: 2px;
     overflow: hidden;

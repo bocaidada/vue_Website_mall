@@ -2,7 +2,7 @@
   <div class="main">
     <div class="case_title">
       <router-link to="/news_list">行业资讯</router-link>
-      <span> > </span>
+      <span> &gt </span>
       <a href="javascript:return false;" style="color: #CFA972" v-if="contentData.info">{{contentData.info.name}}</a>
     </div>
     <div class="case_content">
@@ -38,6 +38,8 @@
     created() {
       // console.log(this.$route.params.id)
       // console.log(this.$store.state.caseFlag);
+    },
+    mounted() {
       this.content()
     },
     methods: {
@@ -50,6 +52,11 @@
             if(this.content) {
               this.contentFlag = true
             }
+          }else{
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            })
           }
         })
       }
@@ -91,12 +98,13 @@
     padding-bottom: 60px;
   }
   .box_text p{
+    width: 100%;
     text-indent: 2em;
     line-height: 40px;
     height: 40px;
   }
   .box_text img{
-    width: auto;
+    width: 100%;
     margin: 0 auto;
   }
 </style>

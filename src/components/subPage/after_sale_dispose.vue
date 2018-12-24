@@ -3,16 +3,16 @@
     <div class="main">
       <div class="main_top" v-if="orderNum == 1">
         <router-link to="/store_manage">订单列表</router-link>
-        <span> > </span>
+        <span> &gt </span>
         <router-link :to="'/store_manage/oder_detail/'+$route.params.id">订单详情</router-link>
-        <span> > </span>
+        <span> &gt </span>
         <router-link to="" style="color: #CFA972">申请售后</router-link>
       </div>
       <div class="main_top" v-else>
         <router-link to="/my_order">订单列表</router-link>
-        <span> > </span>
+        <span> &gt </span>
         <router-link :to="'/my_order/oder_detail/'+$route.params.id">订单详情</router-link>
-        <span> > </span>
+        <span> &gt </span>
         <router-link to="" style="color: #CFA972">申请售后</router-link>
       </div>
       <div class="main_box">
@@ -95,7 +95,7 @@
               type: 'warning'
             }).then(() => {
               this.$http.post('orderServiceChatFinish',{id:this.$route.params.id}).then((res)=>{
-                console.log(res.data)
+                // console.log(res.data)
                 if(res.data.code == 200) {
                   this.solveFlag = false
                 }else{

@@ -4,8 +4,8 @@
       <div class="detail">
            <div class="detail_left">
              <div class="detail_left_top">
-                <pic-zoom :url="topImgUrl" :scale="4"></pic-zoom>
-               <!--<img :src="topImgUrl" alt="">-->
+                <!--<pic-zoom :url="topImgUrl" :scale="3"></pic-zoom>-->
+               <img style="margin: 0 auto" :src="topImgUrl" alt="">
               </div>
               <div class="detail_left_bot">
                 <div v-for="(item,index) in initDates.imgs" @click="topImgShow(item)" :key="index" :style="{background: 'url('+baseUrl+item+') no-repeat center/cover'}" v-if="index<4"></div>
@@ -87,7 +87,7 @@
       <transition name="shopLogin-fade">
        <div class="shopLogin" v-if="formFlag">
           <div class="box">
-            <h2>客户信息</h2>
+            <h2 style="text-align: center">客户信息</h2>
             <el-form :model="ruleForm" :rules="rules" status-icon ref="ruleForm">
               <el-form-item
                 prop="customerName">
@@ -111,10 +111,10 @@
 
 <script>
   import { pca, pcaa } from 'area-data'; // v5 or higher
-  import PicZoom  from 'vue-piczoom'
+  // import PicZoom  from 'vue-piczoom'
     export default {
       name: "product_detail",
-      components: { PicZoom  },
+      // components: { PicZoom  },
       data() {
           let checkPhone = (rule, value, callback) => {
             if (!value) {
@@ -141,6 +141,14 @@
           }
         }
           return {
+            configs: {
+              width:650,
+              height:350,
+              maskWidth:100,
+              maskHeight:100,
+              maskColor:'red',
+              maskOpacity:0.2
+            },
             price:'',
             shopPrices:'',
             pathId:'',
@@ -232,7 +240,7 @@
             this.initDates = res.data.data.info
             this.content = Base64.decode(res.data.data.info.content)
             this.topImgUrl = this.baseUrl+this.initDates.imgs[0]
-            console.log(this.initDates)
+            // console.log(this.initDates)
             this.price = this.initDates.price
             this.shopPrices = this.initDates.shopPrice
           })
@@ -279,7 +287,7 @@
         },
         //门板数量
         handleChange(value) {
-          console.log(value);
+          // console.log(value);
           this.doorData.number = value
         },
         changeBorder(val) {
@@ -325,16 +333,16 @@
         },
         //提交数据
         submitData() {
-          console.log(this.doorData)
+          // console.log(this.doorData)
           this.doorData.itemId = this.initDates.id
-          if(this.initDates.attrs){
+          if(this.initDates.attrs.length){
             if(this.doorData.skuId == '') {
               this.$message.error('请完整选择商品属性')
               return
             }
           }
           for(let key in this.doorOpen) {
-            console.log()
+            // console.log()
             if(this.doorOpen[key] == ''){
               this.sizeFlag = true
               return
@@ -371,13 +379,15 @@
    }
   .main{
     background: #fff;
-    padding: 35px;
-    box-sizing: border-box;
+    /*padding: 35px;*/
+    /*box-sizing: border-box;*/
     text-align: left;
     position: relative;
   }
   .detail{
     height: 650px;
+    padding: 35px;
+    box-sizing: border-box;
   }
   .detail_left{
     width: 40%;
@@ -390,6 +400,7 @@
     box-sizing: border-box;
     margin-bottom: 20px;
     border: 1px solid #ccc;
+    text-align: center;
   }
   .detail_left_top img{
     height: 100%;
@@ -571,6 +582,8 @@
     font-size: 18px;
   }
   .correlation_top{
+    padding: 0 35px;
+    box-sizing: border-box;
     height: 40px;
     line-height: 40px;
     color: #333;
@@ -590,7 +603,8 @@
     background: #434343;
   }
   .goods_detail_info{
-    padding: 30px 0;
+    padding: 35px;
+    box-sizing: border-box;
     color: #959595;
     border-bottom: 1px solid rgba(220,220,220,1);
     margin-bottom: 40px;

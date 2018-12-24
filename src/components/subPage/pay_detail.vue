@@ -318,7 +318,7 @@
         },
         payLists(params) {
           this.$http.get('payList',{fromSource:this.fromSources,addressId:params}).then((res)=>{
-            // console.log(res.data)
+            console.log(res.data)
             if(res.data.code == 200) {
               this.messageArr = []
               this.tableData = res.data.data.list
@@ -455,7 +455,7 @@
   .payBox>.zhiFu{
     width: 250px;
     height: 100%;
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/zhifubao.png") no-repeat center/cover;
+    background: url("http://cdn.jinkaidoor.com/web/zhifubao.png") no-repeat center/cover;
     border-radius: 2px;
     overflow: hidden;
     cursor: pointer;

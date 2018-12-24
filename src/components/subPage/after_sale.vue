@@ -3,16 +3,16 @@
     <div class="main">
       <div class="main_top" v-if="orderNum == 1">
         <router-link to="/store_manage">订单列表</router-link>
-        <span> > </span>
+        <span> &gt </span>
         <router-link :to="'/store_manage/oder_detail/'+$route.params.id">订单详情</router-link>
-        <span> > </span>
+        <span> &gt </span>
         <router-link to="" style="color: #CFA972">申请售后</router-link>
       </div>
       <div class="main_top" v-else>
         <router-link to="/my_order">订单列表</router-link>
-        <span> > </span>
+        <span> &gt </span>
         <router-link :to="'/my_order/oder_detail/'+$route.params.id">订单详情</router-link>
-        <span> > </span>
+        <span> &gt </span>
         <router-link to="" style="color: #CFA972">申请售后</router-link>
       </div>
       <div class="main_box">
@@ -118,7 +118,7 @@
           <tr>
             <td></td>
             <td>
-              <button @click="uploadSale()">保存</button>
+              <button @click="uploadSale()">提交</button>
             </td>
           </tr>
         </table>
@@ -174,7 +174,7 @@
         },
         watch: {
           "value" (val,old) {
-            console.log(val)
+            // console.log(val)
           },
           "$store.state.orderType" (val,old) {
             this.orderNum = val
@@ -190,7 +190,7 @@
             })
           },
           handleRemove(file, fileList) {
-            console.log(file, fileList);
+            // console.log(file, fileList);
           },
           handleUpload(file, fileList) {
             // console.log(file, fileList);
@@ -201,7 +201,7 @@
             return isLt5M;
           },
           handleSuccess(res) {
-            // console.log(res);
+            console.log(res);
             if (res.code == 200){
               this.uploadDateForm.imgs += ',' + res.data.img
             }else{

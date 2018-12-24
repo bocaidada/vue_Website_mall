@@ -14,9 +14,11 @@
                 <embed :src='video_url' allowFullScreen='true' width='100%' height='100%' align='middle' allowScriptAccess='always' type='application/x-shockwave-flash'/>
               </div>
               <div class="info_right">
-                <p>浙江金凯门业有限责任公司，创建于2005年，是国内较早具备研发、设计、生产、服务、销售，原木门、实木复合门、免漆门等木门产品的知名品牌企业。拥有两大生产基地，总占地面积200多亩，公司引进德国、荷兰、台湾等国内外一流的生产设备100多台，形成年产65万套室内门的生产能力。</p>
+                <p>浙江金凯门业有限责任公司，创建于2005年，是国内较早具备研发、设计、生产、服务、销售，原木门、实木复合门、免漆门等木门产品的知名品牌企业。拥有两大生产基地，总占地面积130多亩，公司引进德国、荷兰、台湾等国内外一流的生产设备100多台，形成年产100万套室内门的生产能力。</p>
                       <p>两大生产基地巩固了金凯在国内外遥遥领先的市场份额。万科、金地、世茂、华润、和昌、越秀、中航里城、银亿、东原、中天、南京名万，南平建设等国内大型地产公司先后与公司成为战略合作伙伴，产品远销五大洲四大洋，获得了欧美国家的高度认可。</p>
                     <p> “打造中国木门一流品牌”是金凯人不懈的追求。</p>
+               <!--<p>浙江金凯门业有限责任公司前身江山市南江建筑材料厂，成立于1999年5月，2005年9月创办浙江金凯门业有限责任公司注册资本2000万元，2014年增加注册资本到5000万元，是一家集研发、生产、销售、服务、电子商务于一体的现代化木门专业制造企业。公司占地面积近130多亩，现有厂房6万平方米，拥有先进的生产设备、检测设备，完善的标准化厂房，年产各类环保型木门能力100万套，产品产量位居全市前茅。公司主导产品是室内免漆门、拼装门、T型门、模压门、实木复合免漆门、烤漆门、船用家具、橱柜、衣柜等。</p>-->
+                <!--<p>随着业务的拓展，公司的生产基地不断增大、增强，目前公司已有贺村、茅坂两个生产基地，并有联营厂若干，促使公司的产能和生产不断增强。产品畅销全国各大中城市，远销美国、意大利、法国、摩尔多瓦、伊朗、以色列、新加坡等国际市场，深受用户的好评。</p> -->
               </div>
             </div>
           </div>
@@ -29,6 +31,8 @@
           <swiper :options="swiperOption2" style="height: 100%">
             <swiper-slide v-for="(item,index) in historyImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
+            <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+            <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
           </swiper>
         </div>
       </div>
@@ -41,7 +45,8 @@
             <div class="info_left dynamic_state_left">
               <div v-if="dynamicData.list ">
                 <div>
-                  <img :src="dynamicData.baseUrl+dynamicData.list[0].img" alt="">
+                  <img v-if="dynamicData.list[0].img" :src="dynamicData.baseUrl+dynamicData.list[0].img" alt="">
+                  <img style="height: 100%;width: auto;margin: 0 auto" v-else :src="$store.state.qiNiuServer+'/empty_place.png'" alt="">
                 </div>
                 <p>{{dynamicData.list[0].name}}</p>
                 <span>{{dynamicData.list[0].summary}}</span>
@@ -74,6 +79,8 @@
             <swiper :options="swiperOption3" style="height: 100%">
               <swiper-slide v-for="(item,index) in honorImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
               <div class="swiper-pagination" slot="pagination"></div>
+              <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+              <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
             </swiper>
           </div>
         </div>
@@ -150,6 +157,10 @@
               autoplay: {
                 delay: 5000,
                 disableOnInteraction: false
+              },
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
               }
             },
             swiperOption3: {
@@ -164,6 +175,10 @@
               pagination: {
                 el: '.swiper-pagination',
                 dynamicBullets: true
+              },
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
               }
             }
           }
@@ -238,11 +253,9 @@
     position: absolute;
     bottom: -38px;
     right: 0;
-    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/aboutUs/icon_02.png") no-repeat center/cover;*/
     background: url("http://cdn.jinkaidoor.com/web/aboutUs/icon_02.png") no-repeat center/cover;
   }
   .course{
-    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/aboutUs/banner_04.jpg") no-repeat center/cover;*/
     background: url("http://cdn.jinkaidoor.com/web/aboutUs/banner_04.jpg") no-repeat center/cover;
   }
   .course_bot{
@@ -310,7 +323,7 @@
   }
   .dynamic_state_left>div>div>img{
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
     display: block;
     transition: 1s;
   }

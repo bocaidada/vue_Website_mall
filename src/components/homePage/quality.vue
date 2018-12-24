@@ -223,14 +223,14 @@
   #server{
     margin-bottom: 80px;
   }
-  @media screen and (max-width: 1600px) {
-    .banner,.moduleBox>.mod_bot{
-      height: 550px;
-    }
-  }
-  @media screen and (max-width: 1300px) {
-    .banner,.moduleBox>.mod_bot{
-      height: 500px;
-    }
-  }
+  /*@media screen and (max-width: 1600px) {*/
+    /*.banner,.moduleBox>.mod_bot{*/
+      /*height: 550px;*/
+    /*}*/
+  /*}*/
+  /*@media screen and (max-width: 1300px) {*/
+    /*.banner,.moduleBox>.mod_bot{*/
+      /*height: 500px;*/
+    /*}*/
+  /*}*/
 </style>

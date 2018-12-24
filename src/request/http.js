@@ -1,7 +1,9 @@
 import axios  from './request'; // 导入http中创建的axios实例
 // import qs  from 'qs';
-import store from "../vuex/store"; // 根据需求是否导入qs模块
+import store from "../vuex/store";
+import md5 from "../../static/js/md5.min"; // 根据需求是否导入qs模块
 let base = store.state.sendHost;
+let hT = '';
 let apiName = {
   // post
   register:'auth/register', // 用户注册
@@ -62,20 +64,38 @@ let apiName = {
 
   orderServiceInfo:'order/service/info', //获取售后订单商品详情
   serviceChatList:'order/service/chat/list', //获取订单售后工单记录
-
-
+}
+// 保证签名不一致
+function  createSign(method,params) {
+  hT = new Date().getTime().toString().substring(0,10)
+  let sign = '';
+  if(params){
+    let arr = [];
+    for(let key in params){
+      arr.push(key)
+    }
+    arr = arr.sort();
+    arr.forEach(ele => {
+      //中文需要转码
+      // sign += `${ele}=${encodeURIComponent(params[ele])}&`
+      sign += `${ele}=${params[ele]}&`
+    });
+  }
+  // console.log(method+'&'+sign+hT)
+  // console.log(md5(method+'&'+sign+hT))
+  return md5(method+'&'+sign+hT);
 }
 // 登录模块
 const http = {
   post(api,params) {
-    store.commit('method','POST')
-    store.commit('createSign',params)
-    return axios.post(`${base}/${apiName[api]}`, params);
+    // store.commit('method','POST')
+    // store.commit('createSign',params)
+    return axios.post(`${base}/${apiName[api]}`,params,{headers:{hSign:createSign('POST',params),hT:hT}});
   },
   get(api,param) {
-    store.commit('method','GET')
-    store.commit('createSign',param)
-    return axios.get(`${base}/${apiName[api]}`, {params:param});
+    // store.commit('method','GET')
+    // store.commit('createSign',param)
+    return axios.get(`${base}/${apiName[api]}`,{headers:{hSign:createSign('GET',param),hT:hT},params:param});
   }
 }
 export default http;

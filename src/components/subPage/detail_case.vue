@@ -66,7 +66,7 @@
         content() {
           this.$http.get('caseInfo',{id:this.$route.params.id}).then((res)=>{
             if(res.data.code == 200){
-              console.log(res.data.data)
+              // console.log(res.data.data)
               this.contentData = res.data.data
             }
           })

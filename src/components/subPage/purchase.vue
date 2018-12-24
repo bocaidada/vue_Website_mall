@@ -82,7 +82,7 @@
               uploadDateForm:{
                 name:'',
                 content:'',
-                imgs:[],
+                imgs:'',
                 mobile:''
               }
             }
@@ -90,7 +90,7 @@
         methods: {
           openUpload() {
             this.uploadBoxFlag = true
-            this.uploadDateForm = {name:'',content:'',imgs:[],mobile:''}
+            this.uploadDateForm = {name:'',content:'',imgs:'',mobile:''}
           },
           closeUpload() {
             this.uploadBoxFlag = false
@@ -177,7 +177,6 @@
   .topBan{
     width: 100%;
     height: 600px;
-    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/pinzhi/yuan_banner_01.jpg") no-repeat center/cover;*/
     background: url("http://cdn.jinkaidoor.com/web/pinzhi/yuan_banner_01.jpg") no-repeat center/cover;
   }
   .botBox{

@@ -61,10 +61,9 @@
       }
     },
     created() {
-
+      this.contentList(1)
     },
     mounted() {
-      this.contentList(1)
       // console.log(this.$store.state.caseFlag);
     },
     watch: {

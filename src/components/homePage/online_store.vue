@@ -14,7 +14,7 @@
           <div class="case_content_box">
             <div v-if="caseData.length == 0" style="position: absolute;left: 50%;transform: translateX(-50%);top: 30%;">
               <img :src="serverBase+'/kongbai_02.png'" alt="" style="width: 300px;display: block;">
-              <p style="line-height: 80px;font-size: 20px;color: #cfa972;">暂时没有数据</p>
+              <p style="line-height: 80px;font-size: 20px;color: #cfa972;">商品即将上线，敬请期待...</p>
             </div>
             <ul>
               <!--<router-link tag="li" :to="{name:'product_detail',params: {id:item.id}}" v-for="(item,index) in caseData" :key="index">-->
@@ -83,7 +83,9 @@
         this.dataInit()
       },
       mounted() {
-        this.contentList(this.type,1)
+        setTimeout(()=>{
+          this.contentList(this.type,1)
+        },0)
       },
       watch: {
         '$route' (to, from) {
@@ -101,7 +103,7 @@
       methods: {
         dataInit() {
           this.$http.get('goodsTags','').then((res)=>{
-            console.log(res.data)
+            // console.log(res.data)
             if(res.data.code == 200){
               this.classify = res.data.data
             }

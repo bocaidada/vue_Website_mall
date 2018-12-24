@@ -78,6 +78,17 @@
                 </span>
                   <span class="info">简介：{{item.summary}}</span>
                 </router-link>
+
+                <!--<li @click="linkToDetail(item)" v-for="(item,index) in caseData" :key="index">-->
+                  <!--<div class="imgBox">-->
+                    <!--<div class="box" :style="{background: 'url('+baseUrl+item.img+') no-repeat center/cover'}"></div>-->
+                  <!--</div>-->
+                  <!--<span class="name">-->
+                  <!--<span class="tit">{{item.model}}</span>-->
+                  <!--<span class="price">￥{{item.shopPrice}}</span>-->
+                <!--</span>-->
+                  <!--<span class="info">简介：{{item.summary}}</span>-->
+                <!--</li>-->
               </ul>
             </div>
             <div v-if="totalNum > 9" class="pageNum">
@@ -316,6 +327,10 @@
       }
     },
     methods: {
+      // // 新开页面打开商品详情
+      // linkToDetail(val) {
+      //   window.open('http://'+window.location.host+'/store_manage/shop_product_detail/'+val.id,'_blank')
+      // },
       // 产品分类
       dataInit() {
         this.$http.get('goodsTags','').then((res)=>{
@@ -509,6 +524,9 @@
   .table-head-th{
     background-color: #cfa972 !important;
     color: #fff;
+  }
+  .box>h2{
+    text-align: center !important;
   }
 </style>
 <style scoped>

@@ -148,7 +148,7 @@
       },
       watch: {
         selected(val,old) {
-          console.log(old,val)
+          // console.log(old,val)
           if(val.length == 3) {
             this.areaData.addressCodeStr = this.selected[0] + ',' + this.selected[1] + ',' + this.selected[2]
             this.areaData.templateId = this.initDates.freight_template_id
@@ -168,11 +168,11 @@
                 }
               })
             }
-            console.log(this.areaData)
+            // console.log(this.areaData)
           }
         },
         doorOpen:function () {
-          console.log(this.doorOpen)
+          // console.log(this.doorOpen)
         }
       },
       methods: {
@@ -180,13 +180,20 @@
           this.$http.get('goodsInfo',{id:this.$route.params.id}).then((res)=>{
             // console.log(res.data.data)
             // console.log(res.data.data.info.content)
-            this.baseUrl = res.data.data.baseImgUrl
-            this.initDates = res.data.data.info
-            this.content = Base64.decode(res.data.data.info.content)
-            this.topImgUrl = this.baseUrl+this.initDates.imgs[0]
-            // console.log(this.initDates)
-            this.price = this.initDates.price
-            this.salesPrice = this.initDates.salesPrice
+           if(res.data.code == 200) {
+             this.baseUrl = res.data.data.baseImgUrl
+             this.initDates = res.data.data.info
+             this.content = Base64.decode(res.data.data.info.content)
+             this.topImgUrl = this.baseUrl+this.initDates.imgs[0]
+             console.log(this.initDates)
+             this.price = this.initDates.price
+             this.salesPrice = this.initDates.salesPrice
+           }else{
+             this.$message({
+               message: res.data.msg,
+               type: 'error'
+             })
+           }
           })
         },
         change(flag) {
@@ -254,7 +261,7 @@
             this.$router.push('/store_custom')
             return
           }
-          if(this.initDates.attrs){
+          if(this.initDates.attrs.length){
             if(this.doorData.skuId == '') {
               this.$message.error('请完整选择商品属性信息')
               return
@@ -309,12 +316,14 @@
    }
   .main{
     background: #fff;
-    padding: 35px;
-    box-sizing: border-box;
+    /*padding: 35px;*/
+    /*box-sizing: border-box;*/
     text-align: left;
   }
   .detail{
     height: 650px;
+    padding: 35px;
+    box-sizing: border-box;
   }
   .detail_left{
     width: 40%;
@@ -500,6 +509,8 @@
     font-size: 18px;
   }
   .correlation_top{
+    padding: 0 30px;
+    box-sizing: border-box;
     height: 40px;
     line-height: 40px;
     color: #333;
@@ -519,10 +530,11 @@
     background: #434343;
   }
   .goods_detail_info{
-    padding: 30px 0;
+    padding: 30px;
     color: #959595;
     border-bottom: 1px solid rgba(220,220,220,1);
     margin-bottom: 40px;
+    box-sizing: border-box;
   }
   .goods_detail_info::after{
     display: block;
@@ -539,15 +551,20 @@
   .goods_detail_box{
     width: 100%;
     text-align: center;
+    /*overflow: hidden;*/
   }
-  .goods_detail_box img{
-    width: auto;
-    margin: 0 auto;
-  }
-  .goods_detail_box p{
+  /*.goods_detail_box img{*/
+    /*width: auto;*/
+    /*margin: 0 auto;*/
+  /*}*/
+  .goods_detail_box>p{
     width: 100%;
-    height: 40px;
+    /*height: 40px;*/
     line-height: 40px;
+  }
+  .goods_detail_box>p>img{
+    display: block;
+    width: 100%;
   }
   .brand_server_box{
     margin-top: 90px;

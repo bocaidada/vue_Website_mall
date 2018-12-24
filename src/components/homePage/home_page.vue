@@ -6,8 +6,8 @@
             <a style="display: block;width: 100%;height: 100%" v-if="item.url" :href="item.url" target="_blank"></a>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
-          <!--<div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>-->
-          <!--<div class="swiper-button-next swiper-button-white" slot="button-next"></div>-->
+          <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+          <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
         </swiper>
       </div>
       <div class="productStyle">
@@ -56,13 +56,14 @@
            <div v-show="brandColor == 0" class="state">
               <div class="main">
                 <div v-for="(item, index) in indexDataInit.news" :key="index" v-if="index < 3">
-                  <div :title="item.name">
-                    <img v-if="item.img" :src="indexDataInit.baseImgUrl+item.img" alt="">
-                    <img v-else :src="$store.state.qiNiuServer+'/empty_place.png'" alt="">
-                  </div>
-                  <p>{{item.name}}</p>
-                  <span>{{item.summary}}</span>
-                  <router-link :to="{name:'news_detail',params: {id:item.id}}">查看详情</router-link>
+                  <router-link :to="{name:'news_detail',params: {id:item.id}}">
+                    <div :title="item.name">
+                      <img v-if="item.img" :src="indexDataInit.baseImgUrl+item.img" alt="">
+                      <img v-else :src="$store.state.qiNiuServer+'/empty_place.png'" alt="">
+                    </div>
+                    <p>{{item.name}}</p>
+                    <span>{{item.summary}}</span>
+                  </router-link>
                 </div>
               </div>
            </div>
@@ -262,6 +263,7 @@
         },
         dataInit() {
           this.$http.get('index','').then((res)=>{
+            // console.log(res.data)
             if(res.data.code == 200) {
               this.indexDataInit = res.data.data
               this.styleData = res.data.data.goods[0].item
@@ -277,13 +279,11 @@
   }
   .swiper-button-prev{
     left: 40px;
-    /*background-image: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_3.png") !important;*/
-    background-image: url("http://cdn.jinkaidoor.com/web/index/index_3.png") !important;
+    /*background-image: url("http://cdn.jinkaidoor.com/web/index/index_3.png") !important;*/
   }
   .swiper-button-next{
     right: 40px;
-    /*background-image: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_4.png") !important;*/
-    background-image: url("http://cdn.jinkaidoor.com/web/index/index_4.png") !important;
+    /*background-image: url("http://cdn.jinkaidoor.com/web/index/index_4.png") !important;*/
   }
 </style>
 <style scoped>
@@ -375,7 +375,6 @@
     top: 0;
     width: 100%;
     height: 100%;
-    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/index_13.jpg") no-repeat center/cover;*/
     background: url("http://cdn.jinkaidoor.com/web/index/index_13.jpg") no-repeat center/cover;
     z-index: -1;
   }
@@ -437,7 +436,6 @@
   }
   .brandBox>.culture{
     width: 100%;
-    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/index/wenhua.jpg") no-repeat center/cover;*/
     background: url("http://cdn.jinkaidoor.com/web/index/wenhua.jpg") no-repeat center/cover;
   }
   .brandBox>.partner{
@@ -498,20 +496,23 @@
     height: 100%;
     position: relative;
   }
-  .brandBox>.state>.main>div>div{
+  .brandBox>.state>.main>div>a{
+    display: block;
+  }
+  .brandBox>.state>.main>div>a>div{
     height: 288px;
     border-radius: 8px;
     overflow: hidden;
   }
-  .brandBox>.state>.main>div>div>img{
+  .brandBox>.state>.main>div>a>div>img{
     width: 100%;
     display: block;
     transition: 1s;
   }
-  .brandBox>.state>.main>div>div>img:hover{
+  .brandBox>.state>.main>div>a>div>img:hover{
     transform: scale(1.2);
   }
-  .brandBox>.state>.main>div>p{
+  .brandBox>.state>.main>div>a>p{
     width: 100%;
     line-height: 30px;
     margin: 20px 0;
@@ -521,27 +522,28 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    box-sizing: border-box;
     padding-left: 15px;
     text-align: left;
   }
-  .brandBox>.state>.main>div>span{
+  .brandBox>.state>.main>div>a>span{
     display: block;
     font-size: 16px;
     color: #555;
     text-align: left;
   }
-  .brandBox>.state>.main>div>a{
-    display: block;
-    line-height: 30px;
-    text-align: right;
-    color: #714B37;
-    position: absolute;
-    right: 0;
-    bottom: 5px;
-  }
-  .brandBox>.state>.main>div>a:hover{
-    color: #CFA972;
-  }
+  /*.brandBox>.state>.main>div>a>a{*/
+    /*display: block;*/
+    /*line-height: 30px;*/
+    /*text-align: right;*/
+    /*color: #714B37;*/
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*bottom: 5px;*/
+  /*}*/
+  /*.brandBox>.state>.main>div>a>a:hover{*/
+    /*color: #CFA972;*/
+  /*}*/
   .recruit{
     width: 100%;
     height: auto;

@@ -2,7 +2,7 @@
   <div id="app">
     <div class="service">
       <div class="service_left">
-        客 <br> 服<br>中<br>心
+        客<br>服<br>中<br>心
       </div>
       <div class="service_right">
         <div onclick="window.open('http://p.qiao.baidu.com/cps/chat?siteId=12829790&userId=26860524','门店客服','width=1000,height=600,menubar=no,toolbar=no, status=no,scrollbars=yes,top=100');">
@@ -13,7 +13,7 @@
           <img :src="$store.state.qiNiuServer+'/icon_02.png'" alt="">
           加盟咨询
         </div>
-        <div title="TEL：4006-0570-86" @click="open('客服电话','TEL：4006-0570-86')">
+        <div title="TEL：4006-0570-86" @click="opens('客服电话','TEL：4006-0570-86')">
           <img :src="$store.state.qiNiuServer+'/icon_03.png'" alt="">
           客服电话
         </div>
@@ -23,7 +23,6 @@
     <headers/>
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"  ref="tree"/>
-      <!--<router-view ref="tree"/>-->
     </keep-alive>
     <router-view v-if="!$route.meta.keepAlive"  ref="tree"/>
     <footers/>
@@ -39,6 +38,8 @@
       components: {headers,footers,login},
       data() {
           return {
+            openFlag1: true,
+            openFlag2: true,
             isLogin:false,
           }
       },
@@ -53,6 +54,13 @@
       watch:{
         '$route' (to,from) {
           // console.log(to)
+          // console.log(to.meta.hedNum)
+          if(to.meta.hedNum >= 0){
+            this.$store.commit('headColorNum',to.meta.hedNum)
+          }
+          if(to.meta.hedNum == -4){
+            this.$store.commit('headColorNum',4)
+          }
           // console.log(from)
           if(to.path == '/news_list'){
             this.$store.commit('caseFlag',true)
@@ -62,53 +70,34 @@
           }
           if(to.path == '/online_store'){
             this.$store.commit('productFlag',true)
-            this.$store.commit('headColorNum',2)
             this.$store.commit('orderType',2)
           }
-          if(to.path == '/product'){
-            this.$store.commit('headColorNum',1)
-          }
-          if(to.path == '/quality' || to.path == '/purchase' || to.path == '/make' || to.path == '/project_case' || to.path == '/server'){
-            this.$store.commit('headColorNum',3)
-          }
-          if(to.path == '/offline_store'){
-            this.$store.commit('headColorNum',4)
-          }
-          if(to.path == '/join_us'){
-            this.$store.commit('headColorNum',5)
-          }
-          if(to.path == '/about_us'){
-            this.$store.commit('headColorNum',6)
-          }
           if(to.path.indexOf("online_store/product_detail") != -1){
-            this.$store.commit('headColorNum',2)
             this.$store.commit('productFlag',false)
             this.$store.commit('orderType',2)
           }
           if(to.path == '/project_case'){
-            this.$store.commit('headColorNum',3)
             this.$store.commit('caseFlag',true)
           }
           if(to.path.indexOf("project_case/detail_case") != -1){
-            this.$store.commit('headColorNum',3)
             this.$store.commit('caseFlag',false)
           }
           if(to.path == '/store_manage'){
             this.$store.commit('storeFlag',true)
             this.$store.commit('orderType',1)
           }
-          if(to.path.indexOf("store_manage/shop_product_detail") != -1 || to.path.indexOf("store_manage/oder_detail") != -1 || to.path.indexOf("store_manage/after_sale_dispose") != -1 || to.path.indexOf("store_manage/after_sale") != -1){
+          if(to.meta.hedNum == -4) {
             this.$store.commit('storeFlag',false)
             this.$store.commit('orderType',1)
+          }
+          if(to.path == '/shop_car'){
+            this.$store.commit('orderType',2)
           }
           if(to.path == '/my_order'){
             this.$store.commit('orderFlag',true)
             this.$store.commit('orderType',2)
           }
-          if(to.path == '/shop_car'){
-            this.$store.commit('orderType',2)
-          }
-          if(to.path.indexOf("my_order/oder_detail") != -1 || to.path.indexOf("my_order/after_sale_dispose") != -1 || to.path.indexOf("my_order/after_sale") != -1){
+          if(to.meta.hedNum == -6) {
             this.$store.commit('orderFlag',false)
             this.$store.commit('orderType',2)
           }
@@ -116,13 +105,36 @@
       },
       methods:{
         open(name,tel) {
-          this.$notify({
-            title: name,
-            message: tel,
-            duration: 8000,
-            offset: 100,
-            type: 'success'
-          });
+          if(this.openFlag1){
+            this.openFlag1 = false
+            this.$notify({
+              title: name,
+              message: tel,
+              duration: 8000,
+              offset: 100,
+              type: 'success',
+              // showClose: false
+            });
+          }
+          setTimeout(()=>{
+            this.openFlag1 = true
+          },5000)
+        },
+        opens(name,tel) {
+          if(this.openFlag2){
+            this.openFlag2 = false
+            this.$notify({
+              title: name,
+              message: tel,
+              duration: 8000,
+              offset: 100,
+              type: 'success',
+              // showClose: false
+            });
+          }
+          setTimeout(()=>{
+            this.openFlag2 = true
+          },5000)
         }
       }
     }
@@ -139,7 +151,7 @@
     outline: none;
   }
   h2{
-    text-align: left !important;
+    text-align: left;
   }
 </style>
 <style scoped>
@@ -152,13 +164,13 @@
    /*background: rgba(195,161,102,.8);*/
    position: fixed;
    right: 0;
-   top: 40%;
+   top: 38%;
    z-index: 10000;
    overflow: hidden;
    cursor: pointer;
    color: #fff;
    border-radius: 5px;
-   transition: width 1s;
+   transition: width .5s;
  }
  .service:hover{
    width: 200px;

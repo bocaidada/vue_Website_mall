@@ -5,7 +5,7 @@ Vue.use(vuex);
 
 let store = new vuex.Store({
   state: {
-    method:'POST',
+    method:'POST',       //签名参数
     headColorNum:0,      //头部全局控制高亮
     hT:'',
     tabNum: 0,           //产品风格切换
@@ -22,18 +22,16 @@ let store = new vuex.Store({
     sign:'',           //接口参数签名
     token: '',         //登陆token
     // sendHost: 'http://api.jkmy.com/v1',  //本地服务器地址
-    // sendHost: 'http://t-api.jinkaidoor.com/v1',  //测试服务器地址
-    sendHost: 'http://pre-api.jinkaidoor.com/v1',  //正式服务器地址
-    // qiNiuServer:'http://pifi5lc1c.bkt.clouddn.com/web' //七牛云测试服务器
+    // qiNiuServer:'http://t-cdn.jinkaidoor.com/web' //七牛云测试服务器
+    sendHost: 'http://api.jinkaidoor.com/v1',  //正式服务器地址
     qiNiuServer:'http://cdn.jinkaidoor.com/web' //七牛云正式服务器
-    // qiNiuServer:'http://pifig7czp.bkt.clouddn.com/web' //七牛云正式服务器
   },
   mutations: {
     loginState (state,params) {
       state.isLogin = !state.isLogin
       state.regState = params
     },
-    method: (state,params) => state.method = params,
+    // method: (state,params) => state.method = params,
     headColorNum: (state,params) => state.headColorNum = params,
     fromSource: (state,params) => state.fromSource = params,
     orderType: (state,params) => state.orderType = params,
@@ -55,21 +53,22 @@ let store = new vuex.Store({
       }
     },
     //生成签名
-    createSign (state,params) {
-      state.hT = new Date().getTime().toString().substring(0,10)
-      state.sign = '';
-      if(params){
-        let arr = [];
-        for(let key in params){
-          arr.push(key)
-        }
-        arr = arr.sort();
-        arr.forEach(ele => {
-          state.sign += `${ele}=${params[ele]}&`
-        });
-      }
-      state.sign = md5(state.method+'&'+state.sign+state.hT);
-    }
+    // createSign (state,params) {
+    //   state.hT = new Date().getTime().toString().substring(0,10)
+    //   state.sign = '';
+    //   if(params){
+    //     let arr = [];
+    //     for(let key in params){
+    //       arr.push(key)
+    //     }
+    //     arr = arr.sort();
+    //     arr.forEach(ele => {
+    //       state.sign += `${ele}=${params[ele]}&`
+    //     });
+    //   }
+    //   // console.log(state.method+'&'+state.sign+state.hT)
+    //   state.sign = md5(state.method+'&'+state.sign+state.hT);
+    // }
   },
   actions: {
     loginState ({ commit },params) {
@@ -78,17 +77,17 @@ let store = new vuex.Store({
     userToken ({ commit },params) {
       commit('userToken',params)
     },
-    createSign ({ commit },params) {
-      commit('createSign',params)
-    },
+    // createSign ({ commit },params) {
+    //   commit('createSign',params)
+    // },
+    // method ({ commit }) {
+    //   commit('method')
+    // },
     footerFlag ({ commit },params) {
       commit('footerFlag',params)
     },
     tabNum ({ commit },params) {
       commit('tabNum',params)
-    },
-    method ({ commit }) {
-      commit('method')
     },
     caseFlag ({ commit },params) {
       commit('caseFlag',params)

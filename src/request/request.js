@@ -78,9 +78,9 @@ instance.interceptors.request.use(
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
     const token = localStorage.getItem('token')
-    config.headers.hT = store.state.hT
+    // config.headers.hT = store.state.hT
     config.headers.hToken = token ? token : ''
-    config.headers.hSign = store.state.sign
+    // config.headers.hSign = store.state.sign
     config.headers.hDeviceType = '3'
     return config
   },

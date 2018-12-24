@@ -3,6 +3,8 @@
     <div class="banner">
       <swiper :options="swiperOption" style="height: 100%">
         <swiper-slide v-for="(item,index) in bannerImg" :key="index" :style="{background: 'url('+serverBase+item.url+') no-repeat center/cover'}"></swiper-slide>
+        <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+        <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
       </swiper>
       <div class="list">
         <span :class="{hitColor:changeNUm == '0'}" @click="changeCol('0')">薪酬福利</span>
@@ -175,6 +177,10 @@
                 autoplay: {
                   delay: 5000,
                   disableOnInteraction: false
+                },
+                navigation: {
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev'
                 }
               },
               stationData:[],
@@ -213,7 +219,7 @@
           applyFor(index){
             this.applyId = index;
             this.applyBoxFlag = true;
-            this.numberValidateForms = {id:'',name:'',mobile:''}
+            this.numberValidateForms = {id:index,name:'',mobile:''}
           },
           //关闭职位申请表单
           close() {
@@ -254,7 +260,6 @@
                 return this.$message.error('请输入正确的手机号');
               }
             }
-            this.numberValidateForms.id = this.applyId;
           }
         }
     }
@@ -334,7 +339,6 @@
  }
   .staff_bot{
     height: 600px;
-    /*background: url("http://pifi5lc1c.bkt.clouddn.com/web/joinUs/banner_09.png") no-repeat center/cover;*/
     background: url("http://cdn.jinkaidoor.com/web/joinUs/banner_09.png") no-repeat center/cover;
   }
  .staff_bot>.main{
@@ -385,6 +389,7 @@
     padding: 20px 0 40px;
   }
   .talents_top_title{
+    text-align: center !important;
     line-height: 60px;
   }
   .talents_info{
@@ -491,6 +496,7 @@
     border-bottom: 1px dashed #CEA972;
     margin-bottom: 30px;
     letter-spacing: 10px;
+    text-align: center;
   }
  .field{
    width: 100%;

@@ -51,7 +51,7 @@
           </div>
           <div class="join_us_top">
             <div class="join_us_top_left">
-              <img :src="$store.state.qiNiuServer+'server/xindex_04.png'" alt="">
+              <img :src="$store.state.qiNiuServer+'/server/xindex_04.png'" alt="">
               <p>加盟优势</p>
             </div>
             <div class="join_us_top_right">
@@ -157,8 +157,8 @@
         },
         mounted () {
           this.map = new BMap.Map("lp_map");
-          this.map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
-          this.map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
+          this.map.enableScrollWheelZoom(true); //启用滚轮放大缩小，默认禁用
+          this.map.enableContinuousZoom(true); //启用地图惯性拖拽，默认禁用
           let point = new BMap.Point(120.21937542,30.25924446);
           this.map.centerAndZoom(point,6);
           this.initDataMap()
@@ -247,7 +247,7 @@
   .content>div:first-child{
     width: 100%;
     height: 850px;
-    background: url("http://pifi5lc1c.bkt.clouddn.com/web/server/xindex_03.png") no-repeat center/cover;
+    background: url("http://cdn.jinkaidoor.com/web/server/xindex_03.png") no-repeat center/cover;
     position: fixed;
     z-index: -1;
   }

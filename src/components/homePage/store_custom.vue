@@ -79,33 +79,68 @@
               message: '地址信息定位中，请稍等',
               type: 'warning'
             })
-            let geolocation = new BMap.Geolocation();
-            geolocation.getCurrentPosition(function(r){
-              if(this.getStatus() == BMAP_STATUS_SUCCESS){
-                var mk = new BMap.Marker(r.point);
-                _this.map.addOverlay(mk);
-                _this.map.panTo(r.point);
-                // alert('您的位置：'+r.point.lng+','+r.point.lat);
-                _this.$http.get('shopNearby',{lat:r.point.lat,lon:r.point.lng,page:1}).then((res)=>{
-                  console.log(res.data)
-                  _this.shopData = res.data.data.list
-                  if(_this.shopData.length){
-                    _this.$message({
-                      message: '以查询到最近门店',
-                      type: 'success'
-                    })
-                  }else{
-                    _this.$message({
-                      message: '该区域附近没有门店',
-                      type: 'error'
-                    })
-                  }
-                })
-              }
-              else {
-                alert('failed'+this.getStatus());
-              }
-            },{enableHighAccuracy: true})
+
+            function myFun(result){
+              let cityName = result.name;
+              _this.map.setCenter(cityName);
+              // 创建地址解析器实例
+              let myGeo = new BMap.Geocoder();
+              // 将地址解析结果显示在地图上,并调整地图视野
+              myGeo.getPoint(cityName, function(point){
+                // console.log(point.lat)
+                // console.log(point.lng)
+                if (point) {
+                  _this.map.centerAndZoom(point, 12);
+                  _this.map.addOverlay(new BMap.Marker(point));
+                  _this.$http.get('shopNearby',{lat:point.lat,lon:point.lng,page:1}).then((res)=>{
+                    console.log(res.data)
+                    _this.shopData = res.data.data.list
+                    if(_this.shopData.length){
+                      _this.$message({
+                        message: '以查询到最近门店',
+                        type: 'success'
+                      })
+                    }else{
+                      _this.$message({
+                        message: '该区域附近没有门店',
+                        type: 'error'
+                      })
+                    }
+                  })
+                }
+              }, cityName);
+            }
+            let myCity = new BMap.LocalCity();
+            myCity.get(myFun);
+
+            // let geolocation = new BMap.Geolocation();
+            // geolocation.getCurrentPosition(function(r){
+            // // console.log(this.getStatus())
+            // // console.log(BMAP_STATUS_SUCCESS)
+            //   if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            //     var mk = new BMap.Marker(r.point);
+            //     _this.map.addOverlay(mk);
+            //     _this.map.panTo(r.point);
+            //     // alert('您的位置：'+r.point.lng+','+r.point.lat);
+            //     _this.$http.get('shopNearby',{lat:r.point.lat,lon:r.point.lng,page:1}).then((res)=>{
+            //       console.log(res.data)
+            //       _this.shopData = res.data.data.list
+            //       if(_this.shopData.length){
+            //         _this.$message({
+            //           message: '以查询到最近门店',
+            //           type: 'success'
+            //         })
+            //       }else{
+            //         _this.$message({
+            //           message: '该区域附近没有门店',
+            //           type: 'error'
+            //         })
+            //       }
+            //     })
+            //   }else {
+            //     alert('failed'+this.getStatus());
+            //   }
+            // },{enableHighAccuracy: true})
           },
           search() {
             if(this.select == ''){

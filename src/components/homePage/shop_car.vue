@@ -61,7 +61,7 @@
       <div class="account">
         <div class="account_left">
           <div @click="toggleSelection()">
-            <img :src="[selectFlag?'http://pifi5lc1c.bkt.clouddn.com/web/un_select.png':'http://pifi5lc1c.bkt.clouddn.com/web/select.png']" alt="">
+            <img :src="[selectFlag?$store.state.qiNiuServer+'/un_select.png':$store.state.qiNiuServer+'/select.png']" alt="">
             <span>全选</span>
           </div>
           <div class="totalPrice">

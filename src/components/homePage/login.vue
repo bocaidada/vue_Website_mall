@@ -32,7 +32,7 @@
                 </div>
                 <div class="field imgBox">
                   <input name="imgCode" v-model="imgCodes" placeholder="请输入图片验证码" type="text">
-                  <div @click="addNum()"><img width="100%" :src="'http://api.jkmy.com/v1/auth/vcode?key=' + this.key + '&num='+ keyNum" alt=""></div>
+                  <div @click="addNum()"><img width="100%" :src="$store.state.sendHost+'/auth/vcode?key=' + this.key + '&num='+ keyNum" alt=""></div>
                 </div>
                 <div class="field imgBox">
                   <input name="phoneCode" maxlength="6" placeholder="请输入手机验证码" type="text" v-model="regDateForm.code">
@@ -59,7 +59,7 @@
               </div>
               <div class="field imgBox">
                 <input name="imgCode" v-model="imgCodes" placeholder="请输入图片验证码" type="text">
-                <div @click="addNum()"><img width="100%" :src="'http://api.jkmy.com/v1/auth/vcode?key=' + this.key + '&num='+ keyNum" alt=""></div>
+                <div @click="addNum()"><img width="100%" :src="$store.state.sendHost+'/auth/vcode?key=' + this.key + '&num='+ keyNum" alt=""></div>
               </div>
               <div class="field imgBox">
                 <input name="phoneCode" maxlength="6" placeholder="请输入手机验证码" type="text" v-model="forgetData.code">

@@ -8,6 +8,9 @@
                 <span class="hit">|</span>
                 <span>EN</span>
               </div>
+              <!--<div class="squee">-->
+                <!--<marquee><span style="font-weight: bolder;font-size: 40px;color: white;">Welcom CSDN!</span></marquee>-->
+              <!--</div>-->
               <div class="loginInfo" v-if="rightFlag">
                 <span @click="login('log')">登陆</span>
                 <span class="hit">|</span>
@@ -225,6 +228,12 @@
 </script>
 
 <style scoped>
+  .squee{
+    width: 500px;
+    height: 100%;
+    background: red;
+    margin: 0 auto;
+  }
   header{
     width: 100%;
     font-size: 18px;
