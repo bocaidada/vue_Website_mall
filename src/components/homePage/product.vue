@@ -4,7 +4,9 @@
       <img :src="qiNiuBase+pageData.bannerImg" alt="" ondragstart="return false">
     </div>
     <div class="main">
-      <img class="contentBox" ondragstart="return false" :src="qiNiuBase+item.imgUrl" v-for="(item,index) in pageData.contentImg" :key="index"  alt="">
+      <div class="imgBox">
+        <img class="contentBox" ondragstart="return false" :src="qiNiuBase+item.imgUrl" v-for="(item,index) in pageData.contentImg" :key="index"  alt="">
+      </div>
       <router-link tag="div" to="/online_store" class="openStore">进入商城</router-link>
       <div class="botTab">
         <div :class="{hot:tabNum == 0}" @click="changeNUm(0)">
@@ -77,7 +79,7 @@
       }
     },
     created() {
-
+      this.changeNUm(this.tabNum)
     },
     watch: {
       "$store.state.tabNum" (val,old) {
@@ -87,7 +89,9 @@
       }
     },
     mounted() {
-      this.changeNUm(this.tabNum)
+      setTimeout(()=>{
+        this.show = true
+      },200)
     },
     methods: {
       changeNUm(index) {
@@ -121,6 +125,7 @@
 <style scoped>
   .content{
     width: 100%;
+    min-height: 1000px;
   }
   .banner{
     width: 100%;
@@ -131,6 +136,14 @@
   .contentBox{
     display: block;
     width: 100%;
+  }
+  .imgBox{
+    width: 100%;
+    min-height: 1000px;
+  }
+  .imgBox>img{
+    width: 100%;
+    display: block;
   }
   .openStore{
     width: 280px;
@@ -166,6 +179,7 @@
   }
   .botTab>div>img{
     width: 100%;
+    display: block;
   }
 
   .viewBox{

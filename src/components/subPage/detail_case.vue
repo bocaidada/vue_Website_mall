@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-      <div class="case_title">
+      <div class="case_title" v-if="contentData.info">
         <router-link to="/quality">产品支持</router-link>
         <span> > </span>
         <router-link to="/project_case">{{contentData.info.type}}</router-link>
@@ -8,11 +8,13 @@
         <router-link to="/project_case" style="color: #CFA972">{{contentData.info.name}}</router-link>
       </div>
       <div class="case_content">
-        <div class="box">
+        <div class="box" v-if="contentData.info">
             <div class="box_ban">
               <swiper :options="swiperOption" style="height: 100%">
                 <swiper-slide v-for="(item,index) in contentData.info.imgs" :key="index" :style="{background: 'url('+contentData.baseUrl+item+') no-repeat center/cover'}"></swiper-slide>
                 <div class="swiper-pagination" slot="pagination"></div>
+                <!--<div class="swiper-button-prev" slot="button-prev"></div>-->
+                <!--<div class="swiper-button-next" slot="button-next"></div>-->
               </swiper>
             </div>
             <div class="box_text">
@@ -20,7 +22,6 @@
           </div>
         </div>
       </div>
-      <div style="height: 40px;background: #efefef"></div>
     </div>
 </template>
 
@@ -41,15 +42,13 @@
             pagination: {   //轮播点
               el: '.swiper-pagination',
               dynamicBullets: true
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev'
             }
           },
-          bannerImg:[
-            {name:'one',url:'../../../static/img/pinzhi/banner_01.png'},
-            {name:'one',url:'../../../static/img/pinzhi/banner_02.png'},
-            {name:'one',url:'../../../static/img/pinzhi/banner_03.png'},
-            {name:'one',url:'../../../static/img/pinzhi/banner_04.png'},
-            {name:'one',url:'../../../static/img/pinzhi/banner_05.png'},
-          ]
+          bannerImg:[]
         }
       },
       watch: {
@@ -76,6 +75,10 @@
 </script>
 
 <style scoped>
+  .main{
+    min-height: 800px;
+    background: #efefef;
+  }
   .main>.case_title{
     background: #efefef;
     line-height: 100px;
@@ -89,6 +92,7 @@
     padding: 0 10px;
   }
   .case_content{
+    background: #fff;
     padding: 20px 20px 40px;
     box-sizing: border-box;
     border-radius: 4px;
