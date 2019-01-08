@@ -47,7 +47,7 @@
             <div class="staff_bot_left">
               <div :class="{divColor:staffImgNUm == 0}" @click="staffChange(0)">
                 <p>办公环境</p>
-                <span>放办公区，舒适休闲区，让工作更有灵感。</span>
+                <span>开放办公区，舒适休闲区，让工作更有灵感。</span>
               </div>
               <div :class="{divColor:staffImgNUm == 1}" @click="staffChange(1)">
                 <p>工作保障</p>
@@ -101,7 +101,7 @@
               <li>{{item.number}}</li>
               <li>{{item.education}}</li>
               <li>{{item.experience}}</li>
-              <li>{{item.address}}</li>
+              <li :title="item.address">{{item.address}}</li>
               <li>{{item.salary}}</li>
               <li @click.stop="applyFor(item.id)">申请职位</li>
             </ul>
@@ -167,8 +167,8 @@
                 {url:'/joinUs/banner_02.jpg'}
               ],
               staffImg:[
-                {url:'/joinUs/111.png'},
-                {url:'/joinUs/222.png'}
+                {url:'/joinUs/environ2.png'},
+                {url:'/joinUs/work.png'}
               ],
               swiperOption: {
                 spaceBetween: 30,   //图片之间的间距
@@ -421,9 +421,13 @@
    text-align: center;
    color: #fff;
    letter-spacing: 1px;
+
  }
  .station_top>li{
    color: #59493F;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   overflow: hidden;
  }
  .station_top>li:last-child{
    color: #CEA972;

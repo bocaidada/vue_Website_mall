@@ -34,7 +34,6 @@ let apiName = {
   orderServiceChatCreate:'order/service/chat/create', //创建订单售后工单消息
   orderServiceChatFinish:'order/service/chat/finish', //订单售后工单结单
 
-
   // get
   list:'recruit/list',      // 人才招聘列表
   index:'index',            // 获取首页数据
@@ -60,7 +59,7 @@ let apiName = {
   shopOrderList:'shop/order/list',    //   门店订单列表
   shopOrderInfo:'shop/order/info', // 门店订单详情
   userOrderInfo:'user/order/info', // 客户订单详情
-  shopMap:'shop/map', //门店地图
+  shopMap:'shop/map', //门店地图分布
 
   orderServiceInfo:'order/service/info', //获取售后订单商品详情
   serviceChatList:'order/service/chat/list', //获取订单售后工单记录
@@ -85,16 +84,12 @@ function  createSign(method,params) {
   // console.log(md5(method+'&'+sign+hT))
   return md5(method+'&'+sign+hT);
 }
-// 登录模块
+// 接口请求
 const http = {
   post(api,params) {
-    // store.commit('method','POST')
-    // store.commit('createSign',params)
     return axios.post(`${base}/${apiName[api]}`,params,{headers:{hSign:createSign('POST',params),hT:hT}});
   },
   get(api,param) {
-    // store.commit('method','GET')
-    // store.commit('createSign',param)
     return axios.get(`${base}/${apiName[api]}`,{headers:{hSign:createSign('GET',param),hT:hT},params:param});
   }
 }

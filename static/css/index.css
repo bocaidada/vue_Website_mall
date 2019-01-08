@@ -18,6 +18,9 @@ body{
   position: relative;
   overflow: hidden;
   overflow-y: auto;
+  -moz-user-select:none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 /*body::-webkit-scrollbar{*/
   /*width: 0;*/

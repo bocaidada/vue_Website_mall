@@ -144,18 +144,15 @@
     box-shadow: none !important;
   }
   /*解决火狐浏览器点击出现虚线选框问题*/
-  a:focus {
+  a:focus,button{
     outline: none;
   }
-  button{
-    outline: none;
-  }
+
   h2{
     text-align: left;
   }
 </style>
 <style scoped>
-
  .service{
    width: 46px;
    /*width: 200px;*/

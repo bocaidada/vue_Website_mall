@@ -15,9 +15,9 @@ import 'swiper/dist/css/swiper.css'
 let Base64 = require('js-base64').Base64
 
 Vue.use(VueAwesomeSwiper)
+Vue.use(ElementUI)
 Vue.use(VueAreaLinkage)
 Vue.prototype.$http = http; // 将api挂载到vue的原型上
-Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
